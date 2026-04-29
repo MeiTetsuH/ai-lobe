@@ -2,6 +2,31 @@
 
 # Changelog
 
+### [Version 2.1.55](https://github.com/lobehub/lobe-chat/compare/v2.1.54...v2.1.55)
+
+<sup>Released on **2026-04-29**</sup>
+
+#### 🐛 Bug Fixes
+
+- **chat**: preserve topics across cold route sends.
+
+<br/>
+
+<details>
+<summary><kbd>Improvements and Fixes</kbd></summary>
+
+#### What's fixed
+
+- **chat**: preserve topics across cold route sends, closes [#14284](https://github.com/lobehub/lobe-chat/issues/14284) ([b8fe675](https://github.com/lobehub/lobe-chat/commit/b8fe675))
+
+</details>
+
+<div align="right">
+
+[![](https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square)](#readme-top)
+
+</div>
+
 ### [Version 2.1.54](https://github.com/lobehub/lobe-chat/compare/v2.1.53...v2.1.54)
 
 <sup>Released on **2026-04-27**</sup>
