@@ -47,14 +47,9 @@ export const UserLabSchema = z.object({
    */
   enableAgentDocumentFloatingChatPanel: z.boolean().optional(),
   /**
-   * surface the execution-device switcher for heterogeneous agents
-   * (lets users pick local / cloud sandbox / a bound device)
+   * enable the Fleet view (side-by-side running-task dashboard)
    */
-  enableExecutionDeviceSwitcher: z.boolean().optional(),
-  /**
-   * enable server-side agent execution via Gateway WebSocket
-   */
-  enableGatewayMode: z.boolean().optional(),
+  enableFleet: z.boolean().optional(),
   /**
    * enable multi-agent group chat mode
    */

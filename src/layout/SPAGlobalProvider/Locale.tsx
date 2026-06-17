@@ -1,31 +1,34 @@
 import { ConfigProvider } from 'antd';
 import dayjs from 'dayjs';
-import { memo, type PropsWithChildren, useEffect, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { isRtlLang } from 'rtl-detect';
 
 import Editor from '@/layout/GlobalProvider/Editor';
 import { createI18nNext } from '@/locales/create';
-import { normalizeDayjsLocale } from '@/utils/dayjsLocale';
+import type { DayjsLocaleGlobEntry } from '@/utils/dayjsLocale';
+import { loadDayjsLocaleModule, normalizeDayjsLocale } from '@/utils/dayjsLocale';
 import { getAntdLocale } from '@/utils/locale';
 
 const dayjsLocaleLoaders = import.meta.glob<{ default: ILocale }>(
-  '/node_modules/dayjs/esm/locale/{ar,bg,de,en,es,fa,fr,it,ja,ko,nl,pl,pt-br,ru,tr,vi,zh-cn,zh-tw}.js',
-);
+  '/node_modules/dayjs/locale/{ar,bg,de,en,es,fa,fr,it,ja,ko,nl,pl,pt-br,ru,tr,vi,zh-cn,zh-tw}.js',
+) as Record<string, DayjsLocaleGlobEntry>;
 
 const updateDayjs = async (lang: string) => {
   const locale = normalizeDayjsLocale(lang);
-  const key = `/node_modules/dayjs/esm/locale/${locale}.js`;
-  const loader =
-    dayjsLocaleLoaders[key] ?? dayjsLocaleLoaders['/node_modules/dayjs/esm/locale/en.js'];
+  const key = `/node_modules/dayjs/locale/${locale}.js`;
+  const loader = dayjsLocaleLoaders[key] ?? dayjsLocaleLoaders['/node_modules/dayjs/locale/en.js'];
 
   try {
-    const mod = await loader();
+    const mod = await loadDayjsLocaleModule(loader);
 
     dayjs.locale(mod.default);
   } catch (error) {
     console.error('error', error);
     console.error(`dayjs locale for ${lang} not found, fallback to en`);
-    const fallback = await dayjsLocaleLoaders['/node_modules/dayjs/esm/locale/en.js']!();
+    const fallback = await loadDayjsLocaleModule(
+      dayjsLocaleLoaders['/node_modules/dayjs/locale/en.js']!,
+    );
     dayjs.locale(fallback.default);
   }
 };
