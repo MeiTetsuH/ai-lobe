@@ -32,6 +32,7 @@ import { MessageModel } from '@/database/models/message';
 import { RbacModel } from '@/database/models/rbac';
 import { SessionModel } from '@/database/models/session';
 import { UserModel } from '@/database/models/user';
+import { UserPersonaModel } from '@/database/models/userMemory/persona';
 import { authedProcedure, router } from '@/libs/trpc/lambda';
 import { serverDatabase } from '@/libs/trpc/lambda/middleware';
 import { KeyVaultsGateKeeper } from '@/server/modules/KeyVaultsEncrypt';
@@ -96,6 +97,10 @@ const userProcedure = authedProcedure.use(serverDatabase).use(async ({ ctx, next
 });
 
 export const userRouter = router({
+  getUserActivitySummary: userProcedure.query(async ({ ctx }) => {
+    return ctx.userModel.getUserActivitySummary();
+  }),
+
   getUserRegistrationDuration: userProcedure.query(async ({ ctx }) => {
     return ctx.userModel.getUserRegistrationDuration();
   }),
@@ -290,7 +295,6 @@ export const userRouter = router({
       ctx.userId,
       ctx.workspaceId ?? undefined,
     );
-    const { UserPersonaModel } = await import('@/database/models/userMemory/persona');
     const personaModel = new UserPersonaModel(ctx.serverDB, ctx.userId);
 
     const [state, soulDoc, persona, userInfo] = await Promise.all([
@@ -348,7 +352,6 @@ export const userRouter = router({
         };
       }
 
-      const { UserPersonaModel } = await import('@/database/models/userMemory/persona');
       const personaModel = new UserPersonaModel(ctx.serverDB, ctx.userId);
       const persona = await personaModel.getLatestPersonaDocument();
 
@@ -379,7 +382,6 @@ export const userRouter = router({
         return { id: doc?.id, type: 'soul' as const };
       }
 
-      const { UserPersonaModel } = await import('@/database/models/userMemory/persona');
       const personaModel = new UserPersonaModel(ctx.serverDB, ctx.userId);
       const result = await personaModel.upsertPersona({
         editedBy: 'agent_tool',
@@ -443,7 +445,6 @@ export const userRouter = router({
           return doc?.content ?? '';
         }
 
-        const { UserPersonaModel } = await import('@/database/models/userMemory/persona');
         const personaModel = new UserPersonaModel(ctx.serverDB, ctx.userId);
         const persona = await personaModel.getLatestPersonaDocument();
         return persona?.persona ?? '';
@@ -476,7 +477,6 @@ export const userRouter = router({
         return { applied: patched.applied, id: doc?.id, type: 'soul' as const };
       }
 
-      const { UserPersonaModel } = await import('@/database/models/userMemory/persona');
       const personaModel = new UserPersonaModel(ctx.serverDB, ctx.userId);
       const result = await personaModel.upsertPersona({
         editedBy: 'agent_tool',
