@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 describe('Desktop TRPC Route', () => {
   it('should have expected trpc route directories', () => {
-    const routeDirs = ['async', 'lambda', 'mobile', 'tools'];
+    const routeDirs = ['async', 'lambda', 'tools'];
 
     for (const dir of routeDirs) {
       const routePath = path.join(__dirname, dir);
