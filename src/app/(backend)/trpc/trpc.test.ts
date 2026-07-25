@@ -4,12 +4,14 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 describe('TRPC routes', () => {
-  it('should have expected trpc route directories', () => {
-    const routeDirs = ['async', 'lambda', 'mobile', 'tools'];
+  it('should keep only the trpc routes used by this deployment', () => {
+    const enabledRouteDirs = ['lambda', 'mobile', 'tools'];
 
-    for (const dir of routeDirs) {
-      const routePath = path.join(__dirname, dir);
+    for (const dir of enabledRouteDirs) {
+      const routePath = path.join(__dirname, dir, '[trpc]', 'route.ts');
       expect(existsSync(routePath)).toBe(true);
     }
+
+    expect(existsSync(path.join(__dirname, 'async', '[trpc]', 'route.ts'))).toBe(false);
   });
 });
