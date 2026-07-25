@@ -157,12 +157,18 @@ describe('getServerGlobalConfig', () => {
     }
   });
 
-  it('should keep upstream defaults outside business feature mode', async () => {
+  it('should only enable OpenAI by default outside business feature mode', async () => {
     const providerConfig = await loadCapturedProviderConfig(false);
 
-    expect(providerConfig[ModelProvider.LobeHub]).toBeUndefined();
-    expect(providerConfig[ModelProvider.OpenAI]).toBeUndefined();
-    expect(providerConfig[ModelProvider.DeepSeek].enabled).toBe(true);
+    expect(providerConfig[ModelProvider.OpenAI].enabled).toBe(true);
+    expect(providerConfig[ModelProvider.DeepSeek].enabled).toBe(false);
+    expect(providerConfig[ModelProvider.Ollama].fetchOnClient).toBe(true);
+
+    for (const provider of Object.values(ModelProvider)) {
+      if (provider === ModelProvider.OpenAI) continue;
+
+      expect(providerConfig[provider].enabled).toBe(false);
+    }
   });
 
   it('should enable gateway mode for business builds', async () => {
