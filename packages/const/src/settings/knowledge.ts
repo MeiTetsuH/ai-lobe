@@ -8,6 +8,8 @@ import {
   DEFAULT_RERANK_QUERY_MODE,
 } from './llm';
 
+export const DEFAULT_RAG_EVAL_MODEL = 'gpt-5.6-terra';
+
 export const DEFAULT_FILE_EMBEDDING_MODEL_ITEM: FilesConfigItem = {
   model: DEFAULT_EMBEDDING_MODEL,
   provider: DEFAULT_EMBEDDING_PROVIDER,
