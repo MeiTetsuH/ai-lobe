@@ -6,7 +6,7 @@ import { ModelProvider } from 'model-bank';
 import type OpenAI from 'openai';
 import { z } from 'zod';
 
-import { DEFAULT_EMBEDDING_MODEL, DEFAULT_MODEL } from '@/const/settings';
+import { DEFAULT_EMBEDDING_MODEL, DEFAULT_RAG_EVAL_MODEL } from '@/const/settings';
 import { ChunkModel } from '@/database/models/chunk';
 import { EmbeddingModel } from '@/database/models/embedding';
 import { FileModel } from '@/database/models/file';
@@ -76,7 +76,8 @@ export const ragEvalRouter = router({
           wsId,
         );
 
-        const { question, languageModel, embeddingModel } = evalRecord;
+        const { question, embeddingModel } = evalRecord;
+        const languageModel = DEFAULT_RAG_EVAL_MODEL;
 
         let questionEmbeddingId = evalRecord.questionEmbeddingId;
         let context = evalRecord.context;
@@ -126,7 +127,7 @@ export const ragEvalRouter = router({
         const response = await modelRuntime.chat(
           {
             messages: messages!,
-            model: !!languageModel ? languageModel : DEFAULT_MODEL,
+            model: languageModel,
             responseMode: 'json',
             stream: false,
             temperature: 1,

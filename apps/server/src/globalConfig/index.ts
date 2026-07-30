@@ -85,16 +85,18 @@ export const getServerGlobalConfig = async () => {
     },
   };
 
-  // In business feature mode, keep the built-in provider as the only default-enabled
-  // provider while preserving provider-specific metadata such as fetch/model-list keys.
-  // Non-business builds keep the upstream defaults.
-  if (ENABLE_BUSINESS_FEATURES) {
-    for (const provider of Object.values(ModelProvider)) {
-      aiProviderSpecificConfig[provider] = {
-        ...aiProviderSpecificConfig[provider],
-        enabled: provider === ModelProvider.LobeHub,
-      };
-    }
+  // Keep one default-enabled provider while preserving provider-specific metadata.
+  // Self-hosted deployments route OpenAI-compatible requests through the configured
+  // OpenAI base URL; business deployments retain the built-in LobeHub provider.
+  const defaultEnabledProvider = ENABLE_BUSINESS_FEATURES
+    ? ModelProvider.LobeHub
+    : ModelProvider.OpenAI;
+
+  for (const provider of Object.values(ModelProvider)) {
+    aiProviderSpecificConfig[provider] = {
+      ...aiProviderSpecificConfig[provider],
+      enabled: provider === defaultEnabledProvider,
+    };
   }
 
   const config: GlobalServerConfig = {

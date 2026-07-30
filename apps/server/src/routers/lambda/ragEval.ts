@@ -17,7 +17,7 @@ import { z } from 'zod';
 
 import { withScopedPermission } from '@/business/server/trpc-middlewares/rbacPermission';
 import { wsCompatProcedure } from '@/business/server/trpc-middlewares/workspaceAuth';
-import { DEFAULT_EMBEDDING_MODEL, DEFAULT_MODEL } from '@/const/settings';
+import { DEFAULT_EMBEDDING_MODEL, DEFAULT_RAG_EVAL_MODEL } from '@/const/settings';
 import { FileModel } from '@/database/models/file';
 import {
   EvalDatasetModel,
@@ -199,7 +199,7 @@ export const ragEvalRouter = router({
           ideal: record.ideal,
           status: EvalEvaluationStatus.Pending,
           embeddingModel: DEFAULT_EMBEDDING_MODEL,
-          languageModel: DEFAULT_MODEL,
+          languageModel: DEFAULT_RAG_EVAL_MODEL,
         })),
       );
 
