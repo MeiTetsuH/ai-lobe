@@ -1,8 +1,9 @@
 import { randomUUID } from 'node:crypto';
 
 import { TRACING_SCENARIOS, VERIFY_INSTRUCTION_FILE_TYPE } from '@lobechat/const';
+import { isProgrammaticTestCheck } from '@lobechat/const/verify';
 import type { TracingOptions } from '@lobechat/llm-generation-tracing';
-import type { VerifyCheckItem } from '@lobechat/types';
+import type { RequiredEvidenceSpec, VerifyCheckItem } from '@lobechat/types';
 import debug from 'debug';
 
 import { DocumentModel } from '@/database/models/document';
@@ -59,6 +60,7 @@ export interface CriterionDraft {
   instruction?: string;
   onFail?: VerifyCheckItem['onFail'];
   required?: boolean;
+  requiredEvidence?: RequiredEvidenceSpec[];
   title: string;
   /** Verifier knobs (e.g. `requiredEvidence`) — attached when the user adds them. */
   verifierConfig?: Record<string, unknown>;
@@ -88,6 +90,19 @@ const buildHolisticAgentItem = (requirement?: string, goal?: string): VerifyChec
     verifierType: 'agent',
   };
 };
+
+/**
+ * Drop AI-proposed criteria that are really the repo's own test / lint gates.
+ *
+ * The prompt already forbids them, but a model asked to verify a code change
+ * reaches for "unit tests pass" reliably enough that the acceptance page fills
+ * with rows nobody can act on. Applied only to the AI-generated criteria: they
+ * are complementary by construction, and `generateDraftPlan` still falls back
+ * to the holistic check if the filter empties the plan.
+ */
+const withoutProgrammaticTests = <T extends { description?: string; title: string }>(
+  criteria: T[],
+): T[] => criteria.filter((c) => !isProgrammaticTestCheck(c.title, c.description));
 
 const criterionToCheckItem = (
   criterion: VerifyCriterionItem,
@@ -189,13 +204,17 @@ export class VerifyPlanGeneratorService {
         documentId = doc.id;
       }
 
+      const verifierConfig = {
+        ...draft.verifierConfig,
+        ...(draft.requiredEvidence ? { requiredEvidence: draft.requiredEvidence } : {}),
+      };
       const criterion = await this.criterionModel.create({
         description: draft.description,
         documentId,
         onFail,
         required,
         title: draft.title,
-        verifierConfig: {},
+        verifierConfig,
         verifierType,
       });
 
@@ -210,7 +229,7 @@ export class VerifyPlanGeneratorService {
         sourceCriterionId: criterion.id,
         sourceRubricId: rubric.id,
         title: draft.title,
-        verifierConfig: {},
+        verifierConfig,
         verifierType,
       });
     }
@@ -279,10 +298,11 @@ export class VerifyPlanGeneratorService {
       log('config criteria-gen output did not match schema: %O', parsed.error.flatten());
       return [];
     }
-    return parsed.data.criteria.slice(0, maxCriteria).map((c) => ({
+    return withoutProgrammaticTests(parsed.data.criteria.slice(0, maxCriteria)).map((c) => ({
       description: c.description,
       instruction: c.instruction,
       onFail: c.onFail ?? 'manual',
+      requiredEvidence: c.requiredEvidence,
       required: c.required ?? true,
       title: c.title,
       verifierType: c.verifierType,
@@ -320,7 +340,10 @@ export class VerifyPlanGeneratorService {
         onFail: draft.onFail ?? 'manual',
         required: draft.required ?? true,
         title: draft.title,
-        verifierConfig: draft.verifierConfig ?? {},
+        verifierConfig: {
+          ...draft.verifierConfig,
+          ...(draft.requiredEvidence ? { requiredEvidence: draft.requiredEvidence } : {}),
+        },
         verifierType: draft.verifierType ?? 'llm',
       });
       ids.push(criterion.id);
@@ -435,7 +458,7 @@ export class VerifyPlanGeneratorService {
     // Like the agent-authored path, the detailed instruction lives in a document
     // (the single source of truth) referenced by documentId — never inline.
     return Promise.all(
-      parsed.data.criteria.slice(0, params.maxCriteria).map(async (c) => {
+      withoutProgrammaticTests(parsed.data.criteria.slice(0, params.maxCriteria)).map(async (c) => {
         let documentId: string | null = null;
         if (c.instruction) {
           const doc = await this.documentModel.create({
@@ -460,7 +483,7 @@ export class VerifyPlanGeneratorService {
           sourceCriterionId: null,
           sourceRubricId: null,
           title: c.title,
-          verifierConfig: {},
+          verifierConfig: { requiredEvidence: c.requiredEvidence },
           verifierType: c.verifierType,
         };
       }),

@@ -4,11 +4,13 @@ import { describe, expect, it } from 'vitest';
 
 import { type AgentStoreState } from '@/store/agent/initialState';
 import { initialAgentSliceState } from '@/store/agent/slices/agent/initialState';
+import { initialAgentArtworkSliceState } from '@/store/agent/slices/artwork/initialState';
 import { initialBuiltinAgentSliceState } from '@/store/agent/slices/builtin';
 
 import { builtinAgentSelectors } from './builtinAgentSelectors';
 
 const createState = (overrides: Partial<AgentStoreState> = {}): AgentStoreState => ({
+  ...initialAgentArtworkSliceState,
   ...initialAgentSliceState,
   ...initialBuiltinAgentSliceState,
   ...overrides,
@@ -170,7 +172,7 @@ describe('builtinAgentSelectors', () => {
     });
   });
 
-  // LOBE-12374: workspace members may now *configure* the collaborative builtin
+  // workspace members may now *configure* the collaborative builtin
   // rows, so ownership affordances (delete / transfer) have to be suppressed for
   // them explicitly — the server still rejects those actions.
   describe('isBuiltinAgent', () => {

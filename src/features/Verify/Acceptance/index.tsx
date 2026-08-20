@@ -7,7 +7,6 @@ import {
   Center,
   copyToClipboard,
   DraggablePanel,
-  Drawer,
   Empty,
   Flexbox,
   Icon,
@@ -15,7 +14,7 @@ import {
   Text,
 } from '@lobehub/ui';
 import type { DropdownItem } from '@lobehub/ui/base-ui';
-import { Button, DropdownMenu, Select, toast } from '@lobehub/ui/base-ui';
+import { Button, Drawer, DropdownMenu, Select, toast } from '@lobehub/ui/base-ui';
 import { createStaticStyles, cssVar, cx, useResponsive } from 'antd-style';
 import dayjs from 'dayjs';
 import {
@@ -40,10 +39,11 @@ import {
   Plus,
   RefreshCw,
   RotateCcw,
+  Sparkles,
   X,
   XCircle,
 } from 'lucide-react';
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 
@@ -53,6 +53,7 @@ import { openCheckEditModal } from '@/features/Conversation/ChatInput/VerifyTray
 import { openGoalModal } from '@/features/Conversation/ChatInput/VerifyTray/GoalModal';
 import NavItem from '@/features/NavPanel/components/NavItem';
 import { useLocalStorageState } from '@/hooks/useLocalStorageState';
+import { useSingleton } from '@/hooks/useSingleton';
 // The workspace-scoped mutate — a bare `import { mutate } from 'swr'` misses
 // every `useClientDataSWR` subscriber (augmented keys + custom cache provider).
 import { mutate as globalMutate } from '@/libs/swr';
@@ -72,40 +73,24 @@ import CheckList, {
   focusedCheckStates,
   groupChecks,
   hasVisualEvidence,
+  isCheckWorkActionable,
   isException,
   isGroupFullyAccepted,
+  type ProposalDismissInput,
   shouldGroupChecks,
   userReviewState,
 } from './CheckList';
+import { buildRepairPrompt, copyCheckRepairPrompt } from './checkWork';
 import DecisionBar from './DecisionBar';
 import { EMPTY_ID_SET, setAggregateEntry } from './expandState';
 import FeedbackDrawer, { type FeedbackListEntry } from './FeedbackDrawer';
-import { acceptanceFocusedLayout } from './layout';
+import { acceptanceFocusedLayout, acceptanceScrollLayout } from './layout';
 import LedgerPanel, { type AcceptanceRound } from './LedgerPanel';
-import { openAcceptModal, openRejectModal } from './modals';
+import { openAcceptModal, openGroupFeedbackModal, openRejectModal } from './modals';
 import { acceptanceCheckPath, acceptanceOverviewPath } from './routes';
 import { getAcceptanceStatusActions } from './statusActions';
 import TopicPanel from './TopicPanel';
 import { canViewAcceptanceHistory, resolveAcceptanceHistoryNavigation } from './visibility';
-
-/**
- * The hardcoded repair prompt (复制 review 建议 / 打回重跑 share it): points the
- * agent at the CLI as the source of truth for this acceptance's feedback, so
- * nobody has to hand-summarize review notes into an instruction.
- */
-const buildRepairPrompt = (acceptanceId: string) =>
-  `Use the LobeHub CLI to read the latest review feedback for acceptance ${acceptanceId}:
-
-lh acceptance feedback ${acceptanceId} --actionable
-
-Every entry it prints (per-check comments, circled-region annotations on the evidence screenshots, and attachments) is the full set of feedback to handle this round. Fix the code item by item; then re-run verification and ingest the new result back into the SAME acceptance (reuse the existing check ids, and use supersedes for any check whose meaning changed). Keep the final report in the same language the previous rounds used.`;
-
-const buildCheckRepairPrompt = (
-  acceptanceId: string,
-  check: { id: string; seq: number; title: string },
-) => `${buildRepairPrompt(acceptanceId)}
-
-For this pass, focus on check C${check.seq} "${check.title}" (check id: ${check.id}). Treat it as the bounded work item: read its evidence and feedback, make the necessary change, and re-verify it without disturbing unrelated accepted or ignored checks.`;
 
 const styles = createStaticStyles(({ css }) => ({
   banner: css`
@@ -165,6 +150,9 @@ const styles = createStaticStyles(({ css }) => ({
       opacity: 1;
     }
   `,
+  contentFrame: css`
+    overflow: ${acceptanceScrollLayout.frameOverflow};
+  `,
   page: css`
     position: relative;
 
@@ -211,6 +199,8 @@ const styles = createStaticStyles(({ css }) => ({
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+
+    line-height: 1.6;
   `,
   verdictPill: css`
     display: inline-flex;
@@ -235,7 +225,6 @@ const styles = createStaticStyles(({ css }) => ({
   focusLayout: css`
     display: grid;
     grid-template-columns: 320px minmax(0, 1fr);
-    min-height: ${acceptanceFocusedLayout.viewportHeight};
 
     @media (width <= 900px) {
       grid-template-columns: 1fr;
@@ -245,9 +234,6 @@ const styles = createStaticStyles(({ css }) => ({
     position: sticky;
     inset-block-start: 0;
 
-    overflow: auto;
-
-    height: ${acceptanceFocusedLayout.viewportHeight};
     padding: 8px;
     border-inline-end: 1px solid ${cssVar.colorBorderSecondary};
 
@@ -255,12 +241,19 @@ const styles = createStaticStyles(({ css }) => ({
 
     @media (width <= 900px) {
       position: static;
-      height: auto;
       border-block-end: 1px solid ${cssVar.colorBorderSecondary};
       border-inline-end: 0;
     }
   `,
+  focusOutlineList: css`
+    overflow: ${acceptanceScrollLayout.paneOverflow};
+
+    > * {
+      flex-shrink: 0;
+    }
+  `,
   focusMain: css`
+    overflow: ${acceptanceScrollLayout.paneOverflow};
     min-width: 0;
     padding-block: ${acceptanceFocusedLayout.contentPaddingBlock};
     padding-inline: 32px;
@@ -307,6 +300,11 @@ interface AcceptancePageProps {
    */
   onDraftToComposer?: (text: string) => boolean;
 }
+
+/** How long to wait between bundle re-fetches while the batch runs. */
+const PREDICT_POLL_INTERVAL_MS = 4000;
+/** ~2 minutes: a bounded batch of 4-concurrent generations settles well inside this. */
+const PREDICT_POLL_ATTEMPTS = 30;
 
 const AcceptancePage = memo<AcceptancePageProps>(
   ({ acceptanceId: explicitAcceptanceId, onDraftToComposer }) => {
@@ -396,7 +394,7 @@ const AcceptancePage = memo<AcceptancePageProps>(
     // Which aggregates have had their one-time defaults (expand/collapse + filter)
     // applied. A Set, not a single id, so returning to an already-seeded aggregate
     // does NOT re-apply defaults and clobber the toggles the user made.
-    const seededIdsRef = useRef<Set<string>>(new Set());
+    const seededIds = useSingleton(() => new Set<string>());
     const [highlightRound, setHighlightRound] = useState<number | null>(null);
     const [ledgerExpand, setLedgerExpand] = useState(!isEmbedded);
     const [topicPanelOpen, setTopicPanelOpen] = useState(false);
@@ -422,9 +420,13 @@ const AcceptancePage = memo<AcceptancePageProps>(
     }, [isNarrowViewport]);
     // A focused check is the review workspace: evidence gets the horizontal
     // room, while the round ledger remains available from the corner toggle.
-    useEffect(() => {
+    // Adjusted during render, not in an effect, so selecting a check commits in
+    // one render pass instead of render → effect → full second render.
+    const [prevFocusedCheckId, setPrevFocusedCheckId] = useState(focusedCheckId);
+    if (prevFocusedCheckId !== focusedCheckId) {
+      setPrevFocusedCheckId(focusedCheckId);
       if (focusedCheckId) setLedgerExpand(false);
-    }, [focusedCheckId]);
+    }
     const closeTopicPanel = useCallback(() => {
       setTopicPanelOpen(false);
       closeTopicDrawer();
@@ -439,6 +441,23 @@ const AcceptancePage = memo<AcceptancePageProps>(
       setTopicPanelOpen(true);
       setLedgerExpand(true);
     }, [data, openTopicDrawer]);
+
+    /**
+     * An agent judge argues by running, not by writing a paragraph — so the
+     * reviewable form of its verdict is its own conversation. Resolve the
+     * verifier operation to its topic and open the same drawer used for the
+     * origin run.
+     */
+    const openVerifierTrace = useCallback(
+      async (verifierOperationId: string) => {
+        const resolved = await verifyService.getVerifierThread(verifierOperationId);
+        const topicId = resolved?.topicId;
+        if (!topicId) return;
+        openTopicDrawer(topicId, { title: t('acceptance.checks.viewTrace') });
+        setTopicPanelOpen(true);
+      },
+      [openTopicDrawer, t],
+    );
     const [reportRound, setReportRound] = useState<AcceptanceRound | null>(null);
     // `?r=<roundIndex>` deep-links one round's full report — a durable
     // per-round snapshot URL (standalone page only; the portal embed rides the
@@ -457,9 +476,9 @@ const AcceptancePage = memo<AcceptancePageProps>(
     }, [isEmbedded, data, urlRoundRaw]);
     const [pending, setPending] = useState(false);
     const [rerunPending, setRerunPending] = useState(false);
-    const [checkWorkPending, setCheckWorkPending] = useState(false);
     const [actionError, setActionError] = useState<string>();
     const [feedbackOpen, setFeedbackOpen] = useState(false);
+    const [predicting, setPredicting] = useState(false);
 
     const status = data?.acceptance.status;
 
@@ -472,15 +491,15 @@ const AcceptancePage = memo<AcceptancePageProps>(
 
     // Exceptions and visually-evidenced checks start expanded (P-08) — a check
     // still awaiting the user's review shows its evidence (screenshots included)
-    // up front, not folded away. Seeded once per aggregate (see `seededIdsRef`),
+    // up front, not folded away. Seeded once per aggregate (see `seededIds`),
     // and only after its checks have arrived, so the user's own toggling is never
     // overwritten and an aggregate whose checks stream in a beat late still seeds.
     // A check the user already accepted is settled business and stays folded
     // regardless of its evidence; groups accepted in full start collapsed too.
     useEffect(() => {
       if (!data || data.checks.length === 0) return;
-      if (seededIdsRef.current.has(acceptanceId ?? '')) return;
-      seededIdsRef.current.add(acceptanceId ?? '');
+      if (seededIds.has(acceptanceId ?? '')) return;
+      seededIds.add(acceptanceId ?? '');
       setExpanded(
         new Set(
           data.checks
@@ -523,6 +542,7 @@ const AcceptancePage = memo<AcceptancePageProps>(
       t,
       isEmbedded,
       urlFilterRaw,
+      seededIds,
       setSearchParams,
       setExpanded,
       setCollapsedGroups,
@@ -543,6 +563,190 @@ const AcceptancePage = memo<AcceptancePageProps>(
         uncertain: checks.filter((check) => check.state === 'uncertain').length,
       };
     }, [data]);
+
+    /**
+     * Checks the predictor could actually act on: executed (so there is a
+     * result to judge), not yet ruled on, and carrying a frame to look at.
+     *
+     * Deliberately NOT `counts.pending`, which counts any check without a
+     * standing review — including ones that never ran. That gate showed the
+     * button on acceptances where the server would consider zero checks, and
+     * the reverse case reads even worse: a page whose remaining "pending" item
+     * is un-executed loses the button with no visible reason.
+     */
+    const predictableCount = useMemo(
+      () =>
+        (data?.checks ?? []).filter(
+          (check) => check.result && !check.result.userDecision && hasVisualEvidence(check),
+        ).length,
+      [data],
+    );
+
+    const acceptanceRecordId = data?.acceptance.id;
+    const runAction = useCallback(
+      async (action: () => Promise<unknown>) => {
+        try {
+          setPending(true);
+          setActionError(undefined);
+          await action();
+          await mutate();
+          // The list panel derives its glyph from the same status — a decision
+          // here must not leave a stale icon there until a hard refresh.
+          void globalMutate(verifyKeys.acceptances());
+          return true;
+        } catch (cause) {
+          setActionError(cause instanceof Error ? cause.message : t('acceptance.actionError'));
+          return false;
+        } finally {
+          setPending(false);
+        }
+      },
+      [mutate, t],
+    );
+
+    // Per-check user review — accept settles a check for good; reject records
+    // the feedback the next verify round reads.
+    const handleReview = useCallback(
+      async (input: CheckReviewInput) => {
+        if (!acceptanceRecordId) return false;
+        return runAction(() => verifyService.reviewChecks({ id: acceptanceRecordId, ...input }));
+      },
+      [runAction, acceptanceRecordId],
+    );
+
+    // Answering a model proposal is NOT a verdict on the check — the check
+    // stays pending and still needs the reviewer's own call. It goes through
+    // its own endpoint so a dismissal can never stamp a `user_decision`.
+    const handleDismissProposal = useCallback(
+      async (input: ProposalDismissInput) => {
+        if (!acceptanceRecordId) return;
+        await runAction(() =>
+          verifyService.adjudicateProposal({
+            adjudication: input.adjudication,
+            id: acceptanceRecordId,
+            predictionId: input.predictionId,
+          }),
+        );
+      },
+      [runAction, acceptanceRecordId],
+    );
+
+    /**
+     * Ask for proposals on whatever is still awaiting a verdict. Explicit, so
+     * opening a report never spends model budget on its own.
+     *
+     * The server dispatches the batch AFTER responding, so the mutation returns
+     * in milliseconds with nothing to show. Poll the bundle until the cards
+     * land, keeping the button in its loading state meanwhile — otherwise the
+     * click reads as a no-op for the ~15s the first generation takes.
+     */
+    const handlePredictReviews = useCallback(async () => {
+      if (!acceptanceRecordId) return;
+      setPredicting(true);
+      try {
+        const { queued } = await verifyService.predictReviews(acceptanceRecordId);
+        if (queued === 0) return;
+
+        for (let attempt = 0; attempt < PREDICT_POLL_ATTEMPTS; attempt += 1) {
+          await new Promise((resolve) => setTimeout(resolve, PREDICT_POLL_INTERVAL_MS));
+          const next = await mutate();
+          // Stop as soon as every queued check has been answered one way or the
+          // other — a check the model passes writes no row, so waiting for
+          // `queued` cards would always run to the timeout.
+          const settled = (next?.checks ?? []).filter(
+            (check) => check.prediction || check.result?.userDecision,
+          ).length;
+          if (settled >= queued) break;
+        }
+      } catch (error) {
+        setActionError(error instanceof Error ? error.message : String(error));
+      } finally {
+        setPredicting(false);
+      }
+    }, [mutate, acceptanceRecordId]);
+
+    // Group-scoped feedback — for concerns that belong to no single check (the
+    // checks themselves may be accepted) yet must reach the next round.
+    const handleGroupFeedback = useCallback(
+      async (category: string, comment: string, fileIds: string[]) => {
+        if (!acceptanceRecordId) return false;
+        return runAction(() =>
+          verifyService.addGroupFeedback({
+            category,
+            comment,
+            fileIds: fileIds.length > 0 ? fileIds : undefined,
+            id: acceptanceRecordId,
+          }),
+        );
+      },
+      [runAction, acceptanceRecordId],
+    );
+
+    // The decision bar's global note — the same group-feedback channel, aimed
+    // at the uncategorized bucket ('' targets the whole delivery).
+    const handleAddGlobalComment = useCallback(() => {
+      openGroupFeedbackModal({
+        description: t('acceptance.bar.addCommentDescription'),
+        groupLabel: t('acceptance.feedback.global'),
+        onConfirm: (comment, fileIds) => handleGroupFeedback('', comment, fileIds),
+        title: t('acceptance.bar.addComment'),
+      });
+    }, [handleGroupFeedback, t]);
+
+    const gotoRound = useCallback((round: number) => {
+      setHighlightRound(round);
+      setLedgerExpand(true);
+    }, []);
+    const historyNavigation = useMemo(
+      () => resolveAcceptanceHistoryNavigation(Boolean(data?.isOwner), gotoRound),
+      [data?.isOwner, gotoRound],
+    );
+
+    const handleToggleGroup = useCallback(
+      (key: string) =>
+        setCollapsedGroups((previous) => {
+          const next = new Set(previous);
+          if (next.has(key)) next.delete(key);
+          else next.add(key);
+          return next;
+        }),
+      [setCollapsedGroups],
+    );
+    const handleToggleGroupItems = useCallback(
+      (ids: string[], open: boolean) =>
+        setExpanded((previous) => {
+          const next = new Set(previous);
+          for (const id of ids) {
+            if (open) next.add(id);
+            else next.delete(id);
+          }
+          return next;
+        }),
+      [setExpanded],
+    );
+    const handleToggleItem = useCallback(
+      (id: string) =>
+        setExpanded((previous) => {
+          const next = new Set(previous);
+          if (next.has(id)) next.delete(id);
+          else next.add(id);
+          return next;
+        }),
+      [setExpanded],
+    );
+
+    // Group-scoped feedback lives on each round's decision detail — flatten the
+    // chain into the derived per-entry view (roundIndex from the carrying run).
+    const groupFeedbackEntries = useMemo(
+      () =>
+        (data?.rounds ?? []).flatMap((round) =>
+          (round.run.decisionDetail?.groupFeedback ?? []).map((entry) => ({
+            ...entry,
+            roundIndex: round.run.roundIndex ?? 0,
+          })),
+        ),
+      [data],
+    );
 
     if (isLoading)
       return (
@@ -602,14 +806,6 @@ const AcceptancePage = memo<AcceptancePageProps>(
       );
     };
     const currentRound = rounds.at(-1);
-    // Group-scoped feedback lives on each round's decision detail — flatten the
-    // chain into the derived per-entry view (roundIndex from the carrying run).
-    const groupFeedbackEntries = rounds.flatMap((round) =>
-      (round.run.decisionDetail?.groupFeedback ?? []).map((entry) => ({
-        ...entry,
-        roundIndex: round.run.roundIndex ?? 0,
-      })),
-    );
     // The latest coding round's context — rendered with the latest report card
     // (it describes what THAT round verified), not as aggregate-level identity.
     // A round with no scenario predates the column and is a coding round; a
@@ -700,24 +896,6 @@ const AcceptancePage = memo<AcceptancePageProps>(
                       label: t('acceptance.verdict.inProgress'),
                     };
 
-    const runAction = async (action: () => Promise<unknown>) => {
-      try {
-        setPending(true);
-        setActionError(undefined);
-        await action();
-        await mutate();
-        // The list panel derives its glyph from the same status — a decision
-        // here must not leave a stale icon there until a hard refresh.
-        void globalMutate(verifyKeys.acceptances());
-        return true;
-      } catch (cause) {
-        setActionError(cause instanceof Error ? cause.message : t('acceptance.actionError'));
-        return false;
-      } finally {
-        setPending(false);
-      }
-    };
-
     const changeAcceptanceStatus = async (status: 'accepted' | 'closed' | 'delivered') => {
       const succeeded = await runAction(() =>
         verifyService.updateAcceptanceStatus(acceptance.id, status),
@@ -756,12 +934,6 @@ const AcceptancePage = memo<AcceptancePageProps>(
       },
     );
 
-    const gotoRound = (round: number) => {
-      setHighlightRound(round);
-      setLedgerExpand(true);
-    };
-    const historyNavigation = resolveAcceptanceHistoryNavigation(isOwner, gotoRound);
-
     // Open/close the round report drawer AND mirror it to `?r=` (standalone
     // page only) so the address bar is always a copyable snapshot link for the
     // round being viewed.
@@ -778,11 +950,6 @@ const AcceptancePage = memo<AcceptancePageProps>(
         { replace: true },
       );
     };
-
-    // Per-check user review — accept settles a check for good; reject records
-    // the feedback the next verify round reads.
-    const handleReview = (input: CheckReviewInput) =>
-      runAction(() => verifyService.reviewChecks({ id: acceptance.id, ...input }));
 
     // The acceptance goal is a user-editable field — reuse the tray's goal
     // modal so both entry points write the same subject-level requirement. A
@@ -801,18 +968,6 @@ const AcceptancePage = memo<AcceptancePageProps>(
           await mutate();
         },
       });
-
-    // Group-scoped feedback — for concerns that belong to no single check (the
-    // checks themselves may be accepted) yet must reach the next round.
-    const handleGroupFeedback = (category: string, comment: string, fileIds: string[]) =>
-      runAction(() =>
-        verifyService.addGroupFeedback({
-          category,
-          comment,
-          fileIds: fileIds.length > 0 ? fileIds : undefined,
-          id: acceptance.id,
-        }),
-      );
 
     // The floating bar's one-line state + supporting line — the old banner's
     // content, relocated to where the decision actually happens.
@@ -962,7 +1117,6 @@ const AcceptancePage = memo<AcceptancePageProps>(
       });
 
     const repairPrompt = buildRepairPrompt(acceptance.id);
-
     // Hand the repair prompt to the reviewer's clipboard — for pasting to any
     // agent, not just the origin conversation.
     const handleCopyReview = async () => {
@@ -1022,34 +1176,8 @@ const AcceptancePage = memo<AcceptancePageProps>(
 
     const handleCheckWork = async () => {
       if (!focusedCheck) return;
-      const prompt = buildCheckRepairPrompt(acceptance.id, focusedCheck);
-      if (isEmbedded) {
-        if (onDraftToComposer?.(prompt)) {
-          toast.success({ title: t('acceptance.checkWork.drafted') });
-        }
-        return;
-      }
-      if (!origin?.topic) {
-        await copyToClipboard(prompt);
-        toast.success({ title: t('acceptance.checkWork.copied') });
-        return;
-      }
-      setCheckWorkPending(true);
-      try {
-        await verifyService.dispatchAcceptanceRepair({
-          agentId: origin.agent?.id,
-          content: prompt,
-          topicId: origin.topic.id,
-        });
-        await verifyService.markAcceptanceRepairing(acceptance.id);
-        await mutate();
-        void globalMutate(verifyKeys.acceptances());
-        toast.success({ title: t('acceptance.checkWork.sent') });
-      } catch (cause) {
-        toast.error(cause instanceof Error ? cause.message : t('acceptance.actionError'));
-      } finally {
-        setCheckWorkPending(false);
-      }
+      await copyCheckRepairPrompt(acceptance.id, focusedCheck, copyToClipboard);
+      toast.success({ title: t('acceptance.checkWork.copied') });
     };
 
     const saveStandingChecklist = async (checklist: AcceptanceChecklistItem[]) => {
@@ -1095,7 +1223,7 @@ const AcceptancePage = memo<AcceptancePageProps>(
             onClick={() => setLedgerExpand(true)}
           />
         )}
-        <Flexbox flex={1} style={{ minWidth: 0, overflow: 'auto' }}>
+        <Flexbox className={styles.contentFrame} flex={1} style={{ minWidth: 0 }}>
           <Flexbox
             gap={16}
             paddingBlock={focusedCheck ? 0 : 20}
@@ -1378,7 +1506,7 @@ const AcceptancePage = memo<AcceptancePageProps>(
             {focusedCheck ? (
               <div className={styles.focusLayout}>
                 <Flexbox className={styles.focusOutline}>
-                  <Flexbox gap={10} paddingBlock={8} paddingInline={4}>
+                  <Flexbox flex={'none'} gap={10} paddingBlock={8} paddingInline={4}>
                     <Button
                       icon={<Icon icon={ArrowLeft} />}
                       size={'small'}
@@ -1425,94 +1553,100 @@ const AcceptancePage = memo<AcceptancePageProps>(
                       )}
                     </Flexbox>
                   </Flexbox>
-                  {orderedChecks.map((check) => {
-                    const state = checkFilterState(check);
-                    const icon =
-                      state === 'accepted'
-                        ? BadgeCheck
-                        : state === 'needsFix'
-                          ? RotateCcw
-                          : state === 'ignored'
-                            ? Ban
-                            : CircleDashed;
-                    const color =
-                      state === 'accepted'
-                        ? 'success'
-                        : state === 'needsFix'
-                          ? 'error'
-                          : state === 'ignored'
-                            ? 'default'
-                            : 'default';
+                  <Flexbox className={styles.focusOutlineList} flex={1}>
+                    {orderedChecks.map((check) => {
+                      const state = checkFilterState(check);
+                      const icon =
+                        state === 'accepted'
+                          ? BadgeCheck
+                          : state === 'needsFix'
+                            ? RotateCcw
+                            : state === 'ignored'
+                              ? Ban
+                              : CircleDashed;
+                      const color =
+                        state === 'accepted'
+                          ? 'success'
+                          : state === 'needsFix'
+                            ? 'error'
+                            : state === 'ignored'
+                              ? 'default'
+                              : 'default';
 
-                    return (
-                      <NavItem
-                        active={check.id === focusedCheck.id}
-                        key={check.id}
-                        paddingBlock={acceptanceFocusedLayout.outlineItemPaddingBlock}
-                        paddingInline={acceptanceFocusedLayout.outlineItemPaddingInline}
-                        title={check.title}
-                        titleColor={cssVar.colorText}
-                        description={
-                          <Flexbox horizontal align={'center'} gap={8}>
-                            <Tag color={color} icon={<Icon icon={icon} />} size={'small'}>
-                              {t(`acceptance.focus.state.${state}`)}
-                            </Tag>
-                            <Text fontSize={12} type={'secondary'}>
-                              {t('acceptance.focus.evidenceCount', {
-                                count: check.evidence.length,
-                              })}
-                            </Text>
-                          </Flexbox>
-                        }
-                        extra={
-                          <Icon color={cssVar.colorTextQuaternary} icon={ChevronRight} size={14} />
-                        }
-                        slots={{
-                          titlePrefix: (
-                            <Flexbox
-                              align={'center'}
-                              height={22}
-                              style={{ alignSelf: 'flex-start' }}
-                            >
-                              <Text
-                                style={{
-                                  color: cssVar.colorTextQuaternary,
-                                  fontFamily: cssVar.fontFamilyCode,
-                                  fontSize: 11,
-                                }}
-                              >
-                                C{check.seq}
-                              </Text>
-                            </Flexbox>
-                          ),
-                        }}
-                        onClick={() => setFocusedCheck(check.id)}
-                      />
-                    );
-                  })}
-                  {unverifiedStandingChecks.length > 0 && (
-                    <Flexbox gap={4} paddingBlock={8} paddingInline={8}>
-                      <Text fontSize={11} type={'secondary'}>
-                        {t('acceptance.checkCreate.pendingGroup')}
-                      </Text>
-                      {unverifiedStandingChecks.map((item) => (
+                      return (
                         <NavItem
-                          extra={<Icon color={cssVar.colorTextQuaternary} icon={PencilLine} />}
-                          key={item.id}
+                          active={check.id === focusedCheck.id}
+                          key={check.id}
                           paddingBlock={acceptanceFocusedLayout.outlineItemPaddingBlock}
                           paddingInline={acceptanceFocusedLayout.outlineItemPaddingInline}
-                          title={item.name}
+                          title={check.title}
                           titleColor={cssVar.colorText}
                           description={
-                            <Text fontSize={12} type={'secondary'}>
-                              {item.method || t('acceptance.checkCreate.pendingDescription')}
-                            </Text>
+                            <Flexbox horizontal align={'center'} gap={8}>
+                              <Tag color={color} icon={<Icon icon={icon} />} size={'small'}>
+                                {t(`acceptance.focus.state.${state}`)}
+                              </Tag>
+                              <Text fontSize={12} type={'secondary'}>
+                                {t('acceptance.focus.evidenceCount', {
+                                  count: check.evidence.length,
+                                })}
+                              </Text>
+                            </Flexbox>
                           }
-                          onClick={() => handleEditStandingCheck(item)}
+                          extra={
+                            <Icon
+                              color={cssVar.colorTextQuaternary}
+                              icon={ChevronRight}
+                              size={14}
+                            />
+                          }
+                          slots={{
+                            titlePrefix: (
+                              <Flexbox
+                                align={'center'}
+                                height={22}
+                                style={{ alignSelf: 'flex-start' }}
+                              >
+                                <Text
+                                  style={{
+                                    color: cssVar.colorTextQuaternary,
+                                    fontFamily: cssVar.fontFamilyCode,
+                                    fontSize: 11,
+                                  }}
+                                >
+                                  C{check.seq}
+                                </Text>
+                              </Flexbox>
+                            ),
+                          }}
+                          onClick={() => setFocusedCheck(check.id)}
                         />
-                      ))}
-                    </Flexbox>
-                  )}
+                      );
+                    })}
+                    {unverifiedStandingChecks.length > 0 && (
+                      <Flexbox gap={4} paddingBlock={8} paddingInline={8}>
+                        <Text fontSize={11} type={'secondary'}>
+                          {t('acceptance.checkCreate.pendingGroup')}
+                        </Text>
+                        {unverifiedStandingChecks.map((item) => (
+                          <NavItem
+                            extra={<Icon color={cssVar.colorTextQuaternary} icon={PencilLine} />}
+                            key={item.id}
+                            paddingBlock={acceptanceFocusedLayout.outlineItemPaddingBlock}
+                            paddingInline={acceptanceFocusedLayout.outlineItemPaddingInline}
+                            title={item.name}
+                            titleColor={cssVar.colorText}
+                            description={
+                              <Text fontSize={12} type={'secondary'}>
+                                {item.method || t('acceptance.checkCreate.pendingDescription')}
+                              </Text>
+                            }
+                            onClick={() => handleEditStandingCheck(item)}
+                          />
+                        ))}
+                      </Flexbox>
+                    )}
+                  </Flexbox>
                 </Flexbox>
 
                 <Flexbox className={styles.focusMain}>
@@ -1598,29 +1732,26 @@ const AcceptancePage = memo<AcceptancePageProps>(
                         {t(`acceptance.focus.verifierDescription.${focusedStates.verifierLabel}`)}
                       </Text>
                     </Flexbox>
-                    {isOwner && acceptance.status !== 'closed' && (
-                      <Flexbox horizontal align={'center'} className={styles.focusWork} gap={16}>
-                        <Flexbox flex={1} gap={3}>
-                          <Text strong>{t('acceptance.checkWork.title')}</Text>
-                          <Text fontSize={12} type={'secondary'}>
-                            {t('acceptance.checkWork.description')}
-                          </Text>
+                    {isOwner &&
+                      acceptance.status !== 'closed' &&
+                      isCheckWorkActionable(focusedCheck) && (
+                        <Flexbox horizontal align={'center'} className={styles.focusWork} gap={16}>
+                          <Flexbox flex={1} gap={3}>
+                            <Text strong>{t('acceptance.checkWork.title')}</Text>
+                            <Text fontSize={12} type={'secondary'}>
+                              {t('acceptance.checkWork.description')}
+                            </Text>
+                          </Flexbox>
+                          <Button type={'primary'} onClick={handleCheckWork}>
+                            {t('acceptance.checkWork.copy')}
+                          </Button>
                         </Flexbox>
-                        <Button
-                          loading={checkWorkPending}
-                          type={'primary'}
-                          onClick={handleCheckWork}
-                        >
-                          {origin?.topic || isEmbedded
-                            ? t('acceptance.checkWork.action')
-                            : t('acceptance.checkWork.copy')}
-                        </Button>
-                      </Flexbox>
-                    )}
+                      )}
                     <FocusedCheckDetails
                       canReview={isOwner}
                       check={focusedCheck}
                       reviewPending={pending}
+                      onDismissProposal={handleDismissProposal}
                       onReview={handleReview}
                       onRound={historyNavigation}
                     />
@@ -1645,6 +1776,18 @@ const AcceptancePage = memo<AcceptancePageProps>(
                     {counts.total + unverifiedStandingChecks.length}
                   </span>
                   <Flexbox flex={1} />
+                  {/* Explicit, and only while something is still unreviewed —
+                    asking for proposals on a fully-judged acceptance would
+                    spend budget to produce cards nobody can act on. */}
+                  {isOwner && predictableCount > 0 && (
+                    <ActionIcon
+                      icon={Sparkles}
+                      loading={predicting}
+                      size={'small'}
+                      title={t('acceptance.proposal.request')}
+                      onClick={handlePredictReviews}
+                    />
+                  )}
                   {isOwner && (
                     <ActionIcon
                       icon={Plus}
@@ -1763,35 +1906,14 @@ const AcceptancePage = memo<AcceptancePageProps>(
                   groupFeedback={groupFeedbackEntries}
                   reviewPending={pending}
                   round={roundFilter}
+                  onDismissProposal={handleDismissProposal}
                   onGroupFeedback={handleGroupFeedback}
+                  onOpenTrace={openVerifierTrace}
                   onReview={handleReview}
                   onRound={historyNavigation}
-                  onToggleGroup={(key) =>
-                    setCollapsedGroups((previous) => {
-                      const next = new Set(previous);
-                      if (next.has(key)) next.delete(key);
-                      else next.add(key);
-                      return next;
-                    })
-                  }
-                  onToggleGroupItems={(ids, open) =>
-                    setExpanded((previous) => {
-                      const next = new Set(previous);
-                      for (const id of ids) {
-                        if (open) next.add(id);
-                        else next.delete(id);
-                      }
-                      return next;
-                    })
-                  }
-                  onToggleItem={(id) =>
-                    setExpanded((previous) => {
-                      const next = new Set(previous);
-                      if (next.has(id)) next.delete(id);
-                      else next.add(id);
-                      return next;
-                    })
-                  }
+                  onToggleGroup={handleToggleGroup}
+                  onToggleGroupItems={handleToggleGroupItems}
+                  onToggleItem={handleToggleItem}
                 />
               </>
             )}
@@ -1813,6 +1935,7 @@ const AcceptancePage = memo<AcceptancePageProps>(
                 subText={barTexts.subText}
                 totalCount={reviewTotal}
                 onAccept={handleAccept}
+                onAddComment={handleAddGlobalComment}
                 onCopyReview={handleCopyReview}
                 onOpenFeedback={() => setFeedbackOpen(true)}
                 onRejectComment={handleRejectComment}
@@ -1847,7 +1970,7 @@ const AcceptancePage = memo<AcceptancePageProps>(
               containerMaxWidth={'100%'}
               open={ledgerExpand}
               placement={'right'}
-              styles={{ body: { padding: 0 } }}
+              styles={{ bodyContent: { padding: 0 } }}
               width={'min(340px, 88vw)'}
               onClose={() => setLedgerExpand(false)}
             >
@@ -1871,6 +1994,7 @@ const AcceptancePage = memo<AcceptancePageProps>(
             </Drawer>
           ) : (
             <DraggablePanel
+              stableLayout
               defaultSize={{ width: 340 }}
               expand={ledgerExpand}
               minWidth={300}
@@ -1909,15 +2033,13 @@ const AcceptancePage = memo<AcceptancePageProps>(
           so no extra close button here (two would overlap). */}
         {showHistory && (
           <Drawer
-            destroyOnHidden
             noHeader
             containerMaxWidth={'100%'}
             open={reportRound !== null}
             placement={'right'}
             width={'min(960px, 92vw)'}
             styles={{
-              body: { height: '100%', padding: 0 },
-              bodyContent: { height: '100%', minHeight: 0, overflow: 'hidden' },
+              bodyContent: { height: '100%', minHeight: 0, overflow: 'hidden', padding: 0 },
             }}
             onClose={() => openReport(null)}
           >

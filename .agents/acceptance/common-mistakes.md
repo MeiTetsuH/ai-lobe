@@ -2,264 +2,557 @@
 
 Project-specific mistakes only. Read this with the agent-testing skill's generic
 `references/common-mistakes.md`. Stable ids use the `L-` prefix so they cannot be
-confused with the generic `M` catalogue or old numeric field-note ids.
+confused with the generic `M` catalogue.
+
+Keep this file at the level of durable LobeHub product and environment invariants.
+Exact copy, pixel values, component slot order, and one-off review directions belong
+in feature specifications or historical field notes, not in this living checklist.
 
 ## Evidence and publication
 
 ### L-E1 — Publishing a replacement as a second Acceptance row
 
 **Wrong approach:** assign a replacement check a new id without `supersedes`, or
-pass a visible UI check from test output / computed styles alone.
+pass a visible UI check from test output or computed styles alone.
 
-**Why it fails:** Acceptance intentionally does not fuzzy-match titles, and
-program output does not establish the rendered result.
+**Why it fails:** Acceptance intentionally does not fuzzy-match titles, and program
+output does not establish the rendered result.
 
 **Correct approach:** declare the previous stable id in `supersedes`; give every
-user-visible case its own opened screenshot and assert the complete spatial
-outcome, including overlap.
+user-visible case opened visual evidence and assert the complete spatial outcome,
+including overlap.
 
-### L-E2 — Calling a permission change “no UI surface”
+### L-E2 — Publishing synthetic displacement as passing layout evidence
 
-**Wrong approach:** publish only router/API transcripts because the diff contains
-no TSX.
+**Wrong approach:** apply a temporary transform to isolate position syncing, then
+publish a screenshot while the product panel is visibly displaced.
 
-**Why it fails:** the blocked user's rejection, error feedback, and still-visible
-affordances are product behavior.
-
-**Correct approach:** drive the real UI as blocked and allowed roles, capture both
-outcomes, and report raw/missing feedback as a UX finding.
-
-### L-E3 — Publishing synthetic displacement as passing layout evidence
-
-**Wrong approach:** apply a large temporary transform to isolate position syncing,
-then publish a screenshot while the product panel is visibly displaced.
-
-**Why it fails:** the numeric assertion may pass while the visual evidence depicts
-a broken product state and appears to prove the regression.
+**Why it fails:** the numeric assertion may pass while the visual evidence depicts a
+broken product state.
 
 **Correct approach:** capture the settled result of a real layout transition. Keep
-synthetic position probes as text evidence only, and restore the DOM before any
+synthetic probes as supporting text evidence and restore the DOM before capturing a
 passing screenshot.
 
-### L-E4 — Claiming an authoring flow from its entry point
+### L-E3 — Claiming an authoring flow from its entry point
 
-**Wrong approach:** publish the “Add check” button and source-level evidence as
-proof that manual check creation is complete.
+**Wrong approach:** publish an entry button and source-level evidence as proof that
+manual check creation is complete.
 
 **Why it fails:** an entry point does not demonstrate form entry, the resulting
-check, or where the new item enters the acceptance lifecycle.
+check, or where it enters the Acceptance lifecycle.
 
-**Correct approach:** verify the full UI sequence: entry, completed form with
-preview, and the created item in its editable pre-verification state. Keep the
-manual path independent from rubric loading so an unrelated rubric request cannot
-block it.
+**Correct approach:** verify entry, completed input and preview, and the created item
+in its editable pre-verification state. Keep this path independent from unrelated
+rubric loading.
 
-## Product and interaction design
+### L-E4 — Verifying the wrong product container or scale boundary
 
-### L-D1 — Treating a status badge as the information hierarchy
+**Wrong approach:** prove behavior in a standalone or harness surface when the
+requested surface is a Task drawer, or use a small fixture for behavior that changes
+at a list-size threshold.
 
-**Wrong approach:** spend the strongest row position on a large generic “Online”
-badge while demoting hostname, platform, and scope; omit the device icon from the
-matching tool inspector.
+**Why it fails:** the same content composes differently across containers, and small
+fixtures cannot expose grouping, density, overflow, or master-detail pressure.
 
-**Why it fails:** repetitive state overwhelms the fields users need to distinguish
-devices, and the collapsed tool chain loses identity.
+**Correct approach:** capture the requested product container with representative
+titles, state mix, item count, and both sides of every behavior-changing threshold.
+Use harnesses only as supporting evidence.
 
-**Correct approach:** put a semantic status dot beside the name, reserve the detail
-column for identifying metadata, use the device icon consistently, and verify
-expanded plus zero-count states visually.
+### L-E5 — Replacing per-check evidence with a verification summary
 
-### L-D2 — Rebuilding a sibling surface from visual impression
+**Wrong approach:** publish only an aggregate checklist or transcript saying that all
+checks passed.
 
-**Wrong approach:** copy the sibling's style without enumerating its affordances,
-states, wiring, and authored-data conventions.
+**Why it fails:** reviewers cannot inspect what each verifier saw or why each
+delivery criterion passed.
 
-**Why it fails:** “consistent with” is a feature checklist, not a color-and-spacing
-match.
+**Correct approach:** capture a readable overview and inspectable detail evidence for
+each underlying criterion. Map every stable criterion id to its verifier, evidence,
+and verdict.
 
-**Correct approach:** walk the canonical implementation feature-by-feature, reuse
-its components where possible, and compare both surfaces side by side before
-publishing.
+### L-E6 — Treating Acceptance evidence as the requested product artifact
 
-### L-D3 — Applying role/scope rules to one bulk action
+**Wrong approach:** upload a generated document only as Acceptance evidence when the
+Task requires a durable document deliverable.
 
-**Wrong approach:** add own/workspace scope variants to one maintenance action
-while leaving sibling actions with different authority semantics.
+**Why it fails:** audit evidence explains a verdict; it does not create a reusable
+artifact in the Task workspace.
 
-**Why it fails:** authority was reviewed per menu item rather than as a
-role × action × scope matrix.
+**Correct approach:** create and pin the real product artifact to the Task, then
+attach separate evidence proving its content and association.
+
+### L-E7 — Hiding multimodal requirements in split verifier metadata
+
+**Wrong approach:** label a screenshot check only as `LLM` or `Agent`, with media
+requirements and model capability shown elsewhere.
+
+**Why it fails:** reviewers cannot tell whether the visual evidence was actually
+inspected by a multimodal model.
+
+**Correct approach:** present verifier type, multimodal capability, and required
+evidence media together; explicitly identify screenshot checks as multimodal.
+
+### L-E8 — Proving Task continuity with different Tasks
+
+**Wrong approach:** compare criteria from one Task with results from another and
+interpret the different item counts as a lifecycle defect.
+
+**Why it fails:** Tasks may legitimately have different goals, while Acceptance
+retains later-round checks as delivery history.
+
+**Correct approach:** capture definition and result states from the same Task, keep
+the complete cross-round check union visible, and synchronize the Task verification
+requirement with the aggregate goal.
+
+### L-E9 — Appending a new delivery to a terminally accepted Acceptance
+
+**Wrong approach:** publish separately scoped implementation work as a new round on
+an Acceptance whose delivery has already been accepted.
+
+**Why it fails:** the closed audit record no longer matches the delivery that was
+decided, and reviewers cannot independently accept or reject the new work.
+
+**Correct approach:** inspect Acceptance status before ingest. Create a new Task or
+subject for a materially new delivery; reopen the existing delivery only when the
+user explicitly requests it and the lifecycle supports it.
+
+### L-E10 — Judging agent quality without proving the runtime model
+
+**Wrong approach:** trust the model shown before Agent assignment, then judge the run
+without checking the persisted Task configuration and completed message metadata.
+
+**Why it fails:** Agent assignment can replace the Task provider or model, so the
+observed behavior may belong to a fallback model.
+
+**Correct approach:** after every assignment or Task edit, verify both persisted
+provider/model configuration and the first completed assistant message metadata.
+Attach the runtime identity to the Acceptance round before judging quality.
+
+### L-E11 — Declaring an ingest done without reconciling its evidence count
+
+**Wrong approach:** read `acceptance run ingest`'s success JSON, see an
+`acceptanceId` and a round index, and stop — treating a `[WARN] evidence upload
+failed, skipping <file>` line above it as noise because the command still exited 0.
+
+**Why it fails:** a transient storage error skips exactly one artifact and the run
+publishes anyway. When the casualty is one half of a `comparison` pair, the
+surviving half renders alone under its role band — a lone `before` screenshot reads
+as "the fix never landed", inverting the round's verdict.
+
+**Correct approach:** count the evidence items in `result.json` before publishing
+and compare against the ingest JSON's `evidence` field; treat any WARN line as a
+failure of the publish step. Do not retro-attach the missing file with
+`acceptance run evidence upload` — that path carries no `comparison` metadata, so
+the image lands unpaired and unlabeled. Publish a fresh round carrying the complete
+evidence set instead, and say in `report.md` that it re-publishes the same
+observations rather than re-running the cases.
+
+### L-E12 — Expressing multimodal disclosure through the `verifier` enum
+
+**Wrong approach:** write a value such as `"verifier": "multimodal LLM"` in a plan
+item to satisfy the requirement that screenshot checks disclose multimodal review.
+
+**Why it fails:** `verifier` is a closed set (`program` / `agent` / `llm`) that the
+ingest validator rejects outside those values, so the whole payload fails. The
+disclosure is not expressible in that field.
+
+**Correct approach:** set `"verifier": "llm"` and carry the multimodal disclosure in
+the plan item's `method` prose alongside `"requiredEvidence": ["screenshot"]`.
+
+### L-E13 — Publishing uncommitted work onto the branch's unrelated PR
+
+**Wrong approach:** verify working-tree changes that have no PR of their own, then
+ingest without stating that, assuming the round carries no PR because `result.json`
+omits `pullRequest` (or sets it to `null`).
+
+**Why it fails:** the ingest resolves the PR from `branch` whenever the field is
+absent OR null, so a long-lived branch that already owns a PR stamps every round
+with it. The page then presents an unrelated PR as the provenance of this
+verification, and deleting the run and re-ingesting reproduces the same stamp.
+Two rounds later nobody can tell which delivery the evidence belongs to.
+
+**Correct approach:** before publishing a round for uncommitted work, decide the
+provenance explicitly — commit and open the real PR first, or state in `report.md`
+that this round has no PR and that any PR shown belongs to other work on the same
+branch. Also re-read `branch` / `commit` at publish time rather than trusting the
+scaffold: a session that spans a branch switch fills them from whatever is checked
+out when `report-init.sh` ran.
+
+### L-E14 — Verifying an insertion affordance without continuing the user's next action
+
+**Wrong approach:** check that a composer affordance (an action-tag chip, a mention,
+a file token) inserted the right node, screenshot it, and move on — then verify the
+sent payload through a _different_ entry point that happens to be easier to drive.
+
+**Why it fails:** insertion is half the affordance; the caret it leaves behind is
+the other half. A caret parked in front of the inserted node sends the user's very
+next keystroke to the wrong side of it. For any chip that serializes into the prompt
+with position semantics — the `/goal` marker must lead the message for `isGoalPrompt`
+to match — that silently rewrites the payload into something the runtime no longer
+recognizes, while every screenshot of the insertion itself still looks correct.
+Verifying the payload through a different entry point hides it completely: the path
+with the defect is never the path that gets sent.
+
+**Correct approach:** for every insertion affordance, continue the user's action in
+the same case — type after inserting — and assert the resulting node order, not just
+the node's presence. Drive the payload check through the _same_ entry point the case
+under test uses; if an affordance has several entries (slash menu, `+` menu), the one
+you send from must be the one you are claiming works. Assert order in the persisted
+`editor_data`, since that is what both the prompt serializer and the bubble read.
+
+### L-E15 — Treating historical branch rendering as proof that conversation can continue
+
+**Wrong approach:** render a recovered historical `taskCallback` card beside the
+active tool continuation, then call the message-loss regression verified without
+sending another user message.
+
+**Why it fails:** read-path recovery proves only that existing rows are visible.
+The next user turn exercises a separate write/parent-selection path and can still
+attach to the wrong branch, disappear after reconciliation, or vanish after reload.
+
+**Correct approach:** for every conversation-branch regression, continue from the
+fixture through the real composer. Assert the new user row in the database, its
+parent on the active spine, its rendered presence before and after a cold reload,
+and the resulting assistant continuation when the environment supports it.
+
+### L-E16 — Treating a terminal reply as evidence of live streaming
+
+**Wrong approach:** ask a device-executed Claude Code agent for a one-token fixed
+marker, record until the process exits, and treat the eventual assistant text or
+a refreshed screenshot as proof that the reply streamed into the open Topic.
+
+**Why it fails:** `lh hetero exec` can run Claude Code without
+`--include-partial-messages`. In that mode the adapter receives only the final
+assistant snapshot, so the UI may show an empty target-Agent shell for the whole
+run and acquire the text only during terminal reconciliation. A short fixed
+marker also has no observable intermediate state even when partial framing works.
+
+The acceptance proves persistence and refresh recovery but
+does not prove the user sees the answer arrive live; a GIF of an empty shell is
+mistaken for streaming evidence.
+
+**Correct approach:** enable Claude Code partial messages on the device/sandbox
+CLI spawn path. Verify with a multi-part response and timestamped DOM/store
+samples before any reload, then attach a GIF whose frames visibly progress and
+whose final frame contains the complete answer. Check persistence separately by
+refreshing only after the live-stream assertion has passed.
+
+### L-E17 — Proving direct-mention routing with a text-only response
+
+**Wrong approach:** verify a leading single-Agent mention only with a plain-text
+response, then conclude that the direct-routing message tree is correct for all
+target-Agent runs.
+
+**Why it fails:** tool-capable runs add assistant tool-call chunks and
+tool-result messages. Those nodes can accidentally inherit the owner Agent,
+create a synthetic target-user envelope, or resume the owner after the tool
+result even when the initial text response looked correct.
+
+The simple happy path passes while real coding Agents either
+lose their tool output, render it under the wrong Agent, or invoke Lobe AI for
+the final answer.
+
+**Correct approach:** exercise a deterministic real tool call through the same
+gateway/device route, then assert the complete persisted tree: original owner
+user, target assistant/tool call, tool result, and target final response. Also
+assert there is no owner assistant, `callAgent`, or synthetic target-user row.
+
+## Product and interaction contracts
+
+### L-D1 — Rebuilding a canonical surface from visual impression
+
+**Wrong approach:** copy a sibling surface's appearance without enumerating its
+semantics, states, affordances, wiring, and authored-data conventions.
+
+**Why it fails:** visual similarity can hide a second interaction dialect for the
+same product object and causes later improvements to drift.
+
+**Correct approach:** inspect the canonical implementation feature by feature, reuse
+its semantic components where possible, and compare both surfaces side by side.
+
+### L-D2 — Applying role and scope rules to only one bulk action
+
+**Wrong approach:** add own/workspace scope variants to one maintenance action while
+leaving sibling actions with different authority semantics.
+
+**Why it fails:** authority was reviewed per menu item instead of as a role × action
+× scope matrix.
 
 **Correct approach:** enumerate every matrix cell; keep members own-only and give
-owners explicit workspace variants with stronger confirmation for destructive
-operations.
+owners explicit workspace variants with stronger confirmation for destructive work.
 
-### L-E4 — Trusting a stripped-env `lh` publish to reach production
+### L-D3 — Exposing a disabled host capability
 
-**Wrong approach:** publish with `env -u LOBEHUB_SERVER … lh acceptance run
-ingest`, taking a clean-env `lh whoami` showing the user's real profile as proof
-the target is production.
+**Wrong approach:** configure a host to keep a shared composer permanently open while
+continuing to render the component's Collapse action.
 
-**Why it fails:** `lh login` persists `serverUrl` into `~/.lobehub/settings.json`,
-which env-stripping cannot clear, and the local dev DB carries the user's synced
-real profile — so the ingest lands in the local DB and the published
-`app.lobehub.com/acceptance/<id>` link 404s.
+**Why it fails:** the host contract and the advertised state transition contradict
+each other.
 
-**Correct approach:** discriminate the target with a data probe (query an object
-that exists on only one side) or read `settings.json` directly; to publish
-without clobbering a localhost login, log in to prod under an isolated
-`LOBEHUB_CLI_HOME` and keep that variable set for the ingest.
+**Correct approach:** model collapse capability as an explicit host option. Verify
+pinned and collapsible hosts independently.
 
-### L-D4 — Pinning a composer open while leaving its collapse affordance visible
+### L-D4 — Stretching a list row into a detail surface
 
-**Wrong approach:** configure a host surface to default its shared composer open,
-but continue rendering the shared component's Collapse action.
+**Wrong approach:** reuse dense list-row chrome and controls unchanged inside an
+already-open detail panel.
 
-**Why it fails:** the host promises a permanently available input while the UI
-still advertises the opposite state transition; clicking it restores the very
-extra step the host-specific design removed.
+**Why it fails:** list affordances such as expansion controls and compact metadata
+duplicate context and compete with the detail surface's reading and decision tasks.
 
-**Correct approach:** make collapse capability an explicit host option. A pinned
-composer hides the Collapse action, while drawer or overlay hosts retain their
-existing collapsible behavior; verify both host contracts independently.
+**Correct approach:** preserve canonical object semantics and evidence order, but
+give detail mode its own permanently expanded interaction contract and clear decision
+hierarchy. Keep exact layout values in the feature specification.
 
-### L-D5 — Mapping an annotation to copy without checking control boundaries
+### L-D5 — Reserving floating-composer space in only one content path
 
-**Wrong approach:** infer that a circled footer region refers to “Copy review
-prompt” when the region spans adjacent actions, then replace that label with “Fix”.
+**Wrong approach:** reserve the measured composer overlay height in the virtualized
+message list but not in the empty or welcome path.
 
-**Why it fails:** the copy action and the dispatch action have different intent;
-changing the wrong control removes useful transport wording while leaving the
-requested primary action unchanged.
+**Why it fails:** alerts and trays can overlap welcome content even though overlay
+items do not overlap each other.
 
-**Correct approach:** map normalized annotation coordinates onto the actual
-screenshot dimensions and inspect every control inside the region. Preserve “Copy
-review prompt” and apply “Fix” to “Send back & rerun”; regression-test both labels
-together and visually verify their side-by-side rendering.
+**Correct approach:** apply the same measured reservation to every content path and
+capture the real combined overlay state.
+
+### L-D6 — Giving a master-detail page ambiguous scroll ownership
+
+**Wrong approach:** let long outline and detail content expand the document, or rely
+on one shared outer scroll container.
+
+**Why it fails:** navigation and reading context drift together, headers disappear,
+and intermediate flex sizing can hide the intended inner scrollbars.
+
+**Correct approach:** bound the workspace, keep the frame overflow hidden, assign
+independent scroll regions to navigation and detail, and verify scroll ownership with
+DOM measurements as well as visual evidence.
+
+### L-D7 — Treating a route-driven Segmented's selected segment as a clickable affordance
+
+**Wrong approach:** put a `Segmented` in a page header, have `onChange` write the URL, and
+then rely on clicking the already-selected segment to reach that section's own index route —
+typically to get back to a list from a `:param` detail route nested under it. Removing the
+breadcrumb's section link on the strength of that assumption is the usual companion move.
+
+**Why it fails:** `Segmented` fires only on a _change_, so the active segment dispatches
+nothing. On the detail route the segment is still highlighted, so it reads as the obvious way
+back while being completely inert — the click is silent, the URL does not move, and nothing
+errors. A grouped route family makes this easy to miss, because the switcher works perfectly
+on every sibling index route and fails only one level deeper.
+
+**Correct approach:** treat a route-driven Segmented as a switcher between sibling sections,
+never as navigation _within_ the selected section. Whenever a section owns deeper routes,
+keep a separate ancestor affordance for them — the breadcrumb's section link is the natural
+one. Where that link would otherwise duplicate the segment's own label, render it only on the
+deeper routes and let the segment name the section on the index route. Verify the deepest
+route of every section, not just the index: an index-only pass cannot see this failure.
+
+### L-D8 — Rendering a cross-agent dispatch envelope as a visible user turn
+
+**Wrong approach:** treat every persisted `role: user` row as a user-authored
+message when building the visible conversation list.
+
+**Why it fails:** `callAgent` persists a synthetic user envelope beneath the
+caller assistant so the target Agent has an isolated execution context. When
+that envelope is rendered, the original prompt appears twice even though the
+target Agent produced only one reply.
+
+Users see a duplicate prompt bubble and cannot tell whether
+the delegation ran once or twice; acceptance screenshots become misleading.
+
+**Correct approach:** stamp synthetic envelopes with explicit dispatch metadata
+when they are persisted, keep them in the context tree, and let the presentation
+layer hide only rows declared `visibility: internal`. Continue traversal through
+the envelope so the target assistant reply remains independently visible.
+Never infer authorship from agent-id differences or a parent tool call: a real
+cross-Agent user follow-up can have the same tree shape.
 
 ## Environment safety
 
-### L-S1 — Acquiring Electron auth through OAuth
+### L-S0 — Concluding a dependency moved from the root manifest alone
 
-**Wrong approach:** click Sign in or call `requestAuthorization` on a dev instance.
+**Wrong approach:** refresh a shared dependency by running `pnpm install --filter .`
+at the repo root — or by bumping only the root range and running a full install —
+then read the new version out of `package.json` and treat a type-check failure in
+untouched files as pre-existing.
 
-**Why it fails:** Electron opens the user's default browser, while per-instance
-localhost callback state is commonly unusable.
+**Why it fails:** the filter installs only the root workspace, and even an unfiltered
+install leaves `packages/*` on their old resolution when they declare a loose range
+(`"@lobehub/ui": "^5"` is satisfied by both the old and the new version, so nothing
+forces them to move). Two identities of the same package then coexist in the graph,
+and the errors surface far from the change — a duplicated `next` shows up as
+`NextRequest is not assignable to NextRequest` in backend route shells, and a
+duplicated UI package kills routes at the ErrorBoundary with a missing React context,
+or gives a component library two copies of a shared z-index/portal manager. Neither
+names the real cause.
 
-**Correct approach:** inject auth from the saved Electron login snapshot or a
-server-minted dev session. If neither exists, report one manual sign-in as blocked;
-never open the flow for the user.
+**Correct approach:** run a full `pnpm install` (no filter) after any dependency
+range change, then `pnpm dedupe` when the root and the workspace packages resolve
+different versions of a shared peer. State the version only from resolved copies —
+count the versions under `node_modules/<pkg>` and every `packages/*/node_modules/<pkg>`
+and require one distinct value — never from the root manifest. Remember `apps/desktop`
+and `apps/cli` are standalone installs that a root install never covers.
+
+### L-S1 — Publishing to an assumed server target
+
+**Wrong approach:** strip a server environment variable and treat `lh whoami` as
+proof that Acceptance ingest targets production.
+
+**Why it fails:** `lh login` persists `serverUrl` in the CLI settings, and a local
+database may contain the user's synchronized profile.
+
+**Correct approach:** inspect the effective CLI settings or use a data probe that
+distinguishes environments. For production publishing without changing a local
+login, use an isolated `LOBEHUB_CLI_HOME` for login and ingest.
+
+### L-S2 — Trusting green gates as proof the app boots
+
+**Wrong approach:** use green Vite, Vitest, lint, and type-check results as
+blank-screen insurance for a routing or module-graph change, on Electron or Web.
+
+**Why it fails:** browser ESM initialization cycles and nested-router invariants can
+fail only when the real renderer starts. Vitest resolves a module graph in its own
+order, so a cycle that is harmless under test can still put a module-level binding in
+the temporal dead zone in the bundler's order — the app then dies at the
+`ErrorBoundary` with `Cannot access '<X>' before initialization` while every gate
+stays green. Adding a shared constant next to the logic that uses it is the common
+way to close such a cycle in a folder where a node/component pair already import each
+other.
+
+**Correct approach:** boot the real surface, require the project readiness probe to
+report a non-error UI, and inspect a screenshot before claiming a UI change is
+delivered. On a boot failure read `agent-browser console` (the ErrorBoundary page
+itself shows no stack) and attribute before diagnosing. Keep cross-module constants
+in the folder's leaf module — the one that imports nothing from its siblings — rather
+than beside their primary consumer. Router-host component tests must also cover the
+real outer-router composition.
+
+### L-S3 — Verifying Acceptance UI against an unfetched canary ref
+
+**Wrong approach:** rebase against a stale local `canary` pointer and treat its UI as
+the latest canary behavior.
+
+**Why it fails:** already-merged presentation changes may make every screenshot prove
+the retired product version.
+
+**Correct approach:** fetch `origin canary`, record the resolved SHA, and verify it is
+an ancestor of the test branch before starting the evidence environment.
+
+### L-S4 — Tearing down before asynchronous verification settles
+
+**Wrong approach:** stop the dev server or workflow dependencies when the main agent
+operation finishes or the first verification snapshot appears stuck.
+
+**Why it fails:** verification and repair can start minutes later and may still own
+pending operations.
+
+**Correct approach:** monitor verification results, repair-operation links, and the
+bound Task until a stable terminal state. Keep every required dependency alive until
+the final round settles or a concrete non-progress failure is proven.
+
+### L-S5 — Trusting CDP port 9222 without verifying its owner
+
+**Wrong approach:** attach to port 9222 and assume it belongs to the LobeHub dev
+Electron instance.
+
+**Why it fails:** another Electron project can own the universal default port, while
+the user's LobeHub instance may expose no debugging port at all.
+
+**Correct approach:** verify the owning process path and probe a LobeHub-specific
+renderer marker before collecting evidence. If needed, start an isolated pool
+instance on a distinct port rather than guessing.
+
+### L-S6 — Reading or writing the url from a portal'd sidebar on desktop
+
+**Wrong approach:** use `useSearchParams`, `useQueryState`, `useParams`,
+`useLocation`, `useNavigate`, or a bare `<Link>` inside a component that a route
+layout registers through `NavPanelPortal`, and verify it only on web.
+
+**Why it fails:** the desktop shell renders every registered sidebar outside the
+per-tab routers, so React context binds those hooks to the root router, whose
+location never moves. A write lands on a router no page reads and a read resolves
+the boot url. Both are silent: the sidebar renders normally and web is unaffected,
+so the defect looks like unrelated page logic. Verified twice in this catalogue's
+lifetime — as a topic-switch failure that made the generation page ignore its own
+send button, and as a library tree that never expanded to the open folder.
+
+**Correct approach:** in any shell-rendered tree, read through the active-tab
+facades (`useActiveLocation`, `useActiveRouteParams`) and navigate through
+`useWorkspaceAwareNavigate` / `appNavigate`, keeping `<Link>` only for its href
+with the click handled by the facade. Note that no active-tab twin exists for
+search params: express a param write as a facade navigation rather than
+`setSearchParams`. When the state is a url ⇄ store sync owned by the page, mount
+it in the route layout instead, and cover it with a test that asserts which router
+received the write — a test that only asserts a write happened passes on the
+broken topology too.
+
+### L-S7 — Verifying a dependency-level fix through a dev server that predates the install
+
+**Wrong approach:** confirm the fixed version exists in `node_modules`, then capture
+behavioral evidence through an already-running Vite dev server.
+
+**Why it fails:** Vite pins its optimized dependency bundle at server boot. A server
+started before (or during) the `pnpm install` that brought the fix serves the old
+dependency code for its entire lifetime — the browser provably executes code that no
+longer exists on disk, and the evidence contradicts the source. An in-process restart
+via touching the Vite config can wedge the optimizer (new dep URLs 504); only a real
+process restart is trustworthy.
+
+**Correct approach:** before capturing evidence for a dependency-level change, prove
+the served bundle carries it — fetch the relevant `/node_modules/.vite/deps/*` chunk
+from the dev server and grep for a marker of the fix — or restart the dev server
+process outright and re-verify.
+
+**Same failure, second shape — a dev server that was already running when the run
+started.** A leftover server can be listening on a port that no longer matches what
+`test-env.sh` resolves, serving a dep graph optimized against a different config. The
+SPA then dies at the ErrorBoundary with `TypeError: Failed to fetch dynamically
+imported module: …/_layout/index.tsx`, which reads exactly like a broken route tree in
+the branch under test — while every module in that graph still returns 200 to `curl`,
+because the served copy and the requested copy disagree, not the source. Before
+attributing any module-load failure to the change under test, compare the running
+server's port with `test-env.sh`'s resolved `PORT`; on a mismatch, `stop-dev` and
+restart before diagnosing anything. The restarted server is then yours to stop at
+teardown even though you did not start the original.
+
+---
+
+### L-S8 — Reading a first-boot renderer crash as a defect of the change under test
+
+**Wrong approach:** treat the Electron dev instance's first renderer boot as
+representative, and diagnose a `ReferenceError: Cannot access '<X>' before
+initialization` thrown from the desktop router config as a bug in the branch.
+
+**Why it fails:** the desktop Vite renderer can serve a partially initialized
+module graph on the very first boot after a cold start (dependency optimization
+runs concurrently with the first evaluation). The app stays on the HTML loading
+shell with `rootChildren: 0` while the stores are already exposed, which reads
+exactly like a broken route tree. A single `location.reload()` boots it cleanly
+with no code change.
+
+**Correct approach:** on a first-boot renderer error, reload once and re-probe
+before drawing any conclusion. Only if the error survives a reload does it belong
+to the code. Never attribute it to the change under test without that A/B — and
+note that `electron-dev.sh start` reports "Ready" even when the renderer never
+became interactive, so its own readiness line is not the gate.
+
+### L-P1 — A Project conversation must preserve Project identity across routing and history
+
+**Wrong approach:** implement Project chat by navigating users to the Project coordinator's
+ordinary `/agent/:agentId/:topicId` surface and present that Agent's topic list as the Project
+history.
+
+**Why it fails:** the coordinator is an implementation detail. Leaving the Project route changes
+the visible owner and navigation contract, so users reasonably read the conversation as belonging
+to an Agent rather than to the Project that provides its tasks, goals, resources, and history.
+
+**Correct approach:** keep creation, topic selection, and resumed conversations under the Project
+route and Project sidebar. The coordinator may still execute the conversation internally, but the
+visible URL, active list, empty state, and navigation must consistently identify the Project.
 
 ## Historical source
 
-[The original field notes](./references/common-mistakes-field-notes.md) retain the
-full incident narratives and old Case numbers for earlier cross-references.
-
-## Task Detail acceptance prototypes must reuse Acceptance semantics
-
-**Wrong approach**: inventing a task-specific status glyph set and a generic card-based detail drawer while only copying the Acceptance data.
-
-**Why it's wrong**: the same check result reads differently across Task Detail and the canonical Acceptance surface, and the extra labeled cards make a compact review workflow feel like a dashboard.
-
-**What it breaks**: reviewers cannot transfer their learned status vocabulary, and opening one check adds visual hierarchy instead of progressively disclosing its evidence and decision.
-
-**Correct approach**: reuse Acceptance's exact check glyph semantics (`Check`, `XCircle`, `HelpCircle`, `MessageSquareX`) and mirror its expanded-check content order: status/title, verifier conclusion, evidence, standing feedback, then review actions.
-
-## Acceptance evidence must be inspectable, not represented by a placeholder
-
-**Wrong approach**: drawing a generic screenshot placeholder and evidence count inside an otherwise interactive check detail.
-
-**Why it's wrong**: the reviewer opens the detail specifically to inspect the proof; a placeholder preserves layout but removes the content that supports the verdict.
-
-**What it breaks**: the detail surface cannot answer whether the check actually passed or failed, and a “view original” affordance has no meaningful target.
-
-**Correct approach**: render a real evidence image inline at a readable size, wire the original-image action, and keep the surrounding text hierarchy identical to the canonical expanded Check Item.
-
-## “Reuse the Acceptance Check Item” means structural parity, not visual inspiration
-
-**Wrong approach**: retaining a custom drawer header and evidence-card footer after the reviewer explicitly asks for the existing Acceptance Check Item UI.
-
-**Why it's wrong**: even if the same facts are present, custom grouping changes scan order and creates a second interaction dialect for the same object.
-
-**What it breaks**: Task Detail and Acceptance no longer feel like two views of the same check, and every later improvement to the canonical row must be translated manually.
-
-**Correct approach**: mirror the canonical expanded row slot-for-slot: verdict glyph, sequence, title, evidence badges, round chip, expanded chevron, verifier narrative, raw evidence, then review actions. Add only the minimal container-level close affordance required by the right panel.
-
-## A real data path is not enough when the review target is the UI at scale
-
-**Wrong approach**: calling a two-item local Acceptance fixture a real UI acceptance because it uses the production data APIs.
-
-**Why it's wrong**: the request is about how a long, mixed-status acceptance reads inside Task Detail. Two rows cannot expose grouping pressure, list density, status scanning, or the relationship between the full list and the right-side detail.
-
-**What it breaks**: the published evidence technically proves the integration but gives the reviewer no meaningful view of the product decision they need to judge.
-
-**Correct approach**: mirror the representative production bundle's item count, titles, state mix, and semantic groups; capture a viewport tall enough to show the complete list, then separately capture an opened failed item while preserving the list context behind it.
-
-## A detail panel must read as a surface, not as a card inside a surface
-
-**Wrong approach**: place the expanded Acceptance Check Item inside an outlined card and preserve compact list-row typography after moving it into a wide right-side panel.
-
-**Why it's wrong**: the extra border creates a redundant container hierarchy, while list-scale type and spacing make a dedicated detail view still feel like a temporarily expanded row.
-
-**What it breaks**: the panel does not gain the visual authority or readable evidence area expected from progressive disclosure, even when its raw width increases.
-
-**Correct approach**: let the detail content occupy the panel directly without an inner border, use a materially wider panel, and scale the title, verdict glyph, narrative, evidence area, and spacing for sustained reading.
-
-## A detail surface must not inherit list-row controls
-
-**Wrong approach**: reuse the canonical Acceptance CheckRow in a detail panel while retaining its collapse chevron, evidence-type badges, round chips, hover-only review icons, and small footer actions.
-
-**Why it's wrong**: those controls help users scan and expand a dense list; inside an already-open detail surface they duplicate context, imply a nonexistent collapse state, and compete with the actual decision.
-
-**What it breaks**: the reviewer cannot immediately identify the primary next action, and the detail panel still behaves like a list row stretched wider rather than a dedicated decision surface.
-
-**Correct approach**: keep the canonical check content and verdict semantics, but make detail mode permanently expanded, remove list-only metadata and collapse affordances, and present full-width large reject/accept actions separated from the evidence content.
-
-## Check-detail status and identity need separate hierarchy levels
-
-**Wrong approach**: keep the verdict glyph as a small leading icon inside the same line as a modestly sized check title.
-
-**Why it's wrong**: a detail surface must establish state before identity, matching the Acceptance page's status-first header. A list-scale title and inline glyph make the open detail feel like another row.
-
-**What it breaks**: the reviewer cannot scan the check state independently, and the title lacks enough hierarchy to anchor the evidence and decision area below.
-
-**Correct approach**: render a dedicated semantic status pill at the top of the detail, then place the check sequence and a materially larger title on their own heading row.
-
-## Prominent detail actions still need calibrated density
-
-**Wrong approach**: respond to weak review actions by maximizing button height and preserving generous padding above both the detail header and decision bar.
-
-**Why it's wrong**: prominence comes from placement, contrast, and primary/secondary hierarchy, not sheer control size. Oversized buttons and stacked top padding waste the detail surface.
-
-**What it breaks**: the panel feels inflated, the evidence and decision area drift apart, and the status header starts too far below the Portal title.
-
-**Correct approach**: keep the two-column decision bar and primary contrast, but use medium 40px actions, a 12px gap, a 16px separator offset, and a compact handoff from the Portal header into the status-first detail header.
-
-## A terminally accepted Acceptance is not a container for a new delivery
-
-**Wrong approach**: publish later, separately scoped implementation work as new rounds on an Acceptance whose delivery has already been accepted.
-
-**Why it's wrong**: an accepted Acceptance is the closed audit record for one delivery. A new branch or materially new delivery needs its own subject and decision boundary, even when it evolves the same product area.
-
-**What it breaks**: the closed record acquires post-decision evidence, the round history no longer matches the delivery that was accepted, and reviewers cannot independently accept or reject the new work.
-
-**Correct approach**: before every ingest, inspect `acceptance.status` and the latest run decision. If the Acceptance is terminally accepted and the current work is a new delivery, create a new production Task (or use the new work's existing subject) and ingest there. Reuse an accepted Acceptance only when the user explicitly requests reopening that exact delivery and the product supports that lifecycle.
-
-## Single-file edit summaries need stable information hierarchy
-
-**Wrong approach**: place line deltas at the far edge of the card and keep the secondary “View changes” action permanently visible beneath the file title.
-
-**Why it's wrong**: the line delta describes the edited file and belongs with its identity, while an always-visible inspection action competes with the summary during normal conversation scanning.
-
-**What it breaks**: the direct summary no longer matches the compact coding-agent pattern the user expects, and the action occupies persistent visual weight despite being needed only on inspection.
-
-**Correct approach**: place additions/deletions directly below the single-file title, reveal “View changes” on row hover or keyboard focus, and keep it visible while the diff is open so the reverse action remains discoverable.
-
-## Task Acceptance continuity must be proven with one Task
-
-**Wrong approach**: compare the configured criteria of one Task with the completed Acceptance of another Task, then treat a larger cross-round union as a current-data defect.
-
-**Why it's wrong**: two Tasks can legitimately have different goals and item counts, while Acceptance intentionally retains checks introduced by later rounds as part of the auditable delivery history.
-
-**What it breaks**: evidence appears to show an unexplained 6→7 mutation and two different goals, and a legitimate seventh cross-round check can be incorrectly hidden.
-
-**Correct approach**: capture definition and result states from the same Task, keep the full Acceptance check union visible, and keep the Task verify requirement synchronized with the aggregate goal.
+Detailed incident narratives and retired pixel- or component-specific directions
+belong in [the field notes](./references/common-mistakes-field-notes.md), where they
+remain available without becoming mandatory rules for every Acceptance run.

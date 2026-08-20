@@ -2,7 +2,7 @@ import { AGENT_CHAT_TOPIC_URL } from '@lobechat/const';
 import type { ChatTopicStatus } from '@lobechat/types';
 import { type MenuProps } from '@lobehub/ui';
 import { Icon } from '@lobehub/ui';
-import { App } from 'antd';
+import { toast } from '@lobehub/ui/base-ui';
 import {
   Archive,
   ArchiveRestore,
@@ -13,6 +13,7 @@ import {
   Hash,
   Link2,
   LucideCopy,
+  PanelRight,
   PanelTop,
   PencilLine,
   Star,
@@ -55,13 +56,14 @@ export const useTopicItemDropdownMenu = ({
   title,
 }: TopicItemDropdownMenuProps) => {
   const { t } = useTranslation(['topic', 'common', 'chat']);
-  const { message } = App.useApp();
+
   const navigate = useWorkspaceAwareNavigate();
   const activeWorkspaceSlug = useActiveWorkspaceSlug();
   const { allowed: canCreateTopic } = usePermission('create_content');
   const { allowed: canEditTopic } = usePermission('edit_own_content');
 
   const openTopicInNewWindow = useGlobalStore((s) => s.openTopicInNewWindow);
+  const openTopicInPortal = useChatStore((s) => s.openTopicInPortal);
   const activeAgentId = useAgentStore((s) => s.activeAgentId);
   const addTab = useElectronStore((s) => s.addTab);
   const appOrigin = useAppOrigin();
@@ -88,7 +90,7 @@ export const useTopicItemDropdownMenu = ({
   const handleOpenShareModal = useCallback(() => {
     if (!id) return;
 
-    openShareModal({ context: { threadId: null, topicId: id } });
+    void openShareModal({ context: { threadId: null, topicId: id } });
   }, [id]);
 
   const dropdownMenu = useCallback(() => {
@@ -107,6 +109,7 @@ export const useTopicItemDropdownMenu = ({
             markTopicCompleted(id);
           }
         },
+        sfSymbol: isCompleted ? 'tray.and.arrow.up' : 'archivebox',
       },
       {
         disabled: !canEditTopic,
@@ -116,6 +119,7 @@ export const useTopicItemDropdownMenu = ({
         onClick: () => {
           favoriteTopic(id, !fav);
         },
+        sfSymbol: fav ? 'star.slash' : 'star',
       },
       {
         type: 'divider' as const,
@@ -128,6 +132,7 @@ export const useTopicItemDropdownMenu = ({
         onClick: () => {
           autoRenameTopicTitle(id);
         },
+        sfSymbol: 'wand.and.stars',
       },
       {
         disabled: !canEditTopic,
@@ -142,7 +147,7 @@ export const useTopicItemDropdownMenu = ({
               try {
                 await updateTopicTitle(id, newTitle);
               } catch (error) {
-                message.error(
+                toast.error(
                   isForbiddenError(error)
                     ? t('manageOnlyCreator', { ns: 'common' })
                     : t('operationFailed', { ns: 'common' }),
@@ -152,6 +157,7 @@ export const useTopicItemDropdownMenu = ({
             title: t('renameModal.title', { ns: 'topic' }),
           });
         },
+        sfSymbol: 'pencil',
       },
       {
         disabled: !canEditTopic,
@@ -161,6 +167,7 @@ export const useTopicItemDropdownMenu = ({
         onClick: () => {
           openTopicDoctorModal({ agentId: activeAgentId, topicId: id });
         },
+        sfSymbol: 'stethoscope',
       },
       {
         type: 'divider' as const,
@@ -181,6 +188,18 @@ export const useTopicItemDropdownMenu = ({
                 navigate(url, { escape: true });
               },
             },
+          ]
+        : []),
+      {
+        icon: <Icon icon={PanelRight} />,
+        key: 'openOnRight',
+        label: t('openOnRight', { ns: 'common' }),
+        onClick: () => {
+          openTopicInPortal(id);
+        },
+      },
+      ...(isDesktop
+        ? [
             {
               icon: <Icon icon={ExternalLink} />,
               key: 'openInNewWindow',
@@ -193,14 +212,14 @@ export const useTopicItemDropdownMenu = ({
               type: 'divider' as const,
             },
           ]
-        : []),
+        : [{ type: 'divider' as const }]),
       {
         icon: <Icon icon={Hash} />,
         key: 'copySessionId',
         label: t('actions.copySessionId'),
         onClick: () => {
           navigator.clipboard.writeText(id);
-          message.success(t('actions.copySessionIdSuccess'));
+          toast.success(t('actions.copySessionIdSuccess'));
         },
       },
       {
@@ -211,7 +230,7 @@ export const useTopicItemDropdownMenu = ({
           if (!activeAgentId) return;
           const url = `${appOrigin}${AGENT_CHAT_TOPIC_URL(activeAgentId, id)}`;
           navigator.clipboard.writeText(url);
-          message.success(t('actions.copyLinkSuccess'));
+          toast.success(t('actions.copyLinkSuccess'));
         },
       },
       {
@@ -254,6 +273,7 @@ export const useTopicItemDropdownMenu = ({
         key: 'share',
         label: t('shareModal.title', { ns: 'chat' }),
         onClick: handleOpenShareModal,
+        sfSymbol: 'square.and.arrow.up',
       },
       {
         type: 'divider' as const,
@@ -270,7 +290,7 @@ export const useTopicItemDropdownMenu = ({
               try {
                 await removeTopic(id, removeFiles);
               } catch (error) {
-                message.error(
+                toast.error(
                   isForbiddenError(error)
                     ? t('manageOnlyCreator', { ns: 'common' })
                     : t('operationFailed', { ns: 'common' }),
@@ -280,6 +300,7 @@ export const useTopicItemDropdownMenu = ({
             topicIds: [id],
           });
         },
+        sfSymbol: 'trash',
       },
     ].filter(Boolean) as MenuProps['items'];
   }, [
@@ -300,10 +321,10 @@ export const useTopicItemDropdownMenu = ({
     removeTopic,
     updateTopicTitle,
     openTopicInNewWindow,
+    openTopicInPortal,
     addTab,
     navigate,
     t,
-    message,
     handleOpenShareModal,
   ]);
   return { dropdownMenu };

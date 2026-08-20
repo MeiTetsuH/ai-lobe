@@ -7,6 +7,25 @@ import { z } from 'zod';
 
 const verifierTypeEnum = ['program', 'agent', 'llm'] as const;
 const onFailEnum = ['manual', 'auto_repair'] as const;
+const evidenceTypeEnum = [
+  'screenshot',
+  'gif',
+  'video',
+  'audio',
+  'text',
+  'markdown',
+  'dom_snapshot',
+  'transcript',
+] as const;
+const evidenceModalityEnum = ['audio', 'document', 'image', 'structured', 'text', 'video'] as const;
+const evidenceScopeEnum = ['deliverable', 'run_evidence', 'task_artifacts'] as const;
+
+const requiredEvidenceSchema = z.object({
+  hint: z.string().optional(),
+  modality: z.enum(evidenceModalityEnum).optional(),
+  scope: z.enum(evidenceScopeEnum).optional(),
+  type: z.enum(evidenceTypeEnum),
+});
 
 /** Lenient parse of the AI plan-gen output; the service filters/normalizes. */
 export const RawGeneratedCriteriaSchema = z.object({
@@ -15,6 +34,7 @@ export const RawGeneratedCriteriaSchema = z.object({
       description: z.string().optional(),
       instruction: z.string().optional(),
       onFail: z.enum(onFailEnum).optional(),
+      requiredEvidence: z.array(requiredEvidenceSchema).optional(),
       required: z.boolean().optional(),
       title: z.string(),
       verifierType: z.enum(verifierTypeEnum),
@@ -37,11 +57,33 @@ export const GENERATED_CRITERIA_JSON_SCHEMA: GenerateObjectSchema = {
             description: { maxLength: 280, type: 'string' },
             instruction: { type: 'string' },
             onFail: { enum: [...onFailEnum], type: 'string' },
+            requiredEvidence: {
+              items: {
+                additionalProperties: false,
+                properties: {
+                  hint: { type: 'string' },
+                  modality: { enum: [...evidenceModalityEnum], type: 'string' },
+                  scope: { enum: [...evidenceScopeEnum], type: 'string' },
+                  type: { enum: [...evidenceTypeEnum], type: 'string' },
+                },
+                required: ['type', 'modality', 'scope', 'hint'],
+                type: 'object',
+              },
+              type: 'array',
+            },
             required: { type: 'boolean' },
             title: { maxLength: 80, minLength: 1, type: 'string' },
             verifierType: { enum: [...verifierTypeEnum], type: 'string' },
           },
-          required: ['title', 'description', 'instruction', 'verifierType', 'required', 'onFail'],
+          required: [
+            'title',
+            'description',
+            'instruction',
+            'verifierType',
+            'required',
+            'onFail',
+            'requiredEvidence',
+          ],
           type: 'object',
         },
         maxItems: 8,
@@ -151,6 +193,82 @@ export const REPORT_NARRATIVE_JSON_SCHEMA: GenerateObjectSchema = {
       summary: { maxLength: 600, type: 'string' },
     },
     required: ['summary', 'content'],
+    type: 'object',
+  },
+  strict: true,
+};
+
+// ============================================
+// Review prediction — a second opinion on one already-judged check
+// ============================================
+
+const reviewPredictionActionEnum = ['accept', 'reject'] as const;
+
+/**
+ * Lenient on purpose: `strict: true` forces every property into `required`, so
+ * the provider returns explicit `null` for the ones it had nothing to say about
+ * — hence `.nullish()` rather than `.optional()` throughout.
+ */
+export const ReviewPredictionSchema = z.object({
+  action: z.enum(reviewPredictionActionEnum),
+  comment: z.string().nullish(),
+  confidence: z.number().nullish(),
+  rationale: z.string().nullish(),
+  regions: z
+    .array(
+      z.object({
+        comment: z.string().nullish(),
+        height: z.number(),
+        imageIndex: z.number(),
+        width: z.number(),
+        x: z.number(),
+        y: z.number(),
+      }),
+    )
+    .nullish(),
+});
+export type RawReviewPrediction = z.infer<typeof ReviewPredictionSchema>;
+
+export const REVIEW_PREDICTION_JSON_SCHEMA: GenerateObjectSchema = {
+  name: 'review_prediction',
+  schema: {
+    additionalProperties: false,
+    properties: {
+      action: { enum: [...reviewPredictionActionEnum], type: 'string' },
+      comment: {
+        description: 'One actionable sentence naming what is wrong and where',
+        maxLength: 300,
+        type: 'string',
+      },
+      confidence: { maximum: 1, minimum: 0, type: 'number' },
+      rationale: {
+        description: 'Full reasoning, kept for analysis',
+        maxLength: 2000,
+        type: 'string',
+      },
+      regions: {
+        description: 'Required when action is reject: the exact regions at fault',
+        items: {
+          additionalProperties: false,
+          properties: {
+            comment: { maxLength: 300, type: 'string' },
+            // Normalized 0-1 against the whole image, matching how the human's
+            // own annotations are stored so a proposal can become a real reject
+            // without any coordinate conversion.
+            height: { maximum: 1, minimum: 0, type: 'number' },
+            imageIndex: { minimum: 0, type: 'integer' },
+            width: { maximum: 1, minimum: 0, type: 'number' },
+            x: { maximum: 1, minimum: 0, type: 'number' },
+            y: { maximum: 1, minimum: 0, type: 'number' },
+          },
+          required: ['imageIndex', 'x', 'y', 'width', 'height', 'comment'],
+          type: 'object',
+        },
+        maxItems: 5,
+        type: 'array',
+      },
+    },
+    required: ['action', 'confidence', 'comment', 'rationale', 'regions'],
     type: 'object',
   },
   strict: true,

@@ -1,4 +1,5 @@
-import { and, count, desc, eq, isNull } from 'drizzle-orm';
+import type { WorkspaceApiKeyMemberCreation } from '@lobechat/types';
+import { and, count, desc, eq, isNull, sql } from 'drizzle-orm';
 
 import {
   type NewWorkspace,
@@ -7,8 +8,9 @@ import {
   workspaces,
 } from '../schemas/workspace';
 import type { LobeChatDatabase } from '../type';
+import { AGENT_TRANSFER_PENDING_OWNER_DELETE, AgentTransferJobModel } from './agentTransferJob';
 
-const getActiveMembershipRole = async (
+export const getActiveWorkspaceMembershipRole = async (
   db: LobeChatDatabase,
   params: { userId: string; workspaceId: string },
 ): Promise<string | null> => {
@@ -34,14 +36,14 @@ const getActiveMembershipRole = async (
 /**
  * Whether `userId` currently holds owner status in `workspaceId`.
  * `workspace_members.role` is the single source of truth for built-in roles
- * (LOBE-12329). Used by the workspace-API-key owner gates on both the OpenAPI
+ *. Used by the workspace-API-key owner gates on both the OpenAPI
  * and lambda TRPC surfaces.
  */
 export const hasWorkspaceOwnerAccess = async (
   db: LobeChatDatabase,
   params: { userId: string; workspaceId: string },
 ): Promise<boolean> => {
-  return (await getActiveMembershipRole(db, params)) === 'owner';
+  return (await getActiveWorkspaceMembershipRole(db, params)) === 'owner';
 };
 
 /**
@@ -52,8 +54,28 @@ export const hasWorkspaceAdminAccess = async (
   db: LobeChatDatabase,
   params: { userId: string; workspaceId: string },
 ): Promise<boolean> => {
-  const role = await getActiveMembershipRole(db, params);
+  const role = await getActiveWorkspaceMembershipRole(db, params);
   return role === 'owner' || role === 'admin';
+};
+
+export const hasActiveWorkspaceMembership = async (
+  db: LobeChatDatabase,
+  params: { userId: string; workspaceId: string },
+): Promise<boolean> => {
+  return (await getActiveWorkspaceMembershipRole(db, params)) !== null;
+};
+
+export const getWorkspaceApiKeyMemberCreation = (
+  settings: unknown,
+): WorkspaceApiKeyMemberCreation => {
+  if (!settings || typeof settings !== 'object') return 'all_members';
+
+  const apiKey = (settings as { apiKey?: unknown }).apiKey;
+  if (!apiKey || typeof apiKey !== 'object') return 'all_members';
+
+  return (apiKey as { memberCreation?: unknown }).memberCreation === 'admins_only'
+    ? 'admins_only'
+    : 'all_members';
 };
 
 export class WorkspaceModel {
@@ -84,7 +106,7 @@ export class WorkspaceModel {
         .returning();
 
       // `workspace_members.role` is the single source of truth for built-in
-      // workspace roles (LOBE-12329) — no RBAC rows are seeded per workspace.
+      // workspace roles — no RBAC rows are seeded per workspace.
       await tx.insert(workspaceMembers).values({
         role: 'owner',
         userId: this.userId,
@@ -96,6 +118,14 @@ export class WorkspaceModel {
   };
 
   delete = async (id: string) => {
+    // See UserModel.deleteUser: while an agent-TRANSFER backfill still points
+    // at this workspace (as source or target), unmigrated message snapshots
+    // would be cascade-deleted with it. Reject and let the caller retry after
+    // the job drains. Pending `copy` jobs do not block — see
+    // `isPendingTransfer` in agentTransferJob.ts.
+    if (await AgentTransferJobModel.hasPendingJobTouchingWorkspace(this.db, id)) {
+      throw new Error(AGENT_TRANSFER_PENDING_OWNER_DELETE);
+    }
     return this.db
       .delete(workspaces)
       .where(and(eq(workspaces.id, id), eq(workspaces.primaryOwnerId, this.userId)));
@@ -132,6 +162,10 @@ export class WorkspaceModel {
       where: eq(workspaces.id, id),
     });
     return workspace?.settings ?? {};
+  };
+
+  getApiKeyMemberCreation = async (id: string): Promise<WorkspaceApiKeyMemberCreation> => {
+    return getWorkspaceApiKeyMemberCreation(await this.getSettings(id));
   };
 
   /**
@@ -181,6 +215,22 @@ export class WorkspaceModel {
     return this.db
       .update(workspaces)
       .set({ settings, updatedAt: new Date() })
+      .where(eq(workspaces.id, id));
+  };
+
+  updateApiKeyMemberCreation = async (
+    id: string,
+    memberCreation: WorkspaceApiKeyMemberCreation,
+  ) => {
+    return this.db
+      .update(workspaces)
+      .set({
+        settings: sql`coalesce(${workspaces.settings}, '{}'::jsonb) || jsonb_build_object(
+          'apiKey',
+          coalesce(${workspaces.settings}->'apiKey', '{}'::jsonb) || jsonb_build_object('memberCreation', ${memberCreation}::text)
+        )`,
+        updatedAt: new Date(),
+      })
       .where(eq(workspaces.id, id));
   };
 

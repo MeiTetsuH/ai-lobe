@@ -16,7 +16,7 @@ vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => k
 vi.mock('@/components/AsyncBoundary', () => ({
   default: ({ children }: { children: ReactNode }) => children,
 }));
-vi.mock('@/components/Loading/BrandTextLoading', () => ({ default: () => null }));
+vi.mock('@/components/Skeleton/Surface', () => ({ default: () => null }));
 vi.mock('@/features/Workspace/useWorkspaceAwareNavigate', () => ({
   useWorkspaceAwareNavigate: () => mocks.navigate,
 }));
@@ -60,7 +60,7 @@ describe('ResourceConfigAccessGate', () => {
     expect(mocks.toastInfo).toHaveBeenCalledWith('permission.configAccess.agentChatOnly');
   });
 
-  // LOBE-12374: "only collaborators with Can edit" read as an authorship denial to
+  // "only collaborators with Can edit" read as an authorship denial to
   // users who had authored the resource; the two denial reasons are now distinct.
   it('names the workspace role as the reason when the role cannot configure Agents', async () => {
     mocks.canEditContent = false;

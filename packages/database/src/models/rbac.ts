@@ -1,4 +1,7 @@
-import { getWorkspaceRolePermissionCodes } from '@lobechat/const/rbac';
+import {
+  getWorkspaceRolePermissionCodes,
+  PERSONAL_DEFAULT_PERMISSIONS,
+} from '@lobechat/const/rbac';
 import { and, eq, inArray, isNull, sql } from 'drizzle-orm';
 
 import type { LobeChatDatabase } from '@/database/type';
@@ -21,7 +24,7 @@ export interface UserPermissionInfo {
  *   member's `workspace_members.role` expanded through the in-code
  *   `WORKSPACE_ROLE_PERMISSIONS` matrix, plus globally-granted DB roles
  *   (`rbac_user_roles.workspace_id IS NULL`, e.g. `super_admin`). No
- *   per-workspace authorization rows are read (LOBE-12329).
+ * per-workspace authorization rows are read.
  * - `workspaceId` omitted — match **any** DB grant, regardless of workspace.
  *   This preserves backward-compat with pre-workspace-scope callers (Hono
  *   routes that just check `agent:read:all` against the whole user, with
@@ -229,9 +232,15 @@ export class RbacModel {
         ),
       );
 
+    // Personal mode: every authenticated user implicitly holds the `:owner`
+    // baseline over their own data — ordinary accounts have no
+    // `rbac_user_roles` rows, and resource queries are `user_id`-isolated
+    // anyway. DB grants (super_admin etc.) union on top.
     // De-dupe — the same code can come from multiple roles (e.g. owner +
     // member if a user somehow ends up with both).
-    return [...new Set(result.map((row) => row.permissionCode))];
+    return [
+      ...new Set([...PERSONAL_DEFAULT_PERMISSIONS, ...result.map((row) => row.permissionCode)]),
+    ];
   };
 
   /**
@@ -303,6 +312,13 @@ export class RbacModel {
       // Matrix miss — a globally-granted role (super_admin) may still allow it.
       const globalMatches = await this.getGlobalPermissionCodes(targetUserId, permissionCodes);
       return globalMatches.length > 0;
+    }
+
+    // Personal mode: the implicit `:owner` baseline settles most checks with
+    // zero DB queries. Workspace mode above is untouched — the
+    // membership-role matrix stays the single source of truth there.
+    if (permissionCodes.some((code) => PERSONAL_DEFAULT_PERMISSIONS.includes(code))) {
+      return true;
     }
 
     const result = await this.db

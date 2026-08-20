@@ -20,6 +20,10 @@ const mocks = vi.hoisted(() => ({
   taskResolveVerifyConfig: vi.fn(),
 }));
 
+vi.mock('../goalLoop', () => ({
+  maybeContinueGoalLoop: vi.fn().mockResolvedValue('spawn-failed'),
+  syncGoalToolState: vi.fn(),
+}));
 vi.mock('../acceptanceService', () => ({
   AcceptanceService: vi.fn(() => ({
     acceptanceModel: { update: mocks.acceptanceUpdate },
@@ -112,6 +116,7 @@ describe('Verify acceptance lifecycle', () => {
       agentId: 'agent-1',
       db,
       maxRepairRounds: 2,
+      taskId: 'task-1',
       topicId: 'topic-1',
       userId: 'user-1',
       workspaceId: 'workspace-1',
@@ -123,6 +128,7 @@ describe('Verify acceptance lifecycle', () => {
     });
 
     expect(result).toEqual({ repairOperationId: 'repair-operation' });
+    expect(mocks.agentExec).toHaveBeenCalledWith(expect.objectContaining({ taskId: 'task-1' }));
     expect(mocks.acceptanceAttachRun).toHaveBeenCalledWith('repair-run', 'acceptance-1');
   });
 });

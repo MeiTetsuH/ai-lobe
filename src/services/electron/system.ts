@@ -1,5 +1,7 @@
 import type {
   ElectronAppState,
+  PopupContextMenuParams,
+  PopupContextMenuResult,
   WindowMinimumSizeParams,
   WindowSizeParams,
 } from '@lobechat/electron-client-ipc';
@@ -31,6 +33,10 @@ class ElectronSystemService {
 
   async setDesktopOnboardingCompleted(completed: boolean): Promise<void> {
     return this.ipc.system.setDesktopOnboardingCompleted(completed);
+  }
+
+  async setLastWorkspaceSlug(slug: string | null): Promise<void> {
+    return this.ipc.system.setLastWorkspaceSlug(slug);
   }
 
   async getSystemMonospaceFonts(): Promise<SystemMonospaceFont[]> {
@@ -87,6 +93,14 @@ class ElectronSystemService {
 
   showContextMenu = async (type: string, data?: any) => {
     return this.ipc.menu.showContextMenu({ data, type });
+  };
+
+  popupContextMenu = async (params: PopupContextMenuParams): Promise<PopupContextMenuResult> => {
+    return this.ipc.menu.popupContextMenu(params);
+  };
+
+  closePopupContextMenu = async (): Promise<void> => {
+    return this.ipc.menu.closePopupContextMenu();
   };
 
   /**

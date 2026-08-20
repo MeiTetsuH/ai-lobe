@@ -1,15 +1,24 @@
-import { Center } from '@lobehub/ui';
+import { Skeleton } from '@lobehub/ui';
 import { createStaticStyles, cx } from 'antd-style';
 import { type ReactNode } from 'react';
 import { memo } from 'react';
 
-import DotsLoading from '@/components/DotsLoading';
-
 const LIST_BREAKPOINT = 600;
+
+/** Placeholder rows shown before the first load settles. */
+const SKELETON_ROWS = 4;
 
 const styles = createStaticStyles(({ css, cssVar }) => ({
   body: css`
     overflow-x: auto;
+  `,
+  clickableRow: css`
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid ${cssVar.colorPrimary};
+      outline-offset: -2px;
+    }
   `,
   container: css`
     container-type: inline-size;
@@ -145,6 +154,11 @@ export interface LiteTableProps<RecordType> {
   dataSource?: RecordType[];
   emptyText?: ReactNode;
   loading?: boolean;
+  /**
+   * Makes every data row clickable. Interactive cell content (buttons,
+   * switches, editable cells) must stopPropagation to keep working.
+   */
+  onRowClick?: (record: RecordType) => void;
   rowKey: (record: RecordType) => string;
 }
 
@@ -154,20 +168,24 @@ const LiteTableInner = <RecordType,>({
   dataSource,
   emptyText,
   loading,
+  onRowClick,
   rowKey,
 }: LiteTableProps<RecordType>) => {
   const items = dataSource ?? [];
   const initialLoading = !!loading && items.length === 0;
 
+  const listLabelOf = (column: LiteTableColumn<RecordType>) =>
+    column.listSlot || column.listLabel === false
+      ? undefined
+      : (column.listLabel ?? (typeof column.title === 'string' ? column.title : undefined));
+
   return (
     <div aria-busy={initialLoading} className={cx(styles.container, className)}>
-      {initialLoading ? (
-        <Center height={240} width={'100%'}>
-          <DotsLoading size={6} />
-        </Center>
-      ) : items.length === 0 ? (
+      {!initialLoading && items.length === 0 ? (
         emptyText
       ) : (
+        // The loading state keeps the table chrome and skeletonises only the
+        // cells, so settling is a content swap rather than a relayout (ux §4.1).
         <div className={styles.body}>
           <table className={styles.table}>
             <thead>
@@ -180,23 +198,54 @@ const LiteTableInner = <RecordType,>({
               </tr>
             </thead>
             <tbody>
-              {items.map((record, index) => (
-                <tr key={rowKey(record)}>
-                  {columns.map((column) => {
-                    const label =
-                      column.listSlot || column.listLabel === false
-                        ? undefined
-                        : (column.listLabel ??
-                          (typeof column.title === 'string' ? column.title : undefined));
-
-                    return (
-                      <td data-label={label} data-list-slot={column.listSlot} key={column.key}>
-                        {column.render(record, index)}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
+              {initialLoading
+                ? Array.from({ length: SKELETON_ROWS }, (_, index) => (
+                    <tr key={index}>
+                      {columns.map((column) => (
+                        <td
+                          data-label={listLabelOf(column)}
+                          data-list-slot={column.listSlot}
+                          key={column.key}
+                        >
+                          <Skeleton.Button
+                            active
+                            size={'small'}
+                            style={{ height: 14, minWidth: 0, width: '100%' }}
+                          />
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                : items.map((record, index) => (
+                    <tr
+                      className={onRowClick ? styles.clickableRow : undefined}
+                      key={rowKey(record)}
+                      tabIndex={onRowClick ? 0 : undefined}
+                      onClick={onRowClick ? () => onRowClick(record) : undefined}
+                      onKeyDown={
+                        onRowClick
+                          ? (event) => {
+                              // only the row itself — a key pressed inside a cell
+                              // control (switch, button, input) belongs to it
+                              if (event.target !== event.currentTarget) return;
+                              if (event.key !== 'Enter' && event.key !== ' ') return;
+                              event.preventDefault();
+                              onRowClick(record);
+                            }
+                          : undefined
+                      }
+                    >
+                      {columns.map((column) => (
+                        <td
+                          data-label={listLabelOf(column)}
+                          data-list-slot={column.listSlot}
+                          key={column.key}
+                        >
+                          {column.render(record, index)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </div>

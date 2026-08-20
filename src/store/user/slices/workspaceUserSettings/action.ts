@@ -112,19 +112,11 @@ export class WorkspaceUserSettingsActionImpl {
       ...(patch.notification
         ? { notification: mergeNotificationSettings(previous.notification, patch.notification) }
         : {}),
-      ...(patch.sidebarGroupAssignments
+      ...(patch.sidebarAgentVisibilityOverrides
         ? {
-            sidebarGroupAssignments: {
-              ...previous.sidebarGroupAssignments,
-              ...patch.sidebarGroupAssignments,
-            },
-          }
-        : {}),
-      ...(patch.sidebarPinnedOverrides
-        ? {
-            sidebarPinnedOverrides: {
-              ...previous.sidebarPinnedOverrides,
-              ...patch.sidebarPinnedOverrides,
+            sidebarAgentVisibilityOverrides: {
+              ...previous.sidebarAgentVisibilityOverrides,
+              ...patch.sidebarAgentVisibilityOverrides,
             },
           }
         : {}),

@@ -43,7 +43,7 @@ beforeEach(() => {
 });
 
 describe('getResourceConfigAccess', () => {
-  // LOBE-12374: builtins are `virtual: true`, so linking one into a group made the
+  // builtins are `virtual: true`, so linking one into a group made the
   // parent cap reduce `full` to `profile` — the config was redacted and the route
   // redirected exactly as before the fix. The evaluator alone cannot show this.
   it('does not cap a collaborative builtin at its parent group access', async () => {
@@ -155,6 +155,7 @@ describe('config redaction', () => {
       files: [{ id: 'file-1' }],
       id: 'agent-1',
       model: 'shared-model',
+      name: 'Alice',
       openingMessage: 'Hello',
       params: { temperature: 0.8 },
       plugins: ['private-tool'],
@@ -175,6 +176,7 @@ describe('config redaction', () => {
       description: 'Public description',
       id: 'agent-1',
       model: 'shared-model',
+      name: 'Alice',
       openingMessage: 'Hello',
       provider: 'shared-provider',
       title: 'Public title',

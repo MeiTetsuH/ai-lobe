@@ -9,12 +9,14 @@ import {
   Coins,
   CreditCard,
   Database,
+  HandCoins,
   KeyIcon,
   KeyRound,
   Map,
   MonitorSmartphoneIcon,
   ScrollText,
   Sparkles,
+  TagIcon,
   Users,
 } from 'lucide-react';
 import { useMemo } from 'react';
@@ -51,6 +53,11 @@ export const useWorkspaceSettingCategory = (): WorkspaceSettingCategoryGroup[] =
   const { t: tSubscription } = useTranslation('subscription');
   const { allowed: canManageWorkspace } = usePermission('manage_settings');
   const { allowed: canViewBilling } = usePermission('view_billing');
+  // API keys act as the member who issued them, so the tab follows the same
+  // member-level gate the server enforces: `API_KEY_*` is granted from Member
+  // up, never to Viewer. Without this the tab leads to a list request that
+  // immediately 403s.
+  const { allowed: canCreateContent } = usePermission('create_content');
   const enableOAuthApps = useUserStore(labPreferSelectors.enableOAuthApps);
 
   return useMemo(
@@ -107,6 +114,13 @@ export const useWorkspaceSettingCategory = (): WorkspaceSettingCategoryGroup[] =
               key: WorkspaceSettingsTabs.Credits,
               label: tSubscription('tab.credits'),
             },
+            // Spend governance (budget pools + member caps) — admin task,
+            // same visibility gate as the other money pages.
+            canViewBilling && {
+              icon: HandCoins,
+              key: WorkspaceSettingsTabs.Budget,
+              label: tSubscription('tab.budget'),
+            },
             canViewBilling && {
               icon: CreditCard,
               key: WorkspaceSettingsTabs.Billing,
@@ -119,7 +133,7 @@ export const useWorkspaceSettingCategory = (): WorkspaceSettingCategoryGroup[] =
         {
           items: [
             // AI provider config (keys/endpoints) is shared workspace infra —
-            // Admin-or-higher, hidden from members entirely (LOBE-11834).
+            // Admin-or-higher, hidden from members entirely.
             canManageWorkspace && {
               icon: Brain,
               key: WorkspaceSettingsTabs.Provider,
@@ -136,6 +150,13 @@ export const useWorkspaceSettingCategory = (): WorkspaceSettingCategoryGroup[] =
               icon: SkillsIcon,
               key: WorkspaceSettingsTabs.Skill,
               label: t('workspaceSetting.tab.skill'),
+            },
+            // Label registry is readable by everyone; the page itself keeps
+            // management actions behind the admin gate (disabled, not hidden).
+            {
+              icon: TagIcon,
+              key: WorkspaceSettingsTabs.Labels,
+              label: t('workspaceSetting.tab.labels'),
             },
             {
               icon: Blocks,
@@ -156,14 +177,19 @@ export const useWorkspaceSettingCategory = (): WorkspaceSettingCategoryGroup[] =
           key: WorkspaceSettingsGroupKey.Agent,
           title: t('workspaceSetting.group.agent'),
         },
-        enableOAuthApps && {
+        (canCreateContent || enableOAuthApps) && {
           items: [
-            {
+            canCreateContent && {
+              icon: KeyIcon,
+              key: WorkspaceSettingsTabs.APIKey,
+              label: tAuth('tab.apikey'),
+            },
+            enableOAuthApps && {
               icon: AppWindowIcon,
               key: WorkspaceSettingsTabs.OAuthApps,
               label: tAuth('tab.oauthApps'),
             },
-          ],
+          ].filter(Boolean) as WorkspaceSettingCategoryItem[],
           key: WorkspaceSettingsGroupKey.Developer,
           title: t('group.developer'),
         },
@@ -176,11 +202,6 @@ export const useWorkspaceSettingCategory = (): WorkspaceSettingCategoryGroup[] =
               label: t('tab.storage'),
             },
             {
-              icon: KeyIcon,
-              key: WorkspaceSettingsTabs.APIKey,
-              label: tAuth('tab.apikey'),
-            },
-            {
               icon: ScrollText,
               key: WorkspaceSettingsTabs.AuditLog,
               label: t('workspaceSetting.tab.auditLog'),
@@ -190,6 +211,14 @@ export const useWorkspaceSettingCategory = (): WorkspaceSettingCategoryGroup[] =
           title: t('workspaceSetting.group.admin'),
         },
       ].filter(Boolean) as WorkspaceSettingCategoryGroup[],
-    [t, tAuth, tSubscription, enableOAuthApps, canManageWorkspace, canViewBilling],
+    [
+      t,
+      tAuth,
+      tSubscription,
+      enableOAuthApps,
+      canManageWorkspace,
+      canViewBilling,
+      canCreateContent,
+    ],
   );
 };

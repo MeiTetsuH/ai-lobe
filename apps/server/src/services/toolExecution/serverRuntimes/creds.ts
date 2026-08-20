@@ -1,10 +1,8 @@
-import {
-  CredsExecutionRuntime,
-  CredsIdentifier,
-  type ICredsService,
-} from '@lobechat/builtin-tool-creds';
+import { CredsIdentifier, type ICredsService } from '@lobechat/builtin-tool-creds';
+import { CredsExecutionRuntime } from '@lobechat/builtin-tool-creds/executionRuntime';
 import debug from 'debug';
 
+import { UserModel } from '@/database/models/user';
 import { WorkspaceMemberModel } from '@/database/models/workspaceMember';
 import { MarketService } from '@/server/services/market';
 
@@ -27,7 +25,7 @@ class ServerCredsService implements ICredsService {
 
   /**
    * Inside a workspace, reads/writes must hit the workspace's shared organization
-   * credentials, never the operator's personal creds (LOBE-10978). Falls back to
+   * credentials, never the operator's personal creds. Falls back to
    * the personal `market.creds` namespace outside a workspace.
    */
   private credsAccessor() {
@@ -186,7 +184,20 @@ export const credsRuntime: ServerRuntimeRegistration = {
       context.workspaceId,
     );
 
+    // Read market accessToken from DB so server-side creds runtime can authenticate.
+    let accessToken: string | undefined;
+    if (context.serverDB) {
+      try {
+        const userModel = new UserModel(context.serverDB, context.userId);
+        const settings = await userModel.getUserSettings();
+        accessToken = (settings?.market as any)?.accessToken;
+      } catch {
+        // non-fatal — MarketService will fall back to trustedClientToken
+      }
+    }
+
     const marketService = new MarketService({
+      accessToken,
       userInfo: { userId: context.userId, workspaceId: context.workspaceId },
     });
     const credsService = new ServerCredsService(marketService, context.workspaceId);
