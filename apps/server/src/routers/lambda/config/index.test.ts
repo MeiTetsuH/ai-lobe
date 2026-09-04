@@ -147,13 +147,16 @@ describe('configRouter', () => {
         });
       });
 
-      it('should enable the default DeepSeek provider without a server API key', async () => {
+      // This deployment enables OpenAI as the single default provider, so every other
+      // provider stays disabled until the user turns it on. See getServerGlobalConfig.
+      it('should enable only the default OpenAI provider without a server API key', async () => {
         const originalApiKey = process.env.DEEPSEEK_API_KEY;
         delete process.env.DEEPSEEK_API_KEY;
 
         const response = await router.getGlobalConfig();
 
-        expect(response.serverConfig.aiProvider?.deepseek?.enabled).toBe(true);
+        expect(response.serverConfig.aiProvider?.openai?.enabled).toBe(true);
+        expect(response.serverConfig.aiProvider?.deepseek?.enabled).toBe(false);
 
         if (originalApiKey === undefined) {
           delete process.env.DEEPSEEK_API_KEY;
