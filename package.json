@@ -585,7 +585,7 @@
       "workerd"
     ],
     "overrides": {
-      "@lobehub/ui": "$@lobehub/ui",
+      "@lobehub/ui": ">=5.33.3 <5.39.1",
       "@react-pdf/image": "3.0.4",
       "@types/react": "19.2.13",
       "@vitest/coverage-v8": "3.2.6",
@@ -593,6 +593,7 @@
       "baseline-browser-mapping": "2.10.31",
       "drizzle-orm": "^0.45.2",
       "fast-xml-parser": "5.4.2",
+      "happy-dom": "20.11.6",
       "lexical": "0.42.0",
       "node-gyp": "^12.4.0",
       "pdfjs-dist": "5.4.530",
