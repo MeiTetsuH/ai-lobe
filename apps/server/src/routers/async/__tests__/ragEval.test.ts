@@ -21,27 +21,38 @@ const mocks = vi.hoisted(() => ({
 }));
 
 vi.mock('@/database/models/chunk', () => ({
-  ChunkModel: vi.fn(() => ({})),
+  ChunkModel: vi.fn(function () {
+    return {};
+  }),
 }));
 vi.mock('@/database/models/embedding', () => ({
-  EmbeddingModel: vi.fn(() => ({})),
+  EmbeddingModel: vi.fn(function () {
+    return {};
+  }),
 }));
 vi.mock('@/database/models/file', () => ({
-  FileModel: vi.fn(() => ({})),
+  FileModel: vi.fn(function () {
+    return {};
+  }),
 }));
 vi.mock('@/database/models/ragEval', () => ({
-  EvalDatasetRecordModel: vi.fn(() => ({ findById: vi.fn() })),
-  EvalEvaluationModel: vi.fn(() => ({ update: mocks.evaluationUpdate })),
-  EvaluationRecordModel: vi.fn(() => ({
-    findById: mocks.evalRecordFindById,
-    update: mocks.evalRecordUpdate,
-  })),
+  EvalDatasetRecordModel: vi.fn(function () {
+    return { findById: vi.fn() };
+  }),
+  EvalEvaluationModel: vi.fn(function () {
+    return { update: mocks.evaluationUpdate };
+  }),
+  EvaluationRecordModel: vi.fn(function () {
+    return { findById: mocks.evalRecordFindById, update: mocks.evalRecordUpdate };
+  }),
 }));
 vi.mock('@/server/modules/ModelRuntime', () => ({
   initModelRuntimeFromDB: mocks.initModelRuntimeFromDB,
 }));
 vi.mock('@/server/services/chunk', () => ({
-  ChunkService: vi.fn(() => ({})),
+  ChunkService: vi.fn(function () {
+    return {};
+  }),
 }));
 
 vi.mock('@/libs/trpc/async', async () => {
@@ -58,13 +69,19 @@ vi.mock('@/libs/trpc/async', async () => {
 describe('ragEvalRouter.runRecordEvaluation', () => {
   const userId = 'user_test';
   const serverDB = {
-    select: vi.fn(() => ({
-      from: vi.fn(() => ({
-        where: vi.fn(() => ({
-          limit: vi.fn().mockResolvedValue([{ workspaceId: 'workspace-1' }]),
-        })),
-      })),
-    })),
+    select: vi.fn(function () {
+      return {
+        from: vi.fn(function () {
+          return {
+            where: vi.fn(function () {
+              return {
+                limit: vi.fn().mockResolvedValue([{ workspaceId: 'workspace-1' }]),
+              };
+            }),
+          };
+        }),
+      };
+    }),
   };
 
   beforeEach(() => {

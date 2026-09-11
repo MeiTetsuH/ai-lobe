@@ -49,7 +49,7 @@
       ]
     }
   ],
-  "installCommand": "npx pnpm@10.33.0 install --frozen-lockfile",
+  "installCommand": "npx pnpm@12.3.4 install --frozen-lockfile",
   "rewrites": [
     {
       "source": "/_dangerous_local_dev_proxy",
