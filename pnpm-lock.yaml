@@ -7,96 +7,153 @@ importers:
     configDependencies: {}
     packageManagerDependencies:
       pnpm:
-        specifier: 12.3.4
-        version: 12.3.4
+        specifier: 12.4.1
+        version: 12.4.1
 
 packages:
 
-  '@pnpm/exe.darwin-arm64@12.3.4':
-    resolution: {integrity: sha512-PAyUol8T1+/+ViOiXAt51ECA+QnfXCqz6foL4bW+LsoX0NcVd5XVEM2mRQu+LV4oc7uRz9zf9U0P+XFfuQeDAw==}
+  '@pnpm/exe.android-arm64@12.4.1':
+    resolution: {integrity: sha512-/HwsqXMSmlOfgtV9+O0ratzjV6Vd/8n1hh4rGHpCGmDURvt52MwZxdbhyxP4K03ZfvgSDvotFPr8O+RzE5Eu8A==}
+    cpu: [arm64]
+    os: [android]
+
+  '@pnpm/exe.android-x64@12.4.1':
+    resolution: {integrity: sha512-+l74Qb4c2YjOzNKHXJLg+1wr8xHM1ckkUhnU5KRUK9TJqiiczt6yeTZqqzHIlJ8i6pAoj5V0OJevDRwnQKLgrQ==}
+    cpu: [x64]
+    os: [android]
+
+  '@pnpm/exe.darwin-arm64@12.4.1':
+    resolution: {integrity: sha512-6rkZkT3iGfaxknUdGHraqSWFvTa6N0ajAHluv9Ax0GRWs0sIcGNiFhDopv6xSZCsJZmG483aNS/b6UEDy3blfw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@pnpm/exe.darwin-x64@12.3.4':
-    resolution: {integrity: sha512-fxP9JCk0Cdye+ePuj+GJJLMUMTqHGWRdb1dtv4How876uQ2ehxvenpgiYAir/ceO9PsYUZkFTtyZdx+rRu5QOA==}
+  '@pnpm/exe.darwin-x64@12.4.1':
+    resolution: {integrity: sha512-Vb1CHlR88HghC1qUxjxjs82zQSXnXacPD+btG2CmG8Q/hBU7Q0/b2YWJKSQqZXicunV5khFtfTlAwJddV9RkYA==}
     cpu: [x64]
     os: [darwin]
 
-  '@pnpm/exe.linux-arm64-musl@12.3.4':
-    resolution: {integrity: sha512-FBOt0/7ye6O6q4AllVV5QMviB6qE6fqkeczV/+MDWQsmo+QJrlfsh6X7CpH/tClVpBZEyIbjpUoT8bNhCYBxEg==}
+  '@pnpm/exe.freebsd-x64@12.4.1':
+    resolution: {integrity: sha512-iT3iHz3Nl0Sxxj7UPOtZ/aQ81AFsQhjoeWMAlPkSRO04gsgDGAXv3UYxOFaesMWsfNxaGn0A+CITbuCHFF66FA==}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@pnpm/exe.linux-arm64-musl@12.4.1':
+    resolution: {integrity: sha512-aBooZfNXM5f+OGUgCAMFWpE/kAhsWfvmqIyMtHy6zl3aNxyInWrcY/Saln/UElzo7lZWMC0Yktroxd/2J26lNQ==}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@pnpm/exe.linux-arm64@12.3.4':
-    resolution: {integrity: sha512-t71AVA7LRqiKTyZ5xMYaZc2n5DfdpMbfokZuiIOXHBOM03ECnF0t4iYwaBDqJgVjlKYUOwaF/bRQajGNA4cJ4w==}
+  '@pnpm/exe.linux-arm64@12.4.1':
+    resolution: {integrity: sha512-TlOdacTTP09BgcMvwWBFRsu8VAjfwqwnslBj+XSq1JFM3ck4f3k+1O/747EuctxZxs3/o785b6Q3s7Pd92Ptsg==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@pnpm/exe.linux-x64-musl@12.3.4':
-    resolution: {integrity: sha512-RPmk7Jb/aYaFvL2iyDN/AtMY+hUEsue732WmXpcuQ9tBpMnGyA5py7Z3+e+qmQaJ0zY/4ni9jJiyPBQHujmv6w==}
+  '@pnpm/exe.linux-ppc64@12.4.1':
+    resolution: {integrity: sha512-r/ab/MlIBo75oizUP5ITiziCCrnXz4SJwfErLQ+603AshB+Yq7xTMCoMtzTSCAMu6aaymIKkAFtZvd2J75Wq0w==}
+    cpu: [ppc64]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.linux-riscv64@12.4.1':
+    resolution: {integrity: sha512-C/D1QWdKMiB8+wv/spl1rGITFUuqC+aI/fb6h8NB5sqxsOaGXeYc/g891oCuzggHn6SODk9p+I09hI76x/cMNw==}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.linux-s390x@12.4.1':
+    resolution: {integrity: sha512-nxz5zD4yXt94uzbStDk0QTPKW+aE92hH1b5tFXK9ctB1HE9Xcq1vjTiA2LsZMFC6p4gdu5OwQeFqYNAVGa6QlA==}
+    cpu: [s390x]
+    os: [linux]
+    libc: [glibc]
+
+  '@pnpm/exe.linux-x64-musl@12.4.1':
+    resolution: {integrity: sha512-5AwgFdGhVUg2kIweYGfxzSLEHiIG77PQhZAkXC3TwofQHsu1Wr+TrV5/rNX2PopFnHRzuE581zoB8F6Wle32yg==}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@pnpm/exe.linux-x64@12.3.4':
-    resolution: {integrity: sha512-2ZqOlSPkfwX1h5cR+FPiWf8+F+2hZT/3TvhUK5sigHqwaQCIiq8R7CGxhndKs63JtcLi2a1Qpo+wX/EoyfjyJQ==}
+  '@pnpm/exe.linux-x64@12.4.1':
+    resolution: {integrity: sha512-FJOZuuuQMhp0oLzBtcKkLXknBI92hfkmSnlKc47vfin4HrmfID5khY2lGekL9tCzk1cpR+HShEw/meFl+nHtzQ==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@pnpm/exe.win32-arm64@12.3.4':
-    resolution: {integrity: sha512-ANyrHqyqco6SXBysUTRF74itDyyraea7IbFsKFdNXTjcFnfycTDx37EwuhdpPYFNSIh2JhUG4fByclsRfiHX7w==}
+  '@pnpm/exe.win32-arm64@12.4.1':
+    resolution: {integrity: sha512-OO7eKBL9S+xk5hRy+JUUZSNJknGuGe3GEUffsrlC2LbqKF02g+VX1anGIzSbJDvkkdnpJhSlxF5AUz2JzJu2Jw==}
     cpu: [arm64]
     os: [win32]
 
-  '@pnpm/exe.win32-x64@12.3.4':
-    resolution: {integrity: sha512-WH/KqBPY/hq2Tb7SgQltEZytimcjgKRaCRL/aM9CI0c67iKc5TVmHUhIiL3Ux9FB4bWn36i6XewUcScQI+zG8w==}
+  '@pnpm/exe.win32-x64@12.4.1':
+    resolution: {integrity: sha512-x7gJHZgHo6hp354xCYA2NvoFzYJkHwovt2kVsUBK5EmXULLcP51JGMq09CX+5FRFJUZFKoXjLu3mZWmfP7o6PQ==}
     cpu: [x64]
     os: [win32]
 
-  pnpm@12.3.4:
-    resolution: {integrity: sha512-lhqkH7B32joEpEHZ+OFevAyW2o73ELLrZ7+e58sGEOq9SPH9hfUc/+c4RnhfoPh8VqOocqHYk/hEZ0G1zORUVw==}
+  pnpm@12.4.1:
+    resolution: {integrity: sha512-LoHjmdc/6DkNqyXgaqeIq3pZCCSNL1o3D4K0gRR6ano2e/gEj5pv22Rg8hpm8FQt7bi5TKLIcjWWdBkgsWVtTA==}
     engines: {node: '>=18.*'}
     hasBin: true
 
 snapshots:
 
-  '@pnpm/exe.darwin-arm64@12.3.4':
+  '@pnpm/exe.android-arm64@12.4.1':
     optional: true
 
-  '@pnpm/exe.darwin-x64@12.3.4':
+  '@pnpm/exe.android-x64@12.4.1':
     optional: true
 
-  '@pnpm/exe.linux-arm64-musl@12.3.4':
+  '@pnpm/exe.darwin-arm64@12.4.1':
     optional: true
 
-  '@pnpm/exe.linux-arm64@12.3.4':
+  '@pnpm/exe.darwin-x64@12.4.1':
     optional: true
 
-  '@pnpm/exe.linux-x64-musl@12.3.4':
+  '@pnpm/exe.freebsd-x64@12.4.1':
     optional: true
 
-  '@pnpm/exe.linux-x64@12.3.4':
+  '@pnpm/exe.linux-arm64-musl@12.4.1':
     optional: true
 
-  '@pnpm/exe.win32-arm64@12.3.4':
+  '@pnpm/exe.linux-arm64@12.4.1':
     optional: true
 
-  '@pnpm/exe.win32-x64@12.3.4':
+  '@pnpm/exe.linux-ppc64@12.4.1':
     optional: true
 
-  pnpm@12.3.4:
+  '@pnpm/exe.linux-riscv64@12.4.1':
+    optional: true
+
+  '@pnpm/exe.linux-s390x@12.4.1':
+    optional: true
+
+  '@pnpm/exe.linux-x64-musl@12.4.1':
+    optional: true
+
+  '@pnpm/exe.linux-x64@12.4.1':
+    optional: true
+
+  '@pnpm/exe.win32-arm64@12.4.1':
+    optional: true
+
+  '@pnpm/exe.win32-x64@12.4.1':
+    optional: true
+
+  pnpm@12.4.1:
     optionalDependencies:
-      '@pnpm/exe.darwin-arm64': 12.3.4
-      '@pnpm/exe.darwin-x64': 12.3.4
-      '@pnpm/exe.linux-arm64': 12.3.4
-      '@pnpm/exe.linux-arm64-musl': 12.3.4
-      '@pnpm/exe.linux-x64': 12.3.4
-      '@pnpm/exe.linux-x64-musl': 12.3.4
-      '@pnpm/exe.win32-arm64': 12.3.4
-      '@pnpm/exe.win32-x64': 12.3.4
+      '@pnpm/exe.android-arm64': 12.4.1
+      '@pnpm/exe.android-x64': 12.4.1
+      '@pnpm/exe.darwin-arm64': 12.4.1
+      '@pnpm/exe.darwin-x64': 12.4.1
+      '@pnpm/exe.freebsd-x64': 12.4.1
+      '@pnpm/exe.linux-arm64': 12.4.1
+      '@pnpm/exe.linux-arm64-musl': 12.4.1
+      '@pnpm/exe.linux-ppc64': 12.4.1
+      '@pnpm/exe.linux-riscv64': 12.4.1
+      '@pnpm/exe.linux-s390x': 12.4.1
+      '@pnpm/exe.linux-x64': 12.4.1
+      '@pnpm/exe.linux-x64-musl': 12.4.1
+      '@pnpm/exe.win32-arm64': 12.4.1
+      '@pnpm/exe.win32-x64': 12.4.1
 
 ---
 lockfileVersion: '9.0'
@@ -107,7 +164,7 @@ settings:
 
 overrides:
   '@ant-design/icons': 6.3.2
-  '@lobehub/ui': ^5.42.2
+  '@lobehub/ui': ^5.47.0
   '@react-pdf/image': 3.0.4
   '@types/react': 19.2.13
   '@vitest/coverage-v8': 5.0.0
@@ -463,6 +520,9 @@ importers:
       '@lobechat/markdown-patch':
         specifier: workspace:*
         version: link:packages/markdown-patch
+      '@lobechat/mecha':
+        specifier: workspace:*
+        version: link:packages/mecha
       '@lobechat/memory-user-memory':
         specifier: workspace:*
         version: link:packages/memory-user-memory
@@ -490,6 +550,9 @@ importers:
       '@lobechat/tool-runtime':
         specifier: workspace:*
         version: link:packages/tool-runtime
+      '@lobechat/tool-view-model':
+        specifier: workspace:*
+        version: link:packages/tool-view-model
       '@lobechat/utils':
         specifier: workspace:*
         version: link:packages/utils
@@ -501,16 +564,16 @@ importers:
         version: 1.6.4(@types/react@19.2.13)(debug@4.4.3(supports-color@10.2.2))(preact-render-to-string@6.6.5)(react@19.2.7)(supports-color@10.2.2)
       '@lobehub/charts':
         specifier: ^5.4.0
-        version: 5.4.0(@lobehub/ui@5.42.5)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
+        version: 5.4.0(@lobehub/ui@5.49.1)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       '@lobehub/desktop-ipc-typings':
         specifier: workspace:*
         version: link:apps/desktop/src/main
       '@lobehub/editor':
-        specifier: ^4.27.0
-        version: 4.27.3(@lobehub/ui@5.42.5)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
+        specifier: ^4.27.3
+        version: 4.27.3(@lobehub/ui@5.49.1)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
       '@lobehub/icons':
         specifier: ^5.18.0
-        version: 5.18.0(@lobehub/ui@5.42.5)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
+        version: 5.18.0(@lobehub/ui@5.49.1)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       '@lobehub/market-sdk':
         specifier: 0.41.0
         version: 0.41.0(supports-color@10.2.2)(zod@4.5.4)
@@ -518,8 +581,8 @@ importers:
         specifier: ^5.1.2
         version: 5.1.2(@aws-sdk/credential-provider-node@3.972.83)(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@smithy/hash-node@4.5.2)(@smithy/signature-v4@5.7.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))(ws@8.21.3)(zod@4.5.4)
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       '@modelcontextprotocol/sdk':
         specifier: ^1.30.0
         version: 1.30.0(@cfworker/json-schema@4.1.1)(supports-color@10.2.2)(zod@4.5.4)
@@ -1647,8 +1710,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1678,8 +1741,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1762,8 +1825,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -1787,8 +1850,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       '@thi.ng/base-n':
         specifier: ^2.7.71
         version: 2.7.73
@@ -1821,8 +1884,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -1855,8 +1918,8 @@ importers:
         specifier: workspace:*
         version: link:../tool-runtime
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1908,8 +1971,8 @@ importers:
         specifier: workspace:*
         version: link:../builtin-tool-agent-builder
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1940,8 +2003,8 @@ importers:
   packages/builtin-tool-image-generation:
     dependencies:
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -1968,8 +2031,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2009,10 +2072,10 @@ importers:
         version: link:../utils
       '@lobehub/editor':
         specifier: ^4
-        version: 4.27.3(@lobehub/ui@5.42.5)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
+        version: 4.27.3(@lobehub/ui@5.49.1)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2042,8 +2105,8 @@ importers:
         specifier: workspace:*
         version: link:../tool-runtime
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2076,8 +2139,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2101,8 +2164,8 @@ importers:
   packages/builtin-tool-message:
     dependencies:
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2136,8 +2199,8 @@ importers:
         specifier: workspace:*
         version: link:../editor-runtime
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2174,8 +2237,8 @@ importers:
   packages/builtin-tool-self-iteration:
     dependencies:
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2205,8 +2268,8 @@ importers:
   packages/builtin-tool-skill-store:
     dependencies:
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2233,8 +2296,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2258,8 +2321,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2289,8 +2352,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2320,8 +2383,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2354,8 +2417,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd:
         specifier: 6.3.5
         version: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -2491,10 +2554,10 @@ importers:
         version: link:../const
       '@lobehub/icons':
         specifier: ^5.11.0
-        version: 5.18.0(@lobehub/ui@5.42.5)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
+        version: 5.18.0(@lobehub/ui@5.49.1)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd-style:
         specifier: '*'
         version: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -2714,8 +2777,8 @@ importers:
         specifier: workspace:*
         version: link:../business/const
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       query-string:
         specifier: ^9.4.1
         version: 9.5.1
@@ -2750,6 +2813,9 @@ importers:
       immer:
         specifier: ^10.2.0
         version: 10.2.0
+      partial-json:
+        specifier: ^0.1.7
+        version: 0.1.7
       tokenx:
         specifier: ^1.3.0
         version: 1.6.0
@@ -2935,7 +3001,7 @@ importers:
         version: link:../prompts
       '@lobehub/editor':
         specifier: ^4.17.1
-        version: 4.27.3(@lobehub/ui@5.42.5)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
+        version: 4.27.3(@lobehub/ui@5.49.1)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
       debug:
         specifier: '*'
         version: 4.4.3(supports-color@10.2.2)
@@ -3108,7 +3174,7 @@ importers:
         version: link:../utils
       '@lobehub/icons':
         specifier: ^5.15.0
-        version: 5.18.0(@lobehub/ui@5.42.5)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
+        version: 5.18.0(@lobehub/ui@5.49.1)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       '@modelcontextprotocol/sdk':
         specifier: ^1.29.0
         version: 1.30.0(@cfworker/json-schema@4.1.1)(supports-color@10.2.2)(zod@4.5.4)
@@ -3212,6 +3278,105 @@ importers:
         version: 6.1.1(supports-color@10.2.2)(typescript@6.0.3)(vite@8.0.16)
 
   packages/markdown-patch: {}
+
+  packages/mecha:
+    dependencies:
+      '@lobechat/agent-runtime':
+        specifier: workspace:*
+        version: link:../agent-runtime
+      '@lobechat/builtin-agents':
+        specifier: workspace:*
+        version: link:../builtin-agents
+      '@lobechat/builtin-skills':
+        specifier: workspace:*
+        version: link:../builtin-skills
+      '@lobechat/builtin-tool-agent-builder':
+        specifier: workspace:*
+        version: link:../builtin-tool-agent-builder
+      '@lobechat/builtin-tool-agent-management':
+        specifier: workspace:*
+        version: link:../builtin-tool-agent-management
+      '@lobechat/builtin-tool-auv':
+        specifier: workspace:*
+        version: link:../builtin-tool-auv
+      '@lobechat/builtin-tool-browser':
+        specifier: workspace:*
+        version: link:../builtin-tool-browser
+      '@lobechat/builtin-tool-cloud-sandbox':
+        specifier: workspace:*
+        version: link:../builtin-tool-cloud-sandbox
+      '@lobechat/builtin-tool-creds':
+        specifier: workspace:*
+        version: link:../builtin-tool-creds
+      '@lobechat/builtin-tool-group-agent-builder':
+        specifier: workspace:*
+        version: link:../builtin-tool-group-agent-builder
+      '@lobechat/builtin-tool-image-generation':
+        specifier: workspace:*
+        version: link:../builtin-tool-image-generation
+      '@lobechat/builtin-tool-knowledge-base':
+        specifier: workspace:*
+        version: link:../builtin-tool-knowledge-base
+      '@lobechat/builtin-tool-lobe-agent':
+        specifier: workspace:*
+        version: link:../builtin-tool-lobe-agent
+      '@lobechat/builtin-tool-local-system':
+        specifier: workspace:*
+        version: link:../builtin-tool-local-system
+      '@lobechat/builtin-tool-memory':
+        specifier: workspace:*
+        version: link:../builtin-tool-memory
+      '@lobechat/builtin-tool-message':
+        specifier: workspace:*
+        version: link:../builtin-tool-message
+      '@lobechat/builtin-tool-page-agent':
+        specifier: workspace:*
+        version: link:../builtin-tool-page-agent
+      '@lobechat/builtin-tool-remote-device':
+        specifier: workspace:*
+        version: link:../builtin-tool-remote-device
+      '@lobechat/builtin-tool-task':
+        specifier: workspace:*
+        version: link:../builtin-tool-task
+      '@lobechat/builtin-tool-web-browsing':
+        specifier: workspace:*
+        version: link:../builtin-tool-web-browsing
+      '@lobechat/builtin-tool-web-onboarding':
+        specifier: workspace:*
+        version: link:../builtin-tool-web-onboarding
+      '@lobechat/builtin-tools':
+        specifier: workspace:*
+        version: link:../builtin-tools
+      '@lobechat/business-const':
+        specifier: workspace:*
+        version: link:../business/const
+      '@lobechat/const':
+        specifier: workspace:*
+        version: link:../const
+      '@lobechat/context-engine':
+        specifier: workspace:*
+        version: link:../context-engine
+      '@lobechat/model-runtime':
+        specifier: workspace:*
+        version: link:../model-runtime
+      '@lobechat/prompts':
+        specifier: workspace:*
+        version: link:../prompts
+      '@lobechat/types':
+        specifier: workspace:*
+        version: link:../types
+      debug:
+        specifier: ^4.4.3
+        version: 4.4.3(supports-color@10.2.2)
+      immer:
+        specifier: ^10.1.3
+        version: 10.2.0
+      model-bank:
+        specifier: workspace:*
+        version: link:../model-bank
+      p-map:
+        specifier: ^7.0.6
+        version: 7.0.7
 
   packages/memory-user-memory:
     dependencies:
@@ -3520,8 +3685,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       anser:
         specifier: ^2.3.5
         version: 2.3.5
@@ -3569,6 +3734,12 @@ importers:
       path-browserify-esm:
         specifier: '*'
         version: 1.0.6
+    devDependencies:
+      '@lobechat/types':
+        specifier: workspace:*
+        version: link:../types
+
+  packages/tool-view-model:
     devDependencies:
       '@lobechat/types':
         specifier: workspace:*
@@ -3638,8 +3809,8 @@ importers:
         specifier: ^1.17.1
         version: 1.17.1
       '@lobehub/ui':
-        specifier: ^5.42.2
-        version: 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^5.47.0
+        version: 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       ajv:
         specifier: ^8.20.0
         version: 8.20.0
@@ -3712,6 +3883,9 @@ importers:
       numeral:
         specifier: ^2.0.6
         version: 2.0.6
+      partial-json:
+        specifier: ^0.1.7
+        version: 0.1.7
       pure-rand:
         specifier: ^7.0.1
         version: 7.0.1
@@ -7662,7 +7836,7 @@ packages:
   '@lobehub/charts@5.4.0':
     resolution: {integrity: sha512-PLQh94XDWwtClFIBzfaZJi9b/z4KyfjB2S58IRYle0SiHk+JaaEd3p2F8AV90qxrNgNAs2RM/JHx2nkG8NNeoQ==}
     peerDependencies:
-      '@lobehub/ui': ^5.42.2
+      '@lobehub/ui': ^5.47.0
       antd: 6.3.5
       react: 19.2.7
       react-dom: 19.2.7
@@ -7680,7 +7854,7 @@ packages:
   '@lobehub/editor@4.27.3':
     resolution: {integrity: sha512-fxaaKt+xdEGxPeYSQZrFh7jF2atBCvuWQHeMsQf0vNtxebvk0l/KHTgdAIjXp6/P8BmJqhy4Tj/7szHSyqqM+A==}
     peerDependencies:
-      '@lobehub/ui': ^5.42.2
+      '@lobehub/ui': ^5.47.0
       antd: 6.3.5
       motion: ^12.0.0
       react: 19.2.7
@@ -7713,7 +7887,7 @@ packages:
   '@lobehub/icons@5.18.0':
     resolution: {integrity: sha512-DIIdEYJfyJ93v1/OrsR7NVU0LGcoHh07I5tHx/HTFuBcYEiOJ/aUQwbnNXwVAhoXBWSSOwmmuFrF4UoNcQ0qnw==}
     peerDependencies:
-      '@lobehub/ui': ^5.42.2
+      '@lobehub/ui': ^5.47.0
       antd: 6.3.5
       react: 19.2.7
       react-dom: 19.2.7
@@ -7774,8 +7948,8 @@ packages:
       react: 19.2.7
       react-dom: 19.2.7
 
-  '@lobehub/ui@5.42.5':
-    resolution: {integrity: sha512-xGEBCyWjzQdptiZQtq9vpcdBe40s5Ekvz41sw8K5Tnk45fNEXU7CFNqcwUU6X+ZgIwt5lAlNFnU8IgC2sXhDqg==}
+  '@lobehub/ui@5.49.1':
+    resolution: {integrity: sha512-I+rQmEJQXjLc7vVqNTOuuvteDyCKCiAByG4J7HrhntifO5NbqXqfCNT+fhyQU8h5ZZb7UzzICMdIQSrRfv9UTw==}
     engines: {node: '>=22.22.0'}
     peerDependencies:
       '@lobehub/fluent-emoji': ^4.0.0
@@ -9037,8 +9211,8 @@ packages:
     cpu: [arm]
     os: [android]
 
-  '@oxc-parser/binding-android-arm-eabi@0.146.0':
-    resolution: {integrity: sha512-jBCZIsff/9J/zdK1KSKZREScXOtRE4wYO+MUjrE+5NHGdsslrP4biJA9QJyKwErwS8lkwxH6Z537HaL4CQr0ow==}
+  '@oxc-parser/binding-android-arm-eabi@0.148.0':
+    resolution: {integrity: sha512-pHASv9g5pASxb7akHERZNSkrEqPhFaUix98o7d9hbTpolnnFWl7UiRrcMhCsV1+iVO4/cJwKsbKRJTFNs2tdBQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [android]
@@ -9049,8 +9223,8 @@ packages:
     cpu: [arm64]
     os: [android]
 
-  '@oxc-parser/binding-android-arm64@0.146.0':
-    resolution: {integrity: sha512-BVwj6sVmgD9j5F+R5B+13pYQKOCmew+3myS19wcG5e+AeZu5ybBLEfcaKueC8MhvjtwL2Suh2tQE/Ywop2Z8rA==}
+  '@oxc-parser/binding-android-arm64@0.148.0':
+    resolution: {integrity: sha512-sg/6Ez0KdAygsu0POELux9wN1Po2CP93WY8eNl4DBKIGprsd4QSHBXOb471Pu9i2OCD5sLkISSb2agZEhVn2Zw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
@@ -9061,8 +9235,8 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
-  '@oxc-parser/binding-darwin-arm64@0.146.0':
-    resolution: {integrity: sha512-jQGIM4zEEvvuypbBcoeoWuigRfP6R8Ow/9gfDzVoYkv5mFyVPbIePNQnV752jUynfty0nDxarIpML+7Q/MyMPg==}
+  '@oxc-parser/binding-darwin-arm64@0.148.0':
+    resolution: {integrity: sha512-yiSJmzGUvCUaJT8X3j40gVcX+ckuHQMuiOtF8DvzTs5+JtB/7XuHFPp4M+vv5u+HlBtDUd4Ks5pyHpWz8mfnkg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
@@ -9073,8 +9247,8 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@oxc-parser/binding-darwin-x64@0.146.0':
-    resolution: {integrity: sha512-quDy3cvW1712l6W+qe1/xWRym6STOuGJmFzRIg5StXVJglsbqrCpHfw9PyqPs0hQeOAjAEO1USrjPaIvHiRKQw==}
+  '@oxc-parser/binding-darwin-x64@0.148.0':
+    resolution: {integrity: sha512-6ZeklaamrMy4H2JmhvcJg6iip59tYILtuLaILxyAHT3l5FDxnI5ihVievAft5ZmAbqtlWHErOi1OpJK8gy1wcA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
@@ -9085,8 +9259,8 @@ packages:
     cpu: [x64]
     os: [freebsd]
 
-  '@oxc-parser/binding-freebsd-x64@0.146.0':
-    resolution: {integrity: sha512-wx/p/9phlX4VbYk671G4WewST3pysXNQfZRx4gx69QIz0/uW2O3MCnnEQh4il6l2lYr0EDAq3kFYovIw68CXHw==}
+  '@oxc-parser/binding-freebsd-x64@0.148.0':
+    resolution: {integrity: sha512-vFsPx+a/qFECPnz/H8nC6x6MDvnWscLTCo/5muojEF54ERUq1kdgbvnWo95YnkhjF9sTIcG/uDxQBh1gffaufQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
@@ -9097,8 +9271,8 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@oxc-parser/binding-linux-arm-gnueabihf@0.146.0':
-    resolution: {integrity: sha512-W9nzfbWH8Z6cIaBj6Rh/eVgymFkZ2MaOV0rQruKTLYKLAZADo9JlOmBml6Dq2QbChtmuc3DKDL42KDHaQFX8yQ==}
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.148.0':
+    resolution: {integrity: sha512-eOr3M+6iGbbxNL4PSS0VtsyQ2eOUxSBh00BqO22SbolDimPSYsBuLr/LCrZBkiqW2BoabhR6V4R8jrRAay7hjg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
@@ -9109,8 +9283,8 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@oxc-parser/binding-linux-arm-musleabihf@0.146.0':
-    resolution: {integrity: sha512-S5X1mEvTLBTl+xt7bRlr1n6qI+OTy1EaRkYyd4EQgEZqV7i53fQa1I72OqR0IwSQKVwh6TZPkzDcsN7fS9MynQ==}
+  '@oxc-parser/binding-linux-arm-musleabihf@0.148.0':
+    resolution: {integrity: sha512-58ZKDw0mQRbCNfrd2IDyV4o8T7enzGERJn41BH2tjrZVGyiKiFzcfDicuB7Zcpb/1xIOrObovr8Dja6lZi8dLw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
@@ -9122,8 +9296,8 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-arm64-gnu@0.146.0':
-    resolution: {integrity: sha512-Br9UB4nnecVfj/Vp+JiJnJo2wIJtwaOm+uN7MwWKF5cx10P816urucmksG/iG2OeL7hfZ4h5fCmePrLU6TocfQ==}
+  '@oxc-parser/binding-linux-arm64-gnu@0.148.0':
+    resolution: {integrity: sha512-Fnu95O4eZ5i++GPvIzBEZ8y4ddTLR+D9paYa8JRaRk6ZK7nHQiWP5xtrhcPQsXqgat1d7sU/d5rbbI0p1FTHSQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
@@ -9136,8 +9310,8 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-linux-arm64-musl@0.146.0':
-    resolution: {integrity: sha512-5AP+od9VGhRyCwswTfuD0jSDfIcWptEBC+K0LWmXsUJ9BPVF3KbhsjeoV+9tijX6g5is0w4H8DUV7NkOJoOVVA==}
+  '@oxc-parser/binding-linux-arm64-musl@0.148.0':
+    resolution: {integrity: sha512-3CQy/BMdx7N7H3qrcPxUL+a2CwUZodUcf6oq8iJuNZ9C6Ol1aq3mcWzsgySJ7CHFLvpX21ZDPp1r1X0QLbu/AQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
@@ -9150,8 +9324,8 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-ppc64-gnu@0.146.0':
-    resolution: {integrity: sha512-Qz3jc1qgvU9B9vQu3jAJcxKlGX7zYRtKs8LPYtQi8cmirhtYcX6XvXseESaDFbi1L+SorXhjRQ/2npEX85kKBw==}
+  '@oxc-parser/binding-linux-ppc64-gnu@0.148.0':
+    resolution: {integrity: sha512-9LkaYvfiF8hMOw900csAvkf1oxE8XlmMeGowu5BcastSSwV8mKvKRMNU7HsV+ycyj1dQD8pX5qgOw8ja6SJacg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
@@ -9164,8 +9338,8 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-riscv64-gnu@0.146.0':
-    resolution: {integrity: sha512-Mfmg18lOZ1IWJJJuHi1ZsMLunqNVeLEh3Byuw+Aa8dYo7qOrZOMZQz1gFgAeNga5/Z5jjRuIKuIdo9aO7HYMdg==}
+  '@oxc-parser/binding-linux-riscv64-gnu@0.148.0':
+    resolution: {integrity: sha512-2GBiM9h26dR4WJfhoMvnFMnFLf7m/kYs4UMqjvrOfQG4BV1nuTJDH22Zc2MQr3INZF7nSKYQ6xlhD3hQ7A6gug==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
@@ -9178,8 +9352,8 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-linux-riscv64-musl@0.146.0':
-    resolution: {integrity: sha512-6OdXwYnzbwYcnUH8f0LYauLNitjIcgDR/CDA/wcZ2whwJwVflGtCLF3+3HOXgs/SESnpQCWXr7Q/z9muLJ5bmQ==}
+  '@oxc-parser/binding-linux-riscv64-musl@0.148.0':
+    resolution: {integrity: sha512-uPqZexvKJmEgq4mAu36qe2xTfXZE7oyik1R7KtZ5tl8qKlq1U1fIqTFRUEBZqRGvforoTrGIpatRzcoPKO66RA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
@@ -9192,8 +9366,8 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-s390x-gnu@0.146.0':
-    resolution: {integrity: sha512-BilV4Ei84A0m6r1v+LmgVrfUMbAz33IXRooVw/BQNDExUvGGNLrk6NWeot+ve99bRidTZdwWuzBHgxWCnSSa9Q==}
+  '@oxc-parser/binding-linux-s390x-gnu@0.148.0':
+    resolution: {integrity: sha512-9oUHvnTbp7ZraFsTC8PN6XhdhPSSxZumYvixWl7Smi353gEULvK6yV0sXNVrdFMHQeaDKFCi8TgDhNK7/A+Y+Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
@@ -9206,8 +9380,8 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-x64-gnu@0.146.0':
-    resolution: {integrity: sha512-RaMfGIpWOa87u3aD87drbPgisy7Nv6gIdjRFw6msIDKO+3FmcOTw+vpp4hVANhUIzpQta2EAsmYQRrqeprZTmQ==}
+  '@oxc-parser/binding-linux-x64-gnu@0.148.0':
+    resolution: {integrity: sha512-2qhDSJwKzbSZzF7lDqqk8sr/yXsmwr3PeUa4/nazIF+zFAYz1gVPEfC34GQtGxzJUUmklaYAL63368LEfrMeyw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
@@ -9220,8 +9394,8 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-linux-x64-musl@0.146.0':
-    resolution: {integrity: sha512-0bzF60jfQRsJ9TJOIHK+wSUirenJAyWCdP9z3P6LMS0znD4Gf7WYOiv7niONVOpRnlGjzMPd4kqgOJfCDLQAQg==}
+  '@oxc-parser/binding-linux-x64-musl@0.148.0':
+    resolution: {integrity: sha512-qQoPDZUFV0bh9xA09XydmkjMBpgc1ukJuhMvzQ9QeVmFaHTS9W5TE5CoLmSl3QQyUP9OuHO3x/WPZTIIZPWR3Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
@@ -9233,8 +9407,8 @@ packages:
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxc-parser/binding-openharmony-arm64@0.146.0':
-    resolution: {integrity: sha512-O1gxUFt5FUgyFVUQK2BhZNwv7jLsqLR8uBANOhpYE5D5q+eCvcry7RvQT3DgKpWP1XRYB5UsbQGHHcwchEKb+w==}
+  '@oxc-parser/binding-openharmony-arm64@0.148.0':
+    resolution: {integrity: sha512-1UGbaQWEXUCLqAmaR5kwRDjx/R4S5LQKZkM9CHmaHkuKhriOF32aRLfS0jCRNE2yGQJLMEA1z9UucbBVqjXnDw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
@@ -9250,8 +9424,8 @@ packages:
     cpu: [arm64]
     os: [win32]
 
-  '@oxc-parser/binding-win32-arm64-msvc@0.146.0':
-    resolution: {integrity: sha512-i46zYS0TTCt+oaXaDx4mKxuXo+h8OBWI12XFatRm5I9/l2WKhp4TQ6VAjw0r1NMRiQQZ9dwQlRyQNhyTkOaINg==}
+  '@oxc-parser/binding-win32-arm64-msvc@0.148.0':
+    resolution: {integrity: sha512-pWKdzRDNG2+NK4h/V6U/CYERcfYD6u28h5IB/VJVsrZaD3muvE58tUj22lieL5vLZ+XFi1GPv9YXckZbJZ9BLA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
@@ -9262,8 +9436,8 @@ packages:
     cpu: [ia32]
     os: [win32]
 
-  '@oxc-parser/binding-win32-ia32-msvc@0.146.0':
-    resolution: {integrity: sha512-v1bb+ma2oKXwh4NHAg2NQwe9ORXFBDSCEkuO1qC4Rzm8EXcQdNhiJHpTNfulZ2P+1QpYUB6QYupW4mgMVom/tA==}
+  '@oxc-parser/binding-win32-ia32-msvc@0.148.0':
+    resolution: {integrity: sha512-i3p4x+mvwtjcE1J5HM6V7ggsbXiznExN/4MkNyOy3dfXrVV3bnkSfmZxvo6/84qCVX4ShkpNE1SKt9biIF31GQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
@@ -9274,8 +9448,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@oxc-parser/binding-win32-x64-msvc@0.146.0':
-    resolution: {integrity: sha512-uT8N1/qdNSGonvW1O2kZYNczqb/VYfnj5dpUy1FmedOPodj3MNFNWhAJkMZlI5u8xuTRtrpTccnr0U5HAMVRjQ==}
+  '@oxc-parser/binding-win32-x64-msvc@0.148.0':
+    resolution: {integrity: sha512-Ye6vB7VQulghWYkYkECOBYFRVEizz4XyRTUAv+t8BuyurhKU7uD0P9eowL+mKG5Mf8MSYx+DI3Cm8SKZvYG7bQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -9289,8 +9463,8 @@ packages:
   '@oxc-project/types@0.133.0':
     resolution: {integrity: sha512-KzkdCd6Uxqnf6l3HOw1xfatAlUURA0g14cvBYFyJ5SaNOQbOUvBr9PKArcPcrNIeRsBdgcUzOGrhKveVpvOIGA==}
 
-  '@oxc-project/types@0.146.0':
-    resolution: {integrity: sha512-XC0QsnnhVe7sLIWmYmdPw7x5P0h4W8vUU3Nv1ySgWXtvCz8NizoAEpGXA0sOYoJQV2Rl13LgURAHQ5cI5ILCSA==}
+  '@oxc-project/types@0.148.0':
+    resolution: {integrity: sha512-Nm4s/jB+4FpFsPhWGEC4h7rzksesmtnMXomo6rCMcg/b8zLQuOziRgkCS1fxDCXOlJB/6Q8oABOZ/OP6RIPj9A==}
 
   '@oxc-resolver/binding-android-arm-eabi@11.24.2':
     resolution: {integrity: sha512-y09e0L0SRI2OA2tUIrjBgoV3eH5hvUKXNkJqXmNo5V2WxIjyC7I7aJfRLMEVpA8yi95f90gFDvO0VMgrDw+vwA==}
@@ -9395,124 +9569,124 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@oxlint/binding-android-arm-eabi@1.79.0':
-    resolution: {integrity: sha512-TebFaaMklO/RXzTv7PucaCq9l3X6D1gA+C8H6K4njtjFOV+zWE9MKLpulcJZN9bzytbUbQIY0mZuz12nQ5Kv4Q==}
+  '@oxlint/binding-android-arm-eabi@1.81.0':
+    resolution: {integrity: sha512-IcCRsXiedJoJopY6mpZUBEeVFsUrutmrG7dZ87zMuKJlhg70Ora9bBl1WcCxZQtyI10YpnVdEso5oCg7YcfSHw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [android]
 
-  '@oxlint/binding-android-arm64@1.79.0':
-    resolution: {integrity: sha512-KqqnOtAVgNsPPF0YSodkFZA1O80jcKoCZCTu3bgsszxA+MrMP9TLzfXitKjEj1FmrPprKDMdRDMmY3weESO9sg==}
+  '@oxlint/binding-android-arm64@1.81.0':
+    resolution: {integrity: sha512-GRrIPyTGVhx3L3h+0T5xT2A0jFAcdPv4+IfuXpGDLIdl6XeYhgg/zw72A5ILZoUgRqZuM8F1y+V/gfDriXSxzQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
 
-  '@oxlint/binding-darwin-arm64@1.79.0':
-    resolution: {integrity: sha512-BVC2nsMzqQzRDPc5RhixkZ+m1p7iH4bxRRvqkbwDXX0PlQKm1BPy8J8cRjnAFafOq2QzI+BfO3vE8w2GZ3CBag==}
+  '@oxlint/binding-darwin-arm64@1.81.0':
+    resolution: {integrity: sha512-qNQ9tXRgLuKbqSV1S2h9h4KPHjbovO7RRR2/enUOtHzTkFZ7B9X5zqqHJua8dRyc7dBy7Aoyq5pqTSLFVcAzGQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxlint/binding-darwin-x64@1.79.0':
-    resolution: {integrity: sha512-p6Lm+snmhGuLKL1+CpCV8L6ijkE/qJzK2H2jG9+eKJT0n31RbY4FLsdhexekgP3bLpw4Kgde+9DZuDZQ4yIInA==}
+  '@oxlint/binding-darwin-x64@1.81.0':
+    resolution: {integrity: sha512-q0QTm32jWga2Gv4j7IaVZN0jYMi9UV73sWVgFtDA4iIfqwMCLLZ3ve+9KwfYtsaKZSgQhmPaogeZWqDZpcY1Pw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@oxlint/binding-freebsd-x64@1.79.0':
-    resolution: {integrity: sha512-qDMm0dXZnoHyRqSL4N4xUq82T4sqK5cbKSjvd/dF/YbMUXc2R1wEPf+vmA5S0qUmi0nwXfNbjXBtZaIqzQLIMg==}
+  '@oxlint/binding-freebsd-x64@1.81.0':
+    resolution: {integrity: sha512-/+8wVWDXEC7wHVAhOc59Fw/SkMc1arLkFD8iQCaSsmzenK1X4doFqquL9H1wrtGUzaiycVqkf/sSpcILK6W1UA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxlint/binding-linux-arm-gnueabihf@1.79.0':
-    resolution: {integrity: sha512-2od7s0nuKPzqyUZAWk9KkCyGg7eI9dwFPZg+20lB15fKFkVZ0c9ZFxqPfiBAyDTlTkh9stPI0t+JlPCqMbItVA==}
+  '@oxlint/binding-linux-arm-gnueabihf@1.81.0':
+    resolution: {integrity: sha512-4xt422FEgioRq9hAL4Tq7fujGUWnc8z1BJ+Oi8RN8vB8axaP+sdK6a2xdlcQCCYnJg9QMuMFS0AucuIFx/EacA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxlint/binding-linux-arm-musleabihf@1.79.0':
-    resolution: {integrity: sha512-ZOQUjkzDnvlhSE3+tWC3YXx94MMl+sYMlwH+u1+YGApGHOJP/YAc8ZBRFOXZ6eOBmxtXAWuS/fBcdZr8qqNO1A==}
+  '@oxlint/binding-linux-arm-musleabihf@1.81.0':
+    resolution: {integrity: sha512-u3vna8KdGplH4DRCW9K54D68fcMo7IxVrkCJWwXnIhwtBdnDnYrmzOUA/XjmBlPpcLsgw9Z5BNdY4za9+Dj+MQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxlint/binding-linux-arm64-gnu@1.79.0':
-    resolution: {integrity: sha512-lu158FR4nGqGeRS3BQvtG85wRgU/Fy4MD5Cxp1hzJXizGiLo6u2742wJSCDKh8cFcZntvX7fcxlq4mMmfryH1g==}
+  '@oxlint/binding-linux-arm64-gnu@1.81.0':
+    resolution: {integrity: sha512-3j9k+gsYsE7nv71GWotXsqsa2l9/aJenD7dVHNt/CBvsb0SgRjSMnHFeP59IXUAl1wvVFhqGl2wJNMwWU3UBlA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-arm64-musl@1.79.0':
-    resolution: {integrity: sha512-mbpKQeE2aflTjddaHK7MP8KP/OFbUM++lt5M635ENM8IyIdK0jm2t9pb+2v9mVVIvhF6TqA4l7F79Pll1mi+uw==}
+  '@oxlint/binding-linux-arm64-musl@1.81.0':
+    resolution: {integrity: sha512-k5iAp3dNxW0/uDCBY+WSm8jKB2szu7SkEQZdgRRpDXvuDd69vvDcqhB3A/pWCfCwXyenjNjFn9Td1fVoyAc+Yg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-linux-ppc64-gnu@1.79.0':
-    resolution: {integrity: sha512-WpGNua7gaxaHnpSDeog2ji8IDHn/QLPl9LPzwkR/FvVv58vT5BcXjRXnU+wbu3N75cpeha8CdC7ho/U2OIsB4g==}
+  '@oxlint/binding-linux-ppc64-gnu@1.81.0':
+    resolution: {integrity: sha512-TFqLja3uYmVSte6nof9GWrex9Z8WgdZrNiLC6Te5rXGDqXB2y4j/26iFhwosXiAFqDhE9JJVuuCkDKLwptTn1g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-riscv64-gnu@1.79.0':
-    resolution: {integrity: sha512-tK1E93A5LVzISg4ngpKJnfTs7EqtIUceGI7MQ4GyDjJiLi8wPCkEyKlj2xkyKWZ1yzkDJyLHTBJ5/iFWRdnJvg==}
+  '@oxlint/binding-linux-riscv64-gnu@1.81.0':
+    resolution: {integrity: sha512-UEcySvGS0NOVo7h7n7CYyJL9+6gFAh7Zc/ToDXVScFvzHSTIxtzkMVU30rmQ6+nQ1LF+UdiRDdJajpDu+OylLg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-riscv64-musl@1.79.0':
-    resolution: {integrity: sha512-qhQvUIrngXivA2A9pQ+xPCychztn/5qUv7yS3gDwXv3w7Rag+eTeeXWmRyx+t7XsW5x6LuY/8AsTq36UgFIblg==}
+  '@oxlint/binding-linux-riscv64-musl@1.81.0':
+    resolution: {integrity: sha512-H+diDbhD00+wI1IRP8Kz88x/lat+DgtoBJzoTthS16xkTJGNaEkfb8gzmd1rzc/2uDQQMl7GNl+JFUacVeWxIA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-linux-s390x-gnu@1.79.0':
-    resolution: {integrity: sha512-sv6AaVgU/eE6u+6WFiQVDcPPwTxP6IJMSB9k701W2r/r6Tx465e8vPvVyRxquNH4Vy6KwRNu90mVbxXJN8+5gg==}
+  '@oxlint/binding-linux-s390x-gnu@1.81.0':
+    resolution: {integrity: sha512-8znJ/5TekjOKg1j1Acho4PJMdiAHLtlcXuWEiipOhAMV6rQcXdmDdXCbheyDczN6TjBwiNfjcP81k4AthrKRzw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-x64-gnu@1.79.0':
-    resolution: {integrity: sha512-iFZL02deziHslb3jEX9KdqlAkYoo4fGyotchKDzdfK1f5mxlIBeiQeHhvK3iFpuEJSB4ma/qeFn9oxPiwnhUPQ==}
+  '@oxlint/binding-linux-x64-gnu@1.81.0':
+    resolution: {integrity: sha512-Q2Wj70yFsvn5QjlmifFzbj4H+kJy53bwqc41o1fzoM7MpLV1NIbhg/LpWXRfC6KOkSAdUx1Wd8VJsdPmhp/HRA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-x64-musl@1.79.0':
-    resolution: {integrity: sha512-3DtZR2raqObnh7wXZoFYFd0Fw7skBvcb3f7A+/lkEiDuh8hrE6vv9b/62Qxao1a9/OeHLw/FcXlXzgsW9wTRFg==}
+  '@oxlint/binding-linux-x64-musl@1.81.0':
+    resolution: {integrity: sha512-cPInHp/ddEe5qkyK2IiyQ8Q3Mp2oLLEhhsGgTK2oZx4L6+llGam1H1yBvJZ7qHfOXj8N3hxBS8sj4tO+gtFlIg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-openharmony-arm64@1.79.0':
-    resolution: {integrity: sha512-Oatt4GuA1WJkqzk2ozx4HrWROOi7opV3AKDw/U8qDIqeTqzsjn5K2x3REJMNjU3/KU/Bkq96Zi3CknaiDTaC/Q==}
+  '@oxlint/binding-openharmony-arm64@1.81.0':
+    resolution: {integrity: sha512-0CQxSX4ajqm07AHBf5U33qQzXKdd7wtq/oTL/7vpY6RNNuxrRi8W4bqUV1Jyu/vj+9KmxQyDhxfeVX1nQL6kfg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxlint/binding-win32-arm64-msvc@1.79.0':
-    resolution: {integrity: sha512-NAgZr9Qp8nIA9rpo0JEvwiabTF/2UVqBNnupBG9X4kxXcQoScJUTi+qHhvabb9s/thgj5wQ4XcIaJvb+ZMgoKw==}
+  '@oxlint/binding-win32-arm64-msvc@1.81.0':
+    resolution: {integrity: sha512-l0hbeISm9673hVrrQU8j/p2M7YH9Ouoj7p7E/QM55NTrKVLP+P3PF8hLu+OY+x0VtGRW+ggiQKZqmdYps9H+TA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@oxlint/binding-win32-ia32-msvc@1.79.0':
-    resolution: {integrity: sha512-+KyXjIvcpaXmWW/j9NNY5yWjrIVxaX18VyIheQy3jwc2GSYgpCr7MGI/HxIGQ/shAL5IWEKbhsqoMpAO5Stiog==}
+  '@oxlint/binding-win32-ia32-msvc@1.81.0':
+    resolution: {integrity: sha512-ksqPP5jbFXcYreEQ7zdJh06rJQBymCTyGRCdaXjfcf2aG4f8KxUWY5wcgYHmaTK+FJ4bPG5sUAdOX+6trnH1JA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
 
-  '@oxlint/binding-win32-x64-msvc@1.79.0':
-    resolution: {integrity: sha512-mEelcCMMBS57sIXh2veGMNy+pQwuGtcMxHxGIZWQ5Ba9pJ5jCCUFOZB9E2JhBaxGsURe+WGe0zJp4RVre52gpQ==}
+  '@oxlint/binding-win32-x64-msvc@1.81.0':
+    resolution: {integrity: sha512-IZuUCwGw9emG5JtCp+fYGB+Z4OWEoeEcM8R5BA1pYw63/ieYFVdcU2ylxTpHbVHSenZnsYE+ZZ20uHAJszQ4cA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -12190,6 +12364,7 @@ packages:
   '@vercel/edge-config@1.5.1':
     resolution: {integrity: sha512-eawv5LKqEk+KL9lw+lzExpPELE8B1DdvWhpswtSr5nkUujH4nOLq89fY565uWp5z70XzTnfx6E08KIVmgOwSjg==}
     engines: {node: '>=14.6'}
+    deprecated: This package has been renamed to @vercel/global-config. Install @vercel/global-config instead.
     peerDependencies:
       '@opentelemetry/api': ^1.7.0
       next: '>=1'
@@ -18649,19 +18824,19 @@ packages:
     resolution: {integrity: sha512-+0LAPHaqtfQlvWdpaAa09SmOaZZgP8C552xosEkGJ4+ruEwP1Vgx+sqBgcBCNfR6KDCmagGOZTde8wmAvcI/Hg==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
-  oxc-parser@0.146.0:
-    resolution: {integrity: sha512-hrt0Ou2mCL8dLuvfvKWFjRlWaJKt0Xs7CfacAgb9mha0gKW1lSisUzNRyALgItMPIfThxkl8jH2ONP6ZbQXpaA==}
+  oxc-parser@0.148.0:
+    resolution: {integrity: sha512-syxUKHeUll89RIABQADcI7sikYrwyssvA6gj4phSSIPezKVM8yMaLAiLLSc7fmzVvrwybfFGFbW5zme9sX87rg==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   oxc-resolver@11.24.2:
     resolution: {integrity: sha512-FY91FiDBj7ls5MsFS9jN3tjz2o0/zsdSsymlakySaBwVJZorHhkWyICLZMKxlu1R9vYo+sd3z1jwb4J8x7bNDw==}
 
-  oxlint-plugin-react-doctor@0.9.13:
-    resolution: {integrity: sha512-JuGpGSZ2mmzRaZlhSDdDu3+TZZ+d1q9HPyptU3XW3yL7YMDsJqq9QCPZqTwphPohOByvk+sypBI1+kKgovsPcg==}
+  oxlint-plugin-react-doctor@0.9.14:
+    resolution: {integrity: sha512-YGdwFmQXGQulT63SnVD9JI1hV2EwGnZHrgSlUMQaOkvnhYA200QwDeb7DfVT8UBt34lBvbkjtz8VRFJugHjsRQ==}
     engines: {node: ^20.19.0 || >=22.13.0}
 
-  oxlint@1.79.0:
-    resolution: {integrity: sha512-hVJ9hq9m2unPS+Of4eJJgCPdIeCC+3DHEUX3tkmrPJr3OK2hz7PhXwgC+ZP71ZcYu8cCDEtQrqLxWNvxBppBVg==}
+  oxlint@1.81.0:
+    resolution: {integrity: sha512-HyrJYqeoOCL0iqaLEzGewGT48ZX99P3hxYh8udAF9RGGIghSamkXE4ClUyBpEDNqasamThgmlPbuMOe7SAZmHg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -19555,8 +19730,8 @@ packages:
   react-devtools-inline@4.4.0:
     resolution: {integrity: sha512-ES0GolSrKO8wsKbsEkVeiR/ZAaHQTY4zDh1UW8DImVmm8oaGLl3ijJDvSGe+qDRKPZdPRnDtWWnSvvrgxXdThQ==}
 
-  react-doctor@0.9.13:
-    resolution: {integrity: sha512-OGzhgLmH+eFlYa3gOv8Y/yOaR6yswRxiLJ37wWc9/fm57bP8/3n5/TZQLMctv/8izKvqtmblIpW+0SqMYKP7Xg==}
+  react-doctor@0.9.14:
+    resolution: {integrity: sha512-JzOwAY/hoSxHa4Siyqgfxr/KCNak0SB9pSTseFVStFHAnWS+XxR6RsWU6Q5Ho+J5Jmyb9LZRXc6ZK5jt3cfcQQ==}
     engines: {node: ^20.19.0 || >=22.13.0}
     hasBin: true
 
@@ -19958,6 +20133,9 @@ packages:
 
   rehype-recma@1.0.0:
     resolution: {integrity: sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw==}
+
+  rehype-sanitize@6.0.0:
+    resolution: {integrity: sha512-CsnhKNsyI8Tub6L4sm5ZFsme4puGfc6pYylvXo1AeqaGbjOYyzNv3qZPwvs0oMJ39eryyeOdmxwUIo94IpEhqg==}
 
   remark-breaks@4.0.0:
     resolution: {integrity: sha512-IjEjJOkH4FuJvHZVIW0QCDWxcG96kCq7An/KVH2NfJe6rKZU2AsHeB3OEjPNRxi4QC34Xdx7I2KGYn6IpT7gxQ==}
@@ -22231,15 +22409,21 @@ packages:
       vue:
         optional: true
 
-  virtua@0.49.3:
-    resolution: {integrity: sha512-k1Yn988Vz/L40uDtEWPjfdVo15Suumh4tU4/z5Srs0elNcU9DgBskqdh3llpHyAlXrCeHWTfcclYvY1uU4MmIg==}
+  virtua@0.52.7:
+    resolution: {integrity: sha512-3xdhgKCbetu7Gez+DJfjmE+1zI7tsCN+07ZpUBhABDyqqT5r+fji6c0vmQCZlxI8o022d/LdIm2E/9T/LE9rPA==}
     peerDependencies:
+      '@angular/common': '>=20.0.0'
+      '@angular/core': '>=20.0.0'
       react: 19.2.7
       react-dom: 19.2.7
       solid-js: '>=1.0'
       svelte: '>=5.0'
       vue: '>=3.2'
     peerDependenciesMeta:
+      '@angular/common':
+        optional: true
+      '@angular/core':
+        optional: true
       react:
         optional: true
       react-dom:
@@ -27451,9 +27635,9 @@ snapshots:
       - preact-render-to-string
       - supports-color
 
-  '@lobehub/charts@5.4.0(@lobehub/ui@5.42.5)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)':
+  '@lobehub/charts@5.4.0(@lobehub/ui@5.49.1)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)':
     dependencies:
-      '@lobehub/ui': 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@lobehub/ui': 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       ahooks: 3.10.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       antd: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       antd-style: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
@@ -27492,7 +27676,7 @@ snapshots:
       '@commitlint/cli': 19.8.1(@types/node@24.13.4)(typescript@6.0.3)
       commitlint-config-gitmoji: 2.3.1
 
-  '@lobehub/editor@4.27.3(@lobehub/ui@5.42.5)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)':
+  '@lobehub/editor@4.27.3(@lobehub/ui@5.49.1)(@types/mdast@4.0.4)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)':
     dependencies:
       '@floating-ui/dom': 1.8.0
       '@floating-ui/react': 0.27.20(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -27508,7 +27692,7 @@ snapshots:
       '@lexical/table': 0.42.0
       '@lexical/utils': 0.42.0
       '@lexical/yjs': 0.42.0(yjs@13.6.32)
-      '@lobehub/ui': 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@lobehub/ui': 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       '@shikijs/core': 4.4.3
       '@shikijs/engine-javascript': 4.4.3
       '@xmldom/xmldom': 0.9.12
@@ -27644,9 +27828,9 @@ snapshots:
       - ws
       - zod
 
-  '@lobehub/icons@5.18.0(@lobehub/ui@5.42.5)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)':
+  '@lobehub/icons@5.18.0(@lobehub/ui@5.49.1)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)':
     dependencies:
-      '@lobehub/ui': 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@lobehub/ui': 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       antd-style: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       es-toolkit: 1.52.0
@@ -27833,7 +28017,7 @@ snapshots:
 
   '@lobehub/tts@5.1.2(@aws-sdk/credential-provider-node@3.972.83)(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@smithy/hash-node@4.5.2)(@smithy/signature-v4@5.7.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))(ws@8.21.3)(zod@4.5.4)':
     dependencies:
-      '@lobehub/ui': 5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@lobehub/ui': 5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       antd: 6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       antd-style: 4.1.0(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       es-toolkit: 1.52.0
@@ -27851,6 +28035,8 @@ snapshots:
       url-join: 5.0.0
       uuid: 11.1.1
     transitivePeerDependencies:
+      - '@angular/common'
+      - '@angular/core'
       - '@aws-sdk/credential-provider-node'
       - '@date-fns/tz'
       - '@lobehub/fluent-emoji'
@@ -27872,7 +28058,7 @@ snapshots:
       - ws
       - zod
 
-  '@lobehub/ui@5.42.5(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))':
+  '@lobehub/ui@5.49.1(@lobehub/fluent-emoji@4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2))(@lobehub/icons@5.18.0)(@shikijs/themes@4.4.3)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(motion@12.43.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       '@ant-design/cssinjs': 2.1.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@base-ui/react': 1.8.0(@types/react@19.2.13)(date-fns@4.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -27886,7 +28072,7 @@ snapshots:
       '@floating-ui/react': 0.27.20(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@giscus/react': 3.1.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@lobehub/fluent-emoji': 4.1.1(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
-      '@lobehub/icons': 5.18.0(@lobehub/ui@5.42.5)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
+      '@lobehub/icons': 5.18.0(@lobehub/ui@5.49.1)(@types/react@19.2.13)(antd@6.3.5(date-fns@4.4.0)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       '@lobehub/streamdown': 1.3.1(@types/react@19.2.13)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       '@mdx-js/mdx': 3.1.1(supports-color@10.2.2)
       '@mdx-js/react': 3.1.1(@types/react@19.2.13)(react@19.2.7)
@@ -27937,6 +28123,7 @@ snapshots:
       react-zoom-pan-pinch: 4.2.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       rehype-github-alerts: 4.2.0
       rehype-raw: 7.0.0
+      rehype-sanitize: 6.0.0
       remark-breaks: 4.0.0
       remark-cjk-friendly: 2.3.1(@types/mdast@4.0.4)(micromark-util-types@2.0.2)(micromark@4.0.2(supports-color@10.2.2))(unified@11.0.5)
       remark-gfm: 4.0.1(supports-color@10.2.2)
@@ -27954,8 +28141,10 @@ snapshots:
       use-merge-value: 1.2.0(react@19.2.7)
       uuid: 14.0.2
       vfile: 6.0.3
-      virtua: 0.49.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vue@3.5.42(typescript@6.0.3))
+      virtua: 0.52.7(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vue@3.5.42(typescript@6.0.3))
     transitivePeerDependencies:
+      - '@angular/common'
+      - '@angular/core'
       - '@date-fns/tz'
       - '@shikijs/themes'
       - '@types/mdast'
@@ -29710,97 +29899,97 @@ snapshots:
   '@oxc-parser/binding-android-arm-eabi@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-android-arm-eabi@0.146.0':
+  '@oxc-parser/binding-android-arm-eabi@0.148.0':
     optional: true
 
   '@oxc-parser/binding-android-arm64@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-android-arm64@0.146.0':
+  '@oxc-parser/binding-android-arm64@0.148.0':
     optional: true
 
   '@oxc-parser/binding-darwin-arm64@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-darwin-arm64@0.146.0':
+  '@oxc-parser/binding-darwin-arm64@0.148.0':
     optional: true
 
   '@oxc-parser/binding-darwin-x64@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-darwin-x64@0.146.0':
+  '@oxc-parser/binding-darwin-x64@0.148.0':
     optional: true
 
   '@oxc-parser/binding-freebsd-x64@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-freebsd-x64@0.146.0':
+  '@oxc-parser/binding-freebsd-x64@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm-gnueabihf@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm-gnueabihf@0.146.0':
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm-musleabihf@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm-musleabihf@0.146.0':
+  '@oxc-parser/binding-linux-arm-musleabihf@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm64-gnu@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm64-gnu@0.146.0':
+  '@oxc-parser/binding-linux-arm64-gnu@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm64-musl@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm64-musl@0.146.0':
+  '@oxc-parser/binding-linux-arm64-musl@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-ppc64-gnu@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-ppc64-gnu@0.146.0':
+  '@oxc-parser/binding-linux-ppc64-gnu@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-riscv64-gnu@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-riscv64-gnu@0.146.0':
+  '@oxc-parser/binding-linux-riscv64-gnu@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-riscv64-musl@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-riscv64-musl@0.146.0':
+  '@oxc-parser/binding-linux-riscv64-musl@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-s390x-gnu@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-s390x-gnu@0.146.0':
+  '@oxc-parser/binding-linux-s390x-gnu@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-x64-gnu@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-x64-gnu@0.146.0':
+  '@oxc-parser/binding-linux-x64-gnu@0.148.0':
     optional: true
 
   '@oxc-parser/binding-linux-x64-musl@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-linux-x64-musl@0.146.0':
+  '@oxc-parser/binding-linux-x64-musl@0.148.0':
     optional: true
 
   '@oxc-parser/binding-openharmony-arm64@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-openharmony-arm64@0.146.0':
+  '@oxc-parser/binding-openharmony-arm64@0.148.0':
     optional: true
 
   '@oxc-parser/binding-wasm32-wasi@0.132.0':
@@ -29813,19 +30002,19 @@ snapshots:
   '@oxc-parser/binding-win32-arm64-msvc@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-win32-arm64-msvc@0.146.0':
+  '@oxc-parser/binding-win32-arm64-msvc@0.148.0':
     optional: true
 
   '@oxc-parser/binding-win32-ia32-msvc@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-win32-ia32-msvc@0.146.0':
+  '@oxc-parser/binding-win32-ia32-msvc@0.148.0':
     optional: true
 
   '@oxc-parser/binding-win32-x64-msvc@0.132.0':
     optional: true
 
-  '@oxc-parser/binding-win32-x64-msvc@0.146.0':
+  '@oxc-parser/binding-win32-x64-msvc@0.148.0':
     optional: true
 
   '@oxc-project/types@0.127.0': {}
@@ -29834,7 +30023,7 @@ snapshots:
 
   '@oxc-project/types@0.133.0': {}
 
-  '@oxc-project/types@0.146.0': {}
+  '@oxc-project/types@0.148.0': {}
 
   '@oxc-resolver/binding-android-arm-eabi@11.24.2':
     optional: true
@@ -29897,61 +30086,61 @@ snapshots:
   '@oxc-resolver/binding-win32-x64-msvc@11.24.2':
     optional: true
 
-  '@oxlint/binding-android-arm-eabi@1.79.0':
+  '@oxlint/binding-android-arm-eabi@1.81.0':
     optional: true
 
-  '@oxlint/binding-android-arm64@1.79.0':
+  '@oxlint/binding-android-arm64@1.81.0':
     optional: true
 
-  '@oxlint/binding-darwin-arm64@1.79.0':
+  '@oxlint/binding-darwin-arm64@1.81.0':
     optional: true
 
-  '@oxlint/binding-darwin-x64@1.79.0':
+  '@oxlint/binding-darwin-x64@1.81.0':
     optional: true
 
-  '@oxlint/binding-freebsd-x64@1.79.0':
+  '@oxlint/binding-freebsd-x64@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-arm-gnueabihf@1.79.0':
+  '@oxlint/binding-linux-arm-gnueabihf@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-arm-musleabihf@1.79.0':
+  '@oxlint/binding-linux-arm-musleabihf@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-arm64-gnu@1.79.0':
+  '@oxlint/binding-linux-arm64-gnu@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-arm64-musl@1.79.0':
+  '@oxlint/binding-linux-arm64-musl@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-ppc64-gnu@1.79.0':
+  '@oxlint/binding-linux-ppc64-gnu@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-riscv64-gnu@1.79.0':
+  '@oxlint/binding-linux-riscv64-gnu@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-riscv64-musl@1.79.0':
+  '@oxlint/binding-linux-riscv64-musl@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-s390x-gnu@1.79.0':
+  '@oxlint/binding-linux-s390x-gnu@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-x64-gnu@1.79.0':
+  '@oxlint/binding-linux-x64-gnu@1.81.0':
     optional: true
 
-  '@oxlint/binding-linux-x64-musl@1.79.0':
+  '@oxlint/binding-linux-x64-musl@1.81.0':
     optional: true
 
-  '@oxlint/binding-openharmony-arm64@1.79.0':
+  '@oxlint/binding-openharmony-arm64@1.81.0':
     optional: true
 
-  '@oxlint/binding-win32-arm64-msvc@1.79.0':
+  '@oxlint/binding-win32-arm64-msvc@1.81.0':
     optional: true
 
-  '@oxlint/binding-win32-ia32-msvc@1.79.0':
+  '@oxlint/binding-win32-ia32-msvc@1.81.0':
     optional: true
 
-  '@oxlint/binding-win32-x64-msvc@1.79.0':
+  '@oxlint/binding-win32-x64-msvc@1.81.0':
     optional: true
 
   '@paralleldrive/cuid2@2.3.1':
@@ -40499,29 +40688,29 @@ snapshots:
       '@oxc-parser/binding-win32-ia32-msvc': 0.132.0
       '@oxc-parser/binding-win32-x64-msvc': 0.132.0
 
-  oxc-parser@0.146.0:
+  oxc-parser@0.148.0:
     dependencies:
-      '@oxc-project/types': 0.146.0
+      '@oxc-project/types': 0.148.0
     optionalDependencies:
-      '@oxc-parser/binding-android-arm-eabi': 0.146.0
-      '@oxc-parser/binding-android-arm64': 0.146.0
-      '@oxc-parser/binding-darwin-arm64': 0.146.0
-      '@oxc-parser/binding-darwin-x64': 0.146.0
-      '@oxc-parser/binding-freebsd-x64': 0.146.0
-      '@oxc-parser/binding-linux-arm-gnueabihf': 0.146.0
-      '@oxc-parser/binding-linux-arm-musleabihf': 0.146.0
-      '@oxc-parser/binding-linux-arm64-gnu': 0.146.0
-      '@oxc-parser/binding-linux-arm64-musl': 0.146.0
-      '@oxc-parser/binding-linux-ppc64-gnu': 0.146.0
-      '@oxc-parser/binding-linux-riscv64-gnu': 0.146.0
-      '@oxc-parser/binding-linux-riscv64-musl': 0.146.0
-      '@oxc-parser/binding-linux-s390x-gnu': 0.146.0
-      '@oxc-parser/binding-linux-x64-gnu': 0.146.0
-      '@oxc-parser/binding-linux-x64-musl': 0.146.0
-      '@oxc-parser/binding-openharmony-arm64': 0.146.0
-      '@oxc-parser/binding-win32-arm64-msvc': 0.146.0
-      '@oxc-parser/binding-win32-ia32-msvc': 0.146.0
-      '@oxc-parser/binding-win32-x64-msvc': 0.146.0
+      '@oxc-parser/binding-android-arm-eabi': 0.148.0
+      '@oxc-parser/binding-android-arm64': 0.148.0
+      '@oxc-parser/binding-darwin-arm64': 0.148.0
+      '@oxc-parser/binding-darwin-x64': 0.148.0
+      '@oxc-parser/binding-freebsd-x64': 0.148.0
+      '@oxc-parser/binding-linux-arm-gnueabihf': 0.148.0
+      '@oxc-parser/binding-linux-arm-musleabihf': 0.148.0
+      '@oxc-parser/binding-linux-arm64-gnu': 0.148.0
+      '@oxc-parser/binding-linux-arm64-musl': 0.148.0
+      '@oxc-parser/binding-linux-ppc64-gnu': 0.148.0
+      '@oxc-parser/binding-linux-riscv64-gnu': 0.148.0
+      '@oxc-parser/binding-linux-riscv64-musl': 0.148.0
+      '@oxc-parser/binding-linux-s390x-gnu': 0.148.0
+      '@oxc-parser/binding-linux-x64-gnu': 0.148.0
+      '@oxc-parser/binding-linux-x64-musl': 0.148.0
+      '@oxc-parser/binding-openharmony-arm64': 0.148.0
+      '@oxc-parser/binding-win32-arm64-msvc': 0.148.0
+      '@oxc-parser/binding-win32-ia32-msvc': 0.148.0
+      '@oxc-parser/binding-win32-x64-msvc': 0.148.0
 
   oxc-resolver@11.24.2:
     optionalDependencies:
@@ -40545,36 +40734,36 @@ snapshots:
       '@oxc-resolver/binding-win32-arm64-msvc': 11.24.2
       '@oxc-resolver/binding-win32-x64-msvc': 11.24.2
 
-  oxlint-plugin-react-doctor@0.9.13:
+  oxlint-plugin-react-doctor@0.9.14:
     dependencies:
       '@shaderfrog/glsl-parser': 7.0.1
       '@typescript-eslint/types': 8.70.0
       eslint-scope: 9.1.2
       eslint-visitor-keys: 5.0.1
       lightningcss: 1.33.0
-      oxc-parser: 0.146.0
+      oxc-parser: 0.148.0
 
-  oxlint@1.79.0:
+  oxlint@1.81.0:
     optionalDependencies:
-      '@oxlint/binding-android-arm-eabi': 1.79.0
-      '@oxlint/binding-android-arm64': 1.79.0
-      '@oxlint/binding-darwin-arm64': 1.79.0
-      '@oxlint/binding-darwin-x64': 1.79.0
-      '@oxlint/binding-freebsd-x64': 1.79.0
-      '@oxlint/binding-linux-arm-gnueabihf': 1.79.0
-      '@oxlint/binding-linux-arm-musleabihf': 1.79.0
-      '@oxlint/binding-linux-arm64-gnu': 1.79.0
-      '@oxlint/binding-linux-arm64-musl': 1.79.0
-      '@oxlint/binding-linux-ppc64-gnu': 1.79.0
-      '@oxlint/binding-linux-riscv64-gnu': 1.79.0
-      '@oxlint/binding-linux-riscv64-musl': 1.79.0
-      '@oxlint/binding-linux-s390x-gnu': 1.79.0
-      '@oxlint/binding-linux-x64-gnu': 1.79.0
-      '@oxlint/binding-linux-x64-musl': 1.79.0
-      '@oxlint/binding-openharmony-arm64': 1.79.0
-      '@oxlint/binding-win32-arm64-msvc': 1.79.0
-      '@oxlint/binding-win32-ia32-msvc': 1.79.0
-      '@oxlint/binding-win32-x64-msvc': 1.79.0
+      '@oxlint/binding-android-arm-eabi': 1.81.0
+      '@oxlint/binding-android-arm64': 1.81.0
+      '@oxlint/binding-darwin-arm64': 1.81.0
+      '@oxlint/binding-darwin-x64': 1.81.0
+      '@oxlint/binding-freebsd-x64': 1.81.0
+      '@oxlint/binding-linux-arm-gnueabihf': 1.81.0
+      '@oxlint/binding-linux-arm-musleabihf': 1.81.0
+      '@oxlint/binding-linux-arm64-gnu': 1.81.0
+      '@oxlint/binding-linux-arm64-musl': 1.81.0
+      '@oxlint/binding-linux-ppc64-gnu': 1.81.0
+      '@oxlint/binding-linux-riscv64-gnu': 1.81.0
+      '@oxlint/binding-linux-riscv64-musl': 1.81.0
+      '@oxlint/binding-linux-s390x-gnu': 1.81.0
+      '@oxlint/binding-linux-x64-gnu': 1.81.0
+      '@oxlint/binding-linux-x64-musl': 1.81.0
+      '@oxlint/binding-openharmony-arm64': 1.81.0
+      '@oxlint/binding-win32-arm64-msvc': 1.81.0
+      '@oxlint/binding-win32-ia32-msvc': 1.81.0
+      '@oxlint/binding-win32-x64-msvc': 1.81.0
 
   p-cancelable@3.0.0: {}
 
@@ -41432,7 +41621,7 @@ snapshots:
     dependencies:
       es6-symbol: 3.1.4
 
-  react-doctor@0.9.13(@opentelemetry/core@2.11.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2):
+  react-doctor@0.9.14(@opentelemetry/core@2.11.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2):
     dependencies:
       '@astrojs/compiler': 4.0.0
       '@sentry/node': 10.74.0(@opentelemetry/core@2.11.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(supports-color@10.2.2)
@@ -41444,10 +41633,10 @@ snapshots:
       is-unicode-supported: 2.1.0
       jiti: 2.7.0
       magicast: 0.5.4
-      oxc-parser: 0.146.0
+      oxc-parser: 0.148.0
       oxc-resolver: 11.24.2
-      oxlint: 1.79.0
-      oxlint-plugin-react-doctor: 0.9.13
+      oxlint: 1.81.0
+      oxlint-plugin-react-doctor: 0.9.14
       playwright-core: 1.63.0
       prompts: 2.4.2
       typescript: 6.0.3
@@ -41628,7 +41817,7 @@ snapshots:
       preact: 10.29.8(preact-render-to-string@6.6.5)
       prompts: 2.4.2
       react: 19.2.7
-      react-doctor: 0.9.13(@opentelemetry/core@2.11.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2)
+      react-doctor: 0.9.14(@opentelemetry/core@2.11.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2)
       react-dom: 19.2.7(react@19.2.7)
       react-grab: 0.2.0(react@19.2.7)
     optionalDependencies:
@@ -41947,6 +42136,11 @@ snapshots:
       hast-util-to-estree: 3.1.3(supports-color@10.2.2)
     transitivePeerDependencies:
       - supports-color
+
+  rehype-sanitize@6.0.0:
+    dependencies:
+      '@types/hast': 3.0.5
+      hast-util-sanitize: 5.0.2
 
   remark-breaks@4.0.0:
     dependencies:
@@ -45108,7 +45302,7 @@ snapshots:
       react-dom: 19.2.7(react@19.2.7)
       vue: 3.5.42(typescript@6.0.3)
 
-  virtua@0.49.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vue@3.5.42(typescript@6.0.3)):
+  virtua@0.52.7(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vue@3.5.42(typescript@6.0.3)):
     optionalDependencies:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
