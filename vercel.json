@@ -2,6 +2,15 @@
   "buildCommand": "bun run build:vercel",
   "headers": [
     {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
       "source": "/_spa/(.*)",
       "headers": [
         {
