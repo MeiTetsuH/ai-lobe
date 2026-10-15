@@ -49,7 +49,7 @@ const routerMocks = vi.hoisted(() => {
 function createCallerWithCtx(partialCtx: any = {}) {
   // All mocks are spies
   const fileModel = {
-    checkHash: vi.fn().mockResolvedValue({ isExist: true }),
+    checkAccessibleHash: vi.fn().mockResolvedValue({ isExist: true }),
     create: vi.fn().mockResolvedValue({ id: 'test-id' }),
     findById: vi.fn().mockResolvedValue(undefined),
     findByIds: vi.fn().mockResolvedValue([]),
@@ -181,7 +181,7 @@ vi.mock('@/database/models/chunk', () => ({
   }),
 }));
 
-const mockFileModelCheckHash = vi.fn();
+const mockFileModelCheckAccessibleHash = vi.fn();
 const mockFileModelCreate = vi.fn();
 const mockFileModelDelete = vi.fn();
 const mockFileModelDeleteUnreferenced = vi.fn();
@@ -199,7 +199,7 @@ const mockFileModelCopyToWorkspace = vi.fn();
 vi.mock('@/database/models/file', () => ({
   FileModel: vi.fn(function () {
     return {
-      checkHash: mockFileModelCheckHash,
+      checkAccessibleHash: mockFileModelCheckAccessibleHash,
       create: mockFileModelCreate,
       delete: mockFileModelDelete,
       deleteUnreferenced: mockFileModelDeleteUnreferenced,
@@ -420,8 +420,17 @@ describe('fileRouter', () => {
   });
 
   describe('checkFileHash', () => {
-    it('should handle when fileModel.checkHash returns undefined', async () => {
-      ctx.fileModel.checkHash.mockResolvedValue(undefined);
+    it('does not look up storage when the hash belongs only to another user', async () => {
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
+
+      await expect(caller.checkFileHash({ hash: 'other-user-hash' })).resolves.toEqual({
+        isExist: false,
+      });
+      expect(mockFileServiceGetFileMetadata).not.toHaveBeenCalled();
+    });
+
+    it('should handle when fileModel.checkAccessibleHash returns undefined', async () => {
+      mockFileModelCheckAccessibleHash.mockResolvedValue(undefined);
       await expect(caller.checkFileHash({ hash: 'test-hash' })).resolves.toBeUndefined();
     });
 
@@ -431,7 +440,7 @@ describe('fileRouter', () => {
         metadata: { path: 'files/existing.png' },
         url: 'files/existing.png',
       };
-      mockFileModelCheckHash.mockResolvedValue(checkResult);
+      mockFileModelCheckAccessibleHash.mockResolvedValue(checkResult);
       mockFileServiceGetFileMetadata.mockResolvedValue({
         contentLength: 100,
         contentType: 'image/png',
@@ -444,7 +453,7 @@ describe('fileRouter', () => {
 
     it('should treat stale hash records as missing when the stored object is unavailable', async () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(function () {});
-      mockFileModelCheckHash.mockResolvedValue({
+      mockFileModelCheckAccessibleHash.mockResolvedValue({
         isExist: true,
         metadata: { path: 'generations/images/missing_raw.jpg' },
         url: 'generations/images/missing_raw.jpg',
@@ -468,8 +477,83 @@ describe('fileRouter', () => {
   });
 
   describe('createFile', () => {
-    it('should throw if fileModel.checkHash returns undefined', async () => {
-      ctx.fileModel.checkHash.mockResolvedValue(undefined);
+    beforeEach(() => {
+      const upload = {
+        id: '00000000-0000-0000-0000-000000000001',
+        size: 100,
+        status: 'active',
+      };
+      mockFileUploadFindLatest.mockResolvedValue(upload);
+      mockFileUploadTouchActive.mockResolvedValue(upload);
+      mockFileUploadFindLatestForUpdate.mockResolvedValue(upload);
+      mockFileUploadSettle.mockResolvedValue({ ...upload, status: 'settled' });
+    });
+
+    it.each([{ isExist: false }, { isExist: true, url: 'files/different-hash-object.txt' }])(
+      'rejects an unreserved object without matching dedup proof: %j',
+      async (hashResult) => {
+        mockFileModelCheckAccessibleHash.mockResolvedValue(hashResult);
+        mockFileModelCreate.mockResolvedValue({ id: 'unauthorized-file' });
+        mockFileUploadFindLatest.mockResolvedValue(undefined);
+        mockFileUploadHasAnyLiveSession.mockResolvedValue(false);
+
+        await expect(
+          caller.createFile({
+            fileType: 'text/plain',
+            hash: 'unrelated-hash',
+            name: 'other-user.txt',
+            size: 100,
+            url: 'files/other-user.txt',
+          }),
+        ).rejects.toMatchObject({ code: 'FORBIDDEN' });
+        expect(mockFileModelCreate).not.toHaveBeenCalled();
+        expect(mockFileServiceGetFileMetadata).not.toHaveBeenCalled();
+      },
+    );
+
+    it('allows same-user hash deduplication only for the matching stored object', async () => {
+      mockFileModelCheckAccessibleHash.mockResolvedValue({
+        isExist: true,
+        url: 'files/existing.txt',
+      });
+      mockFileModelCreate.mockResolvedValue({ id: 'dedup-file' });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
+
+      await expect(
+        caller.createFile({
+          fileType: 'text/plain',
+          hash: 'matching-hash',
+          name: 'existing.txt',
+          size: 100,
+          url: 'files/existing.txt',
+        }),
+      ).resolves.toEqual({ id: 'dedup-file', url: 'https://lobehub.com/f/dedup-file' });
+    });
+
+    it('settles a new owned upload when another user already uploaded the same hash', async () => {
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
+      mockFileModelCreate.mockResolvedValue({ id: 'own-new-file' });
+
+      await expect(
+        caller.createFile({
+          fileType: 'text/plain',
+          hash: 'other-user-hash',
+          name: 'same-content.txt',
+          size: 100,
+          url: 'files/own-new-key.txt',
+        }),
+      ).resolves.toMatchObject({ id: 'own-new-file' });
+      expect(mockFileModelCreate).toHaveBeenCalledWith(
+        expect.objectContaining({ fileHash: 'other-user-hash', url: 'files/own-new-key.txt' }),
+        true,
+        routerMocks.transactionClient,
+      );
+      expect(mockFileUploadSettle).toHaveBeenCalled();
+      expect(mockFileModelUpdateGlobalFile).not.toHaveBeenCalled();
+    });
+
+    it('should throw if fileModel.checkAccessibleHash returns undefined', async () => {
+      mockFileModelCheckAccessibleHash.mockResolvedValue(undefined);
       await expect(
         caller.createFile({
           hash: 'test-hash',
@@ -483,7 +567,7 @@ describe('fileRouter', () => {
     });
 
     it('should reject a parent document that is not accessible', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
 
       await expect(
         caller.createFile({
@@ -501,7 +585,7 @@ describe('fileRouter', () => {
     });
 
     it('should return proxy URL format ${APP_URL}/f/:id', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       const result = await caller.createFile({
@@ -520,7 +604,7 @@ describe('fileRouter', () => {
     });
 
     it('should strip forged agent-share provenance from an ordinary upload', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       await caller.createFile({
@@ -543,7 +627,7 @@ describe('fileRouter', () => {
     });
 
     it('should persist a known upload source so the origin filter can see it', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       await caller.createFile({
@@ -570,7 +654,7 @@ describe('fileRouter', () => {
       // were public. Other workspace members saw the document but its preview returned 404.
       // Default the dedicated upload source to public and retain private ordinary uploads.
       ({ caller } = createCallerWithCtx({ workspaceId: 'workspace-1' }));
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
       const upload = {
         fileType: 'application/pdf',
@@ -601,7 +685,7 @@ describe('fileRouter', () => {
     });
 
     it('should drop an unrecognised source instead of failing the upload', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       await caller.createFile({
@@ -622,7 +706,7 @@ describe('fileRouter', () => {
     });
 
     it('should refresh global file metadata when an existing hash points to a missing object', async () => {
-      mockFileModelCheckHash.mockResolvedValue({
+      mockFileModelCheckAccessibleHash.mockResolvedValue({
         isExist: true,
         metadata: { path: 'old/path.txt' },
         url: 'old/path.txt',
@@ -659,7 +743,7 @@ describe('fileRouter', () => {
     });
 
     it('should keep the global file pointer when an existing hash object is still available', async () => {
-      mockFileModelCheckHash.mockResolvedValue({
+      mockFileModelCheckAccessibleHash.mockResolvedValue({
         isExist: true,
         metadata: { path: 'old/path.txt' },
         url: 'old/path.txt',
@@ -688,7 +772,8 @@ describe('fileRouter', () => {
     });
 
     it('should run business upload check and file creation in the same transaction', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: true, url: 'files/test.txt' });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       await caller.createFile({
@@ -709,7 +794,7 @@ describe('fileRouter', () => {
       );
       expect(mockFileModelCreate).toHaveBeenCalledWith(
         expect.objectContaining({ size: 100 }),
-        true,
+        false,
         routerMocks.transactionClient,
       );
     });
@@ -721,7 +806,7 @@ describe('fileRouter', () => {
         size: 100,
         status: 'active',
       };
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
       mockFileUploadFindLatest.mockResolvedValue(upload);
       mockFileUploadTouchActive.mockResolvedValue(upload);
@@ -760,7 +845,7 @@ describe('fileRouter', () => {
         size: 100,
         status: 'active',
       };
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileUploadFindLatest.mockResolvedValue(upload);
       mockFileUploadTouchActive.mockResolvedValue(upload);
       mockFileServiceGetFileMetadata.mockResolvedValue({ contentLength: 101 });
@@ -781,7 +866,8 @@ describe('fileRouter', () => {
     });
 
     it('rejects a pathname reserved by another upload owner', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileUploadHasAnyLiveSession.mockResolvedValue(true);
 
       await expect(
@@ -800,7 +886,7 @@ describe('fileRouter', () => {
     });
 
     it('returns the settled file for an identical finalization retry', async () => {
-      mockFileModelCheckHash.mockResolvedValue({
+      mockFileModelCheckAccessibleHash.mockResolvedValue({
         isExist: true,
         url: 'files/test.txt',
       });
@@ -839,9 +925,58 @@ describe('fileRouter', () => {
       expect(routerMocks.businessFileUploadCheck).not.toHaveBeenCalled();
     });
 
+    it('retries settled upload A after upload B becomes the latest match for the same hash', async () => {
+      const inputA = {
+        fileType: 'text/plain',
+        hash: 'same-hash',
+        metadata: {},
+        name: 'first.txt',
+        size: 100,
+        url: 'files/first.txt',
+      };
+      const inputB = { ...inputA, name: 'second.txt', url: 'files/second.txt' };
+      const uploadA = { id: 'upload-a', pathname: inputA.url, size: 100, status: 'active' };
+      const uploadB = { id: 'upload-b', pathname: inputB.url, size: 100, status: 'active' };
+      mockFileUploadFindLatest
+        .mockResolvedValueOnce(uploadA)
+        .mockResolvedValueOnce(uploadB)
+        .mockResolvedValueOnce({ ...uploadA, fileId: 'file-a', status: 'settled' });
+      mockFileUploadTouchActive.mockResolvedValueOnce(uploadA).mockResolvedValueOnce(uploadB);
+      mockFileUploadFindLatestForUpdate
+        .mockResolvedValueOnce(uploadA)
+        .mockResolvedValueOnce(uploadB);
+      mockFileModelCheckAccessibleHash
+        .mockResolvedValueOnce({ isExist: false })
+        .mockResolvedValueOnce({ id: 'file-a', isExist: true, url: inputA.url })
+        .mockResolvedValueOnce({ id: 'file-b', isExist: true, url: inputB.url });
+      mockFileModelCreate
+        .mockResolvedValueOnce({ id: 'file-a' })
+        .mockResolvedValueOnce({ id: 'file-b' });
+      mockFileModelFindById.mockResolvedValueOnce({
+        ...inputA,
+        fileHash: inputA.hash,
+        id: 'file-a',
+        parentId: null,
+        source: null,
+      });
+
+      await caller.createFile(inputA);
+      await caller.createFile(inputB);
+      await expect(caller.createFile(inputA)).resolves.toEqual({
+        id: 'file-a',
+        url: 'https://lobehub.com/f/file-a',
+      });
+
+      expect(mockFileModelFindById).toHaveBeenCalledWith('file-a');
+      expect(mockFileModelCreate).toHaveBeenCalledTimes(2);
+      expect(mockFileUploadSettle).toHaveBeenCalledTimes(2);
+      expect(routerMocks.businessFileUploadCheck).not.toHaveBeenCalled();
+    });
+
     it('should pass workspace context into business upload check', async () => {
       ({ caller } = createCallerWithCtx({ workspaceId: 'workspace-1' }));
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: true, url: 'files/test.txt' });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       await caller.createFile({
@@ -862,7 +997,7 @@ describe('fileRouter', () => {
 
     it('should use workspace knowledge-base visibility over an explicit value', async () => {
       ({ caller } = createCallerWithCtx({ workspaceId: 'workspace-1' }));
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       await caller.createFile({
@@ -889,7 +1024,7 @@ describe('fileRouter', () => {
 
     it('should reject a workspace upload when the knowledge base is not accessible', async () => {
       ({ caller } = createCallerWithCtx({ workspaceId: 'workspace-1' }));
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockKnowledgeBaseFindById.mockResolvedValue(undefined);
 
       await expect(
@@ -913,7 +1048,8 @@ describe('fileRouter', () => {
         contentLength: 5000,
         contentType: 'text/plain',
       });
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: true, url: 'files/test.txt' });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
       // Client claims file is only 100 bytes (attempting quota bypass)
@@ -934,13 +1070,14 @@ describe('fileRouter', () => {
         expect.objectContaining({
           size: 5000, // Actual size from S3, not 100
         }),
-        true,
+        false,
         routerMocks.transactionClient,
       );
     });
 
     it('should reject actual storage objects larger than the database size range', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: true, url: 'files/huge.bin' });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileServiceGetFileMetadata.mockResolvedValue({
         contentLength: MAX_UPLOAD_FILE_SIZE + 1,
         contentType: 'application/octet-stream',
@@ -965,7 +1102,11 @@ describe('fileRouter', () => {
     });
 
     it('should fallback to input size when getFileMetadata fails', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({
+        isExist: true,
+        url: 'files/non-existent.txt',
+      });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
       mockFileServiceGetFileMetadata.mockRejectedValue(new Error('File not found in S3'));
 
@@ -988,13 +1129,17 @@ describe('fileRouter', () => {
         expect.objectContaining({
           size: 100,
         }),
-        true,
+        false,
         routerMocks.transactionClient,
       );
     });
 
     it('should throw error when getFileMetadata fails and input size is negative', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({
+        isExist: true,
+        url: 'files/non-existent.txt',
+      });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileServiceGetFileMetadata.mockRejectedValue(new Error('File not found in S3'));
 
       await expect(
@@ -1010,7 +1155,8 @@ describe('fileRouter', () => {
     });
 
     it('should use input size when getFileMetadata returns contentLength less than 1', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: true, url: 'files/test.txt' });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
       mockFileServiceGetFileMetadata.mockResolvedValue({
         contentLength: 0,
@@ -1031,13 +1177,14 @@ describe('fileRouter', () => {
         expect.objectContaining({
           size: 100,
         }),
-        true,
+        false,
         routerMocks.transactionClient,
       );
     });
 
     it('should throw error when both getFileMetadata contentLength and input size are negative', async () => {
-      mockFileModelCheckHash.mockResolvedValue({ isExist: false });
+      mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: true, url: 'files/test.txt' });
+      mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileServiceGetFileMetadata.mockResolvedValue({
         contentLength: -1,
         contentType: 'text/plain',

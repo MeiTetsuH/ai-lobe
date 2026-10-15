@@ -27,8 +27,9 @@ Paths below are repository-relative. Tests are targeted checks, not substitutes 
 | Locale chunk initialization                        | Keep dayjs locales separate from Ant Design locale runtime chunks to prevent circular initialization in production builds. Remove when upstream chunking passes both locale import orders.                                                                                                   | `plugins/vite/sharedRendererConfig.test.ts`; production Chinese locale loading.                                                                                                |
 | CommonJS Docker launcher                           | Name the source `startServer.cjs` to match its module format; preserve the Docker destination `/app/startServer.js`. Use noncapturing IP regex groups. Remove the rename or regex delta when upstream supplies an equivalent lint-clean launcher.                                            | `scripts/serverLauncher/startServer.test.ts`; targeted ESLint and `node --check scripts/serverLauncher/startServer.cjs`                                                        |
 | Authenticated PDF storage URL                      | Resolve private file proxy URLs through the existing authorized readable-URL API before PDF.js loads them, avoiding cross-origin redirect failures without broadening CORS. Remove when upstream handles authenticated PDF URLs equivalently.                                                | `src/features/FileViewer/Renderer/PDF/useFetchPDFUrl.test.ts`; real private PDF preview.                                                                                       |
-
-\| Embedding provider routing | Optional `OPENAI_EMBEDDING_PROVIDER_ONLY` restricts OpenAI-compatible embeddings without changing model IDs or dimensions. Remove when upstream supports equivalent configurable embedding routing. | `packages/model-runtime/src/providers/openai/embeddingsRouting.test.ts`; pinned 1024-dimension live request. |
+| Embedding provider routing                         | Optional `OPENAI_EMBEDDING_PROVIDER_ONLY` restricts OpenAI-compatible embeddings without changing model IDs or dimensions. Remove when upstream supports equivalent configurable embedding routing.                                                                                          | `packages/model-runtime/src/providers/openai/embeddingsRouting.test.ts`; pinned 1024-dimension live request.                                                                   |
+| Bounded automatic prompt cache keys                | Hash overlong automatic user/model keys to respect the upstream 64-character limit while retaining stable isolation and existing short keys. Remove when upstream bounds automatic keys equivalently.                                                                                        | OpenAI-compatible factory prompt-cache regression tests; real BYOK preset chat.                                                                                                |
+| Owned upload reservations                          | Require authenticated upload reservations before signing storage operations or registering new file keys; retain caller-scoped deduplication and settled retries. Remove when upstream enforces equivalent ownership checks.                                                                 | Upload/file router regression tests; real upload and readback.                                                                                                                 |
 
 ## Stable-tag upgrade procedure
 
@@ -50,3 +51,43 @@ Paths below are repository-relative. Tests are targeted checks, not substitutes 
 - Preserve the prior environment revision securely; record names and intended relationships in release notes, never secret values.
 - Restore a matching code/configuration/vector combination. Review database migrations independently and avoid destructive reverse migrations as a routine rollback step.
 - After rollback, verify production routing, login, chat, retrieval, and memory again; a successful promotion alone is insufficient.
+
+## Deployment configuration boundaries
+
+These are maintenance instructions, not a copy of any live deployment configuration. Keep real values in the hosting provider's secret/environment settings.
+
+| Area                   | Configuration and operational notes                                                                                                                                                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chat defaults          | `DEFAULT_AGENT_CONFIG` affects defaults, not every persisted assistant or topic. Read back the actual UI selection after changes.                                                                                                           |
+| Background generation  | `SYSTEM_AGENT` and `MEMORY_USER_MEMORY_*` must be checked independently from chat. A working chat model does not prove that title generation or memory extraction uses the same credentials.                                                |
+| Embeddings             | Keep model, dimensions, provider route, and indexed vectors aligned. `OPENAI_EMBEDDING_PROVIDER_ONLY` is optional and only affects the OpenAI-compatible embedding path. Removing it restores default routing.                              |
+| Native routing presets | Use the provider's supported preset syntax for chat. Embeddings may not accept the same model suffix; test their endpoint separately. Keep provider fallbacks explicit.                                                                     |
+| Budgets                | Separate the overall gateway budget from narrower paid-model limits. List-price accounting, BYOK billing, parallel requests, and delayed metering are different boundaries; do not describe a gateway budget as an exact billing guarantee. |
+| Object storage         | Keep anonymous bucket endpoints disabled for private uploads. A custom-domain binding can remain configured while public access is disabled; the application can read through native S3 presigned URLs. CORS is not authorization.          |
+| File links             | Presigned URLs remain usable by their holders until expiry. Application file visibility and sharing are separate from bucket public access; preserve intended sharing semantics and test them separately.                                   |
+| Performance            | Keep server functions close to the database. Verify CDN compression and cache headers for static assets. Do not move a database, add a proxy, keep free-tier services permanently awake, or remove upstream apps without measured benefit.  |
+
+## Validation and troubleshooting
+
+- Use pnpm for installation and the repository's Bun-based check scripts. Run the owning test files and the repository type check; do not bypass signing or pre-commit hooks.
+- An upstream quota or rate-limit response is not necessarily an application defect. Inspect its metric and retry guidance, distinguish per-minute from per-day limits, and avoid repeated retries when the daily allowance is exhausted.
+- A provider API probe is useful but does not replace a real application request: the application adds metadata, cache keys, tools, and background work.
+- For PDF failures, distinguish an expired URL, authentication failure, cross-origin redirect, CORS mismatch, and rendering error. Resolve the authenticated readable URL before widening bucket access.
+- Upload validation must cover a new file, same-user deduplication, and denied unowned storage operations. Older clients that omit reservation data must update rather than receive an unrestricted compatibility path.
+- Vercel `READY`, the production domain's assigned deployment, and a real browser check are separate signals. A successful build does not prove chat, file access, or background workflows are usable.
+- Record measured build durations and limitations; a narrower installation or tracing configuration alone does not prove faster builds.
+
+## Public documentation policy
+
+Publish only source paths, generic variable names, architectural decisions, test commands, and maintenance instructions. Do not publish environment exports, API key prefixes, account identifiers, private hostnames, bucket names, balances, usage reports, chat text, file contents, database records, or signed URLs. Keep local evidence and recoverable backups in ignored, access-restricted storage. Inspect staged changes before every push.
+
+The stable `v2.2.19` sync is the baseline for this ledger. Deployment and acceptance results belong to the applicable release evidence; this document must not imply that all optional integrations or upstream services have passed validation.
+
+## Upstream tracking
+
+Checked on 2026-10-15; recheck status before the next upgrade. An open PR is not a released fix, and related reports do not necessarily cover every local regression case.
+
+- Upload reservation enforcement: [upstream PR #20524](https://github.com/lobehub/lobehub/pull/20524), open at inspection. Compare the multipart and missing-size behavior before removing the local patch; separately retain checks for file registration, caller-scoped deduplication, and settled retries.
+- Memory credential selection: [upstream PR #13331](https://github.com/lobehub/lobehub/pull/13331), open at inspection. It addresses related mixed-provider credential resolution; verify exact precedence behavior instead of treating it as an identical patch.
+- Prompt-cache scoping: [upstream PR #14627](https://github.com/lobehub/lobehub/pull/14627), open at inspection. This concerns context scoping, not specifically the overlong model/preset key regression protected here.
+- PDF cross-origin redirects and overlong automatic cache keys: no exact matching public report was identified in the bounded search. This is not a claim that maintainers are unaware of them.

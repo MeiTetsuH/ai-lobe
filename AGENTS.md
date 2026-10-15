@@ -2,6 +2,12 @@
 
 Guidelines for using AI coding agents in this opensource LobeHub repository.
 
+## Fork-specific maintenance
+
+Before upgrading or changing this fork's deployment, read [FORK\_MAINTENANCE.md](./FORK_MAINTENANCE.md). It records retained patches, configuration boundaries, regression checks, and rollback requirements. This fork's production branch is `main` and follows stable upstream tags; the upstream `canary` workflow below is not an instruction to deploy canary here.
+
+Update that ledger when adding, changing, or removing a local patch. Keep account-specific configuration, credentials, production data, and private acceptance evidence out of this public repository.
+
 ## Tech Stack
 
 - Next.js 16 + React 19 + TypeScript

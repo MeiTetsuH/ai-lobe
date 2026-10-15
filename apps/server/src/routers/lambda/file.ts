@@ -219,11 +219,12 @@ export const fileRouter = router({
     .use(checkFileStorageUsage)
     .input(z.object({ hash: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const existingFile = await ctx.fileModel.checkHash(input.hash);
-      const existingHashUrl = existingFile?.isExist ? existingFile.url : undefined;
-      if (!existingHashUrl) return existingFile;
+      const existingFile = await ctx.fileModel.checkAccessibleHash(input.hash);
+      if (!existingFile?.isExist || !existingFile.url) return existingFile;
 
-      const isStorageAvailable = await isStoredObjectAvailable(ctx.fileService, existingHashUrl);
+      await assertFileNotInRestrictedKnowledgeBase(ctx, existingFile.id);
+
+      const isStorageAvailable = await isStoredObjectAvailable(ctx.fileService, existingFile.url);
 
       return isStorageAvailable ? existingFile : { isExist: false };
     }),
@@ -239,7 +240,7 @@ export const fileRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       const metadata = stripAgentShareFileProvenance(input.metadata);
-      const existingFile = await ctx.fileModel.checkHash(input.hash!);
+      const existingFile = await ctx.fileModel.checkAccessibleHash(input.hash!);
       const { isExist } = existingFile;
       const latestUpload = await ctx.fileUploadService.findLatest(input.url);
       if (!latestUpload && (await ctx.fileUploadService.hasAnyLiveSession(input.url))) {
@@ -285,11 +286,10 @@ export const fileRouter = router({
         const settledFile = latestUpload.fileId
           ? await ctx.fileModel.findById(latestUpload.fileId)
           : undefined;
+        // A later upload of identical bytes must not invalidate this reservation's retry.
         const isRetry =
           !!settledFile &&
           !input.knowledgeBaseId &&
-          isExist &&
-          existingFile.url === input.url &&
           settledFile.fileHash === input.hash &&
           settledFile.fileType === input.fileType &&
           settledFile.name === input.name &&
@@ -321,6 +321,15 @@ export const fileRouter = router({
         throw new TRPCError({ code: 'CONFLICT', message: 'Upload session is no longer active' });
       }
 
+      // Only an owned reservation or an already-readable hash match authorizes registration.
+      // Knowing another object's key or content hash is insufficient.
+      if (!activeUpload && !(isExist && existingFile.url === input.url)) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'An owned upload session is required' });
+      }
+      if (!activeUpload && isExist) {
+        await assertFileNotInRestrictedKnowledgeBase(ctx, existingFile.id);
+      }
+
       let actualSize: number;
       if (activeUpload) {
         try {
@@ -341,7 +350,7 @@ export const fileRouter = router({
           const { contentLength } = await ctx.fileService.getFileMetadata(input.url);
           if (contentLength >= 1) actualSize = contentLength;
         } catch {
-          // Compatibility path for clients that uploaded before reservations were introduced.
+          // Preserve metadata fallback for an object authorized by hash deduplication.
         }
       }
 

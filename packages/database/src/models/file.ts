@@ -181,6 +181,32 @@ export class FileModel {
     };
   };
 
+  checkAccessibleHash = async (hash: string) => {
+    const [item] = await this.db
+      .select()
+      .from(files)
+      .where(
+        and(
+          eq(files.fileHash, hash),
+          this.ownership(),
+          fileMatchesAccessScope(files.metadata, ordinaryFileAccessScope),
+        ),
+      )
+      .orderBy(desc(files.createdAt))
+      .limit(1);
+    if (!item) return { isExist: false as const };
+
+    // Resolve the caller's object, not the global hash pointer owned by another user.
+    return {
+      fileType: item.fileType,
+      id: item.id,
+      isExist: true as const,
+      metadata: item.metadata,
+      size: item.size,
+      url: item.url,
+    };
+  };
+
   private deleteInTransaction = async (
     id: string,
     removeGlobalFile: boolean,

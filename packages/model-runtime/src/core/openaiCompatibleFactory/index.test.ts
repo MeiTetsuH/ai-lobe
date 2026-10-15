@@ -947,6 +947,80 @@ describe('LobeOpenAICompatibleFactory', () => {
         );
       });
 
+      it('keeps long preset cache keys bounded, stable, and isolated by full user and model', async () => {
+        const Provider = createOpenAICompatibleRuntime({ provider: ModelProvider.OpenAI });
+        const runtime = new Provider({ apiKey: 'test' });
+        const create = vi
+          .spyOn(runtime['client'].responses, 'create')
+          .mockResolvedValue({ output_text: '{"ok":true}' } as any);
+        const user = 'user_' + 'a'.repeat(27);
+        const model = 'gpt-5.6-terra@preset/private-byok';
+        expect(`lobe:${user}:${model}`).toHaveLength(71);
+        const requests = [
+          { model, user },
+          { model, user },
+          { model, user: user + 'b' },
+          { model: model + '-other', user },
+          // Delimiter-based hashing would collide for these distinct identities.
+          { model: 'gpt-base:another-with-long-suffix', user: user + ':gpt-base' },
+          { model: 'gpt-base:gpt-base:another-with-long-suffix', user },
+        ];
+
+        for (const request of requests) {
+          await runtime.generateObject(
+            {
+              messages: [{ content: 'Hi', role: 'user' }],
+              model: request.model,
+              responseApi: true,
+              schema: {
+                name: 'result',
+                schema: { properties: { ok: { type: 'boolean' } }, type: 'object' },
+              },
+            },
+            { user: request.user },
+          );
+        }
+
+        const keys = create.mock.calls.map(
+          ([payload]) => (payload as { prompt_cache_key: string }).prompt_cache_key,
+        );
+        for (const key of keys) {
+          expect(key).toMatch(/^[a-f0-9]{64}$/);
+        }
+        expect(keys[0]).toBe(keys[1]);
+        expect(new Set(keys).size).toBe(5);
+      });
+
+      it('bounds long cache keys on Chat Completions as well', async () => {
+        const Provider = createOpenAICompatibleRuntime({ provider: ModelProvider.OpenAI });
+        const runtime = new Provider({ apiKey: 'test' });
+        const create = vi
+          .spyOn(runtime['client'].chat.completions, 'create')
+          .mockResolvedValue(new ReadableStream() as any);
+        await runtime.chat(
+          { messages: [{ content: 'Hi', role: 'user' }], model: 'gpt-4o@preset/private-byok' },
+          { user: 'user_' + 'a'.repeat(45) },
+        );
+        expect(create.mock.calls[0][0]).toMatchObject({
+          prompt_cache_key: expect.stringMatching(/^[a-f0-9]{64}$/),
+        });
+      });
+
+      it('preserves a cache key at the 64-character limit', async () => {
+        const Provider = createOpenAICompatibleRuntime({ provider: ModelProvider.OpenAI });
+        const runtime = new Provider({ apiKey: 'test' });
+        const create = vi
+          .spyOn(runtime['client'].chat.completions, 'create')
+          .mockResolvedValue(new ReadableStream() as any);
+        const user = 'a'.repeat(52);
+        await runtime.chat(
+          { messages: [{ content: 'Hi', role: 'user' }], model: 'gpt-4o' },
+          { user },
+        );
+        expect(create.mock.calls[0][0]).toMatchObject({ prompt_cache_key: `lobe:${user}:gpt-4o` });
+        expect(`lobe:${user}:gpt-4o`).toHaveLength(64);
+      });
+
       it('should not add prompt_cache_key for GPT chat requests without user', async () => {
         const LobeOpenAIProvider = createOpenAICompatibleRuntime({
           baseURL: 'https://api.openai.com/v1',

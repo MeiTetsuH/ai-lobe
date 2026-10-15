@@ -149,6 +149,67 @@ describe('FileModel', () => {
     });
   });
 
+  describe('checkAccessibleHash', () => {
+    const params = {
+      fileHash: 'shared-content-hash',
+      fileType: 'text/plain',
+      name: 'same-content.txt',
+      size: 100,
+      url: 'files/first-user.txt',
+    };
+
+    it("does not disclose another user's object through its hash", async () => {
+      await new FileModel(serverDB, 'user2').create(params, true);
+
+      await expect(fileModel.checkAccessibleHash(params.fileHash)).resolves.toEqual({
+        isExist: false,
+      });
+    });
+
+    it('keeps same-user deduplication on the owned object', async () => {
+      const { id } = await fileModel.create(params, true);
+
+      await expect(fileModel.checkAccessibleHash(params.fileHash)).resolves.toMatchObject({
+        id,
+        isExist: true,
+        url: params.url,
+      });
+    });
+
+    it('allows two users to upload the same hash under separate owned keys', async () => {
+      await fileModel.create(params, true);
+      const otherModel = new FileModel(serverDB, 'user2');
+      const otherUrl = 'files/second-user.txt';
+      await otherModel.create({ ...params, url: otherUrl }, true);
+
+      await expect(fileModel.checkAccessibleHash(params.fileHash)).resolves.toMatchObject({
+        isExist: true,
+        url: params.url,
+      });
+      await expect(otherModel.checkAccessibleHash(params.fileHash)).resolves.toMatchObject({
+        isExist: true,
+        url: otherUrl,
+      });
+      const globalRows = await serverDB.select().from(globalFiles);
+      expect(globalRows).toHaveLength(1);
+      expect(globalRows[0].url).toBe(params.url);
+    });
+
+    it('excludes visitor-share files from ordinary hash deduplication', async () => {
+      await fileModel.create(
+        {
+          ...params,
+          metadata: { agentShare: { shareId: 'share-a', visitorUserId: 'visitor-a' } },
+        },
+        true,
+      );
+
+      await expect(fileModel.checkAccessibleHash(params.fileHash)).resolves.toEqual({
+        isExist: false,
+      });
+    });
+  });
+
   describe('delete', () => {
     it('should delete a file by id', async () => {
       await fileModel.createGlobalFile({

@@ -165,14 +165,33 @@ describe('uploadRouter', () => {
     expect(routerMocks.createPreSignedUrl).not.toHaveBeenCalled();
   });
 
-  it('keeps missing-size requests on the legacy path', async () => {
-    await expect(caller.createS3PreSignedUrl({ pathname: 'files/legacy.bin' })).resolves.toBe(
-      'https://example.com/upload',
-    );
+  it('rejects missing-size requests instead of signing an arbitrary existing object', async () => {
+    routerMocks.getFileMetadata.mockResolvedValue({ contentLength: 100 });
+    await expect(
+      caller.createS3PreSignedUrl({ pathname: 'files/other-user.bin' } as never),
+    ).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    expect(routerMocks.createPreSignedUrl).not.toHaveBeenCalled();
+  });
 
-    expect(routerMocks.businessFileUploadCheck).not.toHaveBeenCalled();
-    expect(routerMocks.model.create).not.toHaveBeenCalled();
-    expect(routerMocks.createPreSignedUrl).toHaveBeenCalledWith('files/legacy.bin');
+  it('rejects missing-size multipart creation before touching storage', async () => {
+    await expect(
+      caller.createS3MultipartUpload({ pathname: 'files/other-user.bin' } as never),
+    ).rejects.toMatchObject({ code: 'BAD_REQUEST' });
+    expect(routerMocks.createMultipartUpload).not.toHaveBeenCalled();
+  });
+
+  it('rejects multipart operations without an owned upload session', async () => {
+    const input = { pathname: 'files/other-user.bin', uploadId: 'other-upload' };
+    await expect(
+      caller.createS3MultipartUploadPartUrl({ ...input, partNumber: 1 }),
+    ).rejects.toMatchObject({ code: 'CONFLICT' });
+    await expect(
+      caller.completeS3MultipartUpload({ ...input, partCount: 1 }),
+    ).rejects.toMatchObject({ code: 'CONFLICT' });
+    await expect(caller.abortS3MultipartUpload(input)).rejects.toMatchObject({ code: 'CONFLICT' });
+    expect(routerMocks.createPreSignedUploadPartUrl).not.toHaveBeenCalled();
+    expect(routerMocks.completeMultipartUpload).not.toHaveBeenCalled();
+    expect(routerMocks.abortMultipartUpload).not.toHaveBeenCalled();
   });
 
   it('stores the server-selected multipart size and signs the exact final part length', async () => {

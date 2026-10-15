@@ -584,14 +584,11 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
       return false;
     }
 
-    private resolvePromptCacheKey(model?: string, user?: string) {
+    private async resolvePromptCacheKey(model?: string, user?: string) {
       if (!user) return;
 
-      // Keep the default key at {userId}:{model}; {agentId/topicId} can be added later if a narrower cache bucket is needed.
-      if (model?.startsWith('gpt-') || /^o\d/.test(model || '') || model === 'chat-latest') {
-        return `lobe:${user}:${model}`;
-      }
-
+      const isOpenAIModel =
+        model?.startsWith('gpt-') || /^o\d/.test(model || '') || model === 'chat-latest';
       const matchesProviderPromptCacheModel = promptCacheKeyModels?.some((item) => {
         if (!model) return false;
         if (typeof item === 'string') return model.includes(item);
@@ -599,19 +596,31 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
         item.lastIndex = 0;
         return item.test(model);
       });
-      if (matchesProviderPromptCacheModel) {
-        return `lobe:${user}:${model}`;
-      }
+      if (!isOpenAIModel && !matchesProviderPromptCacheModel) return;
+
+      // Preserve existing cache buckets when they fit the provider's 64-character limit.
+      const key = `lobe:${user}:${model}`;
+      if (key.length <= 64) return key;
+
+      // Hash complete, structured identities: truncating a preset/model suffix or
+      // joining with delimiters can merge unrelated users' or models' cache buckets.
+      const digest = await crypto.subtle.digest(
+        'SHA-256',
+        new TextEncoder().encode(JSON.stringify([user, model])),
+      );
+      return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join(
+        '',
+      );
     }
 
-    private resolvePromptCacheKeyParams(
+    private async resolvePromptCacheKeyParams(
       model?: string,
       user?: string,
       existingPromptCacheKey?: string,
     ) {
       if (existingPromptCacheKey !== undefined) return {};
 
-      const promptCacheKey = this.resolvePromptCacheKey(model, user);
+      const promptCacheKey = await this.resolvePromptCacheKey(model, user);
 
       return promptCacheKey ? { prompt_cache_key: promptCacheKey } : {};
     }
@@ -815,11 +824,11 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
             ...cleanedPayload,
             messages,
             ...(chatCompletion?.noUserId ? {} : { user: options?.user }),
-            ...this.resolvePromptCacheKeyParams(
+            ...(await this.resolvePromptCacheKeyParams(
               cleanedPayload.model,
               options?.user,
               cleanedPayload.prompt_cache_key,
-            ),
+            )),
             stream_options: includeUsageRequested ? { include_usage: true } : undefined,
           };
           const requestPayload = this.withMappedRequestModel(finalPayload, payload.model);
@@ -1113,7 +1122,7 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
             ...getGenerateObjectReasoningParams(payload),
             messages,
             model,
-            ...this.resolvePromptCacheKeyParams(model, options?.user),
+            ...(await this.resolvePromptCacheKeyParams(model, options?.user)),
             tool_choice: { function: { name: tool.function.name }, type: 'function' },
             tools: [tool],
             user: options?.user,
@@ -1223,7 +1232,7 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
               input,
               model,
               ...getGenerateObjectResponsesReasoningParams(payload),
-              ...this.resolvePromptCacheKeyParams(model, options?.user),
+              ...(await this.resolvePromptCacheKeyParams(model, options?.user)),
               text: { format: { strict: true, type: 'json_schema', ...processedSchema } },
               // Responses API replaced `user` with `safety_identifier`; some endpoints reject `user`
               safety_identifier: options?.user,
@@ -1267,7 +1276,7 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
                 messages,
                 model,
                 response_format: { json_schema: processedSchema, type: 'json_schema' },
-                ...this.resolvePromptCacheKeyParams(model, options?.user),
+                ...(await this.resolvePromptCacheKeyParams(model, options?.user)),
                 user: options?.user,
               }),
               model,
@@ -1651,11 +1660,11 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
         store: false,
         stream: isStreaming || undefined,
         tools: tools?.map((tool) => this.convertChatCompletionToolToResponseTool(tool)),
-        ...this.resolvePromptCacheKeyParams(
+        ...(await this.resolvePromptCacheKeyParams(
           res.model,
           options?.user,
           (res as OpenAIExtraParams).prompt_cache_key,
-        ),
+        )),
         // Responses API replaced `user` with `safety_identifier`; some endpoints reject `user`
         safety_identifier: options?.user,
         // Sanitize sampling params for Responses API path
@@ -1830,7 +1839,7 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
           {
             input,
             model,
-            ...this.resolvePromptCacheKeyParams(model, options?.user),
+            ...(await this.resolvePromptCacheKeyParams(model, options?.user)),
             tool_choice: 'required',
             tools: tools!.map((tool) => this.convertChatCompletionToolToResponseTool(tool)),
             // Responses API replaced `user` with `safety_identifier`; some endpoints reject `user`
@@ -1893,7 +1902,7 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
             ...getGenerateObjectReasoningParams(payload),
             messages: msgs,
             model,
-            ...this.resolvePromptCacheKeyParams(model, options?.user),
+            ...(await this.resolvePromptCacheKeyParams(model, options?.user)),
             tool_choice: 'required',
             tools,
             user: options?.user,
