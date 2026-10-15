@@ -3,6 +3,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { useTextFileLoader } from './useTextFileLoader';
 
+vi.mock('@/services/file', () => ({ fileService: { getReadableUrl: vi.fn() } }));
+
 // ROOT CAUSE:
 // Text preview used response.text() without byte validation, size limits, or request cancellation.
 // Unknown extensions never reached this path, and binary/failed/empty loads could show blank editors

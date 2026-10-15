@@ -1,6 +1,10 @@
 import { readBlobWithLimit } from '@lobechat/utils/readBlobWithLimit';
 import { useEffect, useState } from 'react';
 
+import { fileService } from '@/services/file';
+
+import { fileIdFromProxyUrl } from '../Renderer/Image/Tools/exportImage';
+
 /** Mirrors the device-side document preview ceiling in `@lobechat/device-control`. */
 const MAX_BINARY_PREVIEW_BYTES = 20 * 1024 * 1024;
 
@@ -39,7 +43,11 @@ export const useBlobFileLoader = (url: string | null): BlobFileState => {
 
     const loadFile = async () => {
       try {
-        const response = await fetch(url, { signal: controller.signal });
+        // Fetch storage directly: following /f redirects can lose the CORS Origin.
+        const fileId = fileIdFromProxyUrl(url);
+        const readableUrl = fileId ? await fileService.getReadableUrl(fileId) : url;
+        if (controller.signal.aborted) return;
+        const response = await fetch(readableUrl, { signal: controller.signal });
         if (!response.ok) throw new Error(`Failed to load file: ${response.status}`);
         const blob = await readBlobWithLimit(response, MAX_BINARY_PREVIEW_BYTES);
         if (!controller.signal.aborted) setState({ blob, error: null, loading: false, url });
