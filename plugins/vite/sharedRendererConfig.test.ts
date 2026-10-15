@@ -1,3 +1,11 @@
+import { execFile } from 'node:child_process';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { promisify } from 'node:util';
+
+import { build } from 'vite';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -15,6 +23,70 @@ const getPluginNames = (platform: 'desktop' | 'web') =>
     .flat(Number.POSITIVE_INFINITY)
     .filter((plugin): plugin is { name: string } => Boolean(plugin) && typeof plugin === 'object')
     .map((plugin) => plugin.name);
+
+describe('locale chunk initialization', () => {
+  it('loads Ant Design and dayjs locales in either order', async () => {
+    const directory = await mkdtemp(path.join(tmpdir(), 'lobe-locale-chunks-'));
+    try {
+      const result = await build({
+        build: {
+          lib: { entry: 'virtual:locale-order', formats: ['es'] },
+          minify: false,
+          rolldownOptions: {
+            input: 'virtual:locale-order',
+            output: createSharedRolldownOutput(),
+            preserveEntrySignatures: 'allow-extension',
+          },
+          write: false,
+        },
+        configFile: false,
+        logLevel: 'silent',
+        plugins: [
+          {
+            name: 'locale-order-fixture',
+            load(id) {
+              if (id !== '\0locale-order') return;
+              return `
+                export const antd = () => import('antd/es/locale/zh_CN.js');
+                export const dayjs = () => import('dayjs/locale/zh-cn.js');
+              `;
+            },
+            resolveId(id) {
+              if (id === 'virtual:locale-order') return '\0locale-order';
+            },
+          },
+        ],
+      });
+      const chunks = (Array.isArray(result) ? result : [result])
+        .flatMap(({ output }) => output)
+        .filter((item) => item.type === 'chunk');
+      await writeFile(path.join(directory, 'package.json'), '{"type":"module"}');
+      for (const chunk of chunks) {
+        const target = path.join(directory, chunk.fileName);
+        await mkdir(path.dirname(target), { recursive: true });
+        await writeFile(target, chunk.code);
+      }
+      const entry = chunks.find((chunk) => chunk.isEntry)!;
+      const entryUrl = pathToFileURL(path.join(directory, entry.fileName)).href;
+      for (const order of [
+        ['dayjs', 'antd'],
+        ['antd', 'dayjs'],
+      ]) {
+        const { stdout } = await promisify(execFile)(process.execPath, [
+          '--input-type=module',
+          '-e',
+          `const loaders = await import(${JSON.stringify(entryUrl)});
+           const results = {};
+           for (const name of ${JSON.stringify(order)}) results[name] = (await loaders[name]()).default;
+           console.log(JSON.stringify([results.antd.locale, results.dayjs.name]));`,
+        ]);
+        expect(JSON.parse(stdout)).toEqual(['zh-cn', 'zh-cn']);
+      }
+    } finally {
+      await rm(directory, { force: true, recursive: true });
+    }
+  });
+});
 
 describe('sharedRendererPlugins', () => {
   it('keeps the icon barrel transform out of the Electron renderer', () => {
@@ -125,7 +197,7 @@ describe('sharedManualChunks', () => {
       'i18n-zh-CN-ui-runtime',
     );
     expect(__testing.sharedManualChunks('/repo/node_modules/dayjs/locale/zh-cn.js')).toBe(
-      'i18n-zh-CN-ui-runtime',
+      'i18n-zh-CN-dayjs-runtime',
     );
   });
 

@@ -179,7 +179,9 @@ function sharedManualChunks(id: string): string | undefined {
   const dayjsMatch = id.match(/dayjs\/locale\/([^/.]+)\.js/);
   if (dayjsMatch) {
     const locale = DAYJS_LOCALE[dayjsMatch[1]];
-    if (locale) return `i18n-${locale}-ui-runtime`;
+    // A shared antd/dayjs chunk can import the antd facade back through its
+    // helpers. Loading dayjs first then calls an uninitialized antd wrapper.
+    if (locale) return `i18n-${locale}-dayjs-runtime`;
   }
 
   if (
