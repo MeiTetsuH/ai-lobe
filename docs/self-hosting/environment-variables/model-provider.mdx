@@ -1,9 +1,7 @@
 ---
 title: LobeHub Model Service Providers - Environment Variables and Configuration
 description: >-
-  Learn about the environment variables and configuration settings for various
-  model service providers like OpenAI, Google AI, AWS Bedrock, Ollama,
-  Perplexity AI, Anthropic AI, Mistral AI, Groq AI, OpenRouter AI, and 01.AI.
+  Learn about the environment variables and configuration settings for various model service providers like OpenAI, Google AI, AWS Bedrock, Ollama, Perplexity AI, Anthropic AI, Mistral AI, Groq AI, OpenRouter AI, and 01.AI.
 tags:
   - Model Service Providers
   - Environment Variables
@@ -54,6 +52,17 @@ Related discussions:
 - [Why is the return value blank after installing Docker, configuring environment variables?](https://github.com/lobehub/lobehub/discussions/623)
 - [Reasons for errors when using third-party interfaces](https://github.com/lobehub/lobehub/discussions/734)
 - [No response in chat after filling in the proxy server address](https://github.com/lobehub/lobehub/discussions/1065)
+
+### `OPENAI_EMBEDDING_PROVIDER_ONLY`
+
+- Type: Optional
+- Description: Restricts embedding requests made through the OpenAI provider to a comma-separated list of OpenRouter provider slugs. Adds `provider.only` and disables provider fallbacks. Use only with an OpenRouter-compatible endpoint, including a gateway forwarding to OpenRouter.
+- Default: Unset; preserves the existing request body
+- Example: `google-ai-studio`
+
+This setting preserves the embedding model ID and requested dimensions. It does not affect chat requests or configure BYOK credentials. Set the allowed provider's BYOK key to never use OpenRouter shared capacity separately. Empty values and malformed lists reject embedding requests before sending them. To disable this restriction, remove the variable rather than setting it to an empty string.
+
+After redeploying, verify an embedding request in the gateway logs and confirm its upstream provider and BYOK status in OpenRouter.
 
 ### `OPENAI_MODEL_LIST`
 

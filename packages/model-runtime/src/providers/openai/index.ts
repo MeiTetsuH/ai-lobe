@@ -80,6 +80,22 @@ export const params = {
     chatCompletion: () => process.env.DEBUG_OPENAI_CHAT_COMPLETION === '1',
     responses: () => process.env.DEBUG_OPENAI_RESPONSES === '1',
   },
+  embeddings: {
+    handlePayload: (payload) => {
+      const configuredProviders = process.env.OPENAI_EMBEDDING_PROVIDER_ONLY;
+      if (configuredProviders === undefined) return payload;
+
+      const only = configuredProviders.split(',').map((provider) => provider.trim());
+      // Reject empty or malformed routing rather than silently sending an unrestricted request.
+      if (only.some((provider) => !/^[a-z0-9]+(?:[-_/][a-z0-9]+)*$/.test(provider))) {
+        throw new Error(
+          'OPENAI_EMBEDDING_PROVIDER_ONLY must contain comma-separated provider slugs',
+        );
+      }
+
+      return { ...payload, provider: { allow_fallbacks: false, only } };
+    },
+  },
   models: async ({ client }) => {
     const modelsPage = (await client.models.list()) as any;
     const modelList: OpenAIModelCard[] = modelsPage.data;

@@ -53,6 +53,17 @@ LobeHub 在部署时提供了丰富的模型服务商相关的环境变量，你
 - [使用第三方接口报错的原因](https://github.com/lobehub/lobehub/discussions/734)
 - [代理服务器地址填了聊天没任何反应](https://github.com/lobehub/lobehub/discussions/1065)
 
+### `OPENAI_EMBEDDING_PROVIDER_ONLY`
+
+- 类型：可选
+- 描述：将 OpenAI 提供商发出的向量请求限制到指定的 OpenRouter 提供商，多个提供商 slug 用逗号分隔。请求会添加 `provider.only` 并禁用提供商回退。仅用于兼容 OpenRouter 的端点，包括转发到 OpenRouter 的网关。
+- 默认值：不设置，保留现有请求内容
+- 示例：`google-ai-studio`
+
+此配置保留向量模型 ID 和请求维度，不影响聊天请求，也不会配置 BYOK 凭据。需要另外将允许提供商的 BYOK 密钥设为永不使用 OpenRouter 共享容量。空值或格式错误的列表会在发送前拒绝向量请求。若需关闭此限制，请删除变量，不要设置为空字符串。
+
+重新部署后，在网关日志中核验向量请求，并在 OpenRouter 确认实际提供商和 BYOK 状态。
+
 ### `OPENAI_MODEL_LIST`
 
 - 类型：可选

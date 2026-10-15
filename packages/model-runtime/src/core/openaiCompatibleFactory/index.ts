@@ -273,6 +273,9 @@ export interface OpenAICompatibleFactoryOptions<T extends Record<string, any> = 
     chatCompletion: () => boolean;
     responses?: () => boolean;
   };
+  embeddings?: {
+    handlePayload?: (payload: EmbeddingsPayload) => EmbeddingsPayload;
+  };
   errorType?: {
     bizError: ILobeAgentRuntimeErrorType;
     invalidAPIKey: ILobeAgentRuntimeErrorType;
@@ -346,6 +349,7 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
   apiKey: DEFAULT_API_KEY,
   errorType,
   debug: debugParams,
+  embeddings: embeddingConfig,
   constructorOptions,
   chatCompletion,
   models,
@@ -1324,8 +1328,9 @@ export const createOpenAICompatibleRuntime = <T extends Record<string, any> = an
       );
 
       try {
+        const providerPayload = embeddingConfig?.handlePayload?.(requestPayload) ?? requestPayload;
         const res = await this.client.embeddings.create(
-          { ...requestPayload, encoding_format: 'float', user: options?.user },
+          { ...providerPayload, encoding_format: 'float', user: options?.user },
           { headers: options?.headers, signal: options?.signal },
         );
 

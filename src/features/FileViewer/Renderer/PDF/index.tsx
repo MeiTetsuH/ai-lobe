@@ -7,11 +7,13 @@ import { Flexbox } from '@lobehub/ui';
 import { Spin } from '@lobehub/ui/base-ui';
 import { Fragment, memo, useCallback, useState } from 'react';
 
+import AsyncError from '@/components/AsyncError';
 import { Document, Page, pdfjs } from '@/libs/pdfjs';
 import { lambdaQuery } from '@/libs/trpc/client';
 
 import HighlightLayer from './HighlightLayer';
 import { styles } from './style';
+import { useFetchPDFUrl } from './useFetchPDFUrl';
 import useResizeObserver from './useResizeObserver';
 
 const options = {
@@ -27,6 +29,7 @@ export interface PDFViewerProps {
 }
 
 const PDFViewer = memo<PDFViewerProps>(({ url, fileId }) => {
+  const readablePDF = useFetchPDFUrl(url);
   const [numPages, setNumPages] = useState<number>(0);
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
@@ -54,6 +57,24 @@ const PDFViewer = memo<PDFViewerProps>(({ url, fileId }) => {
 
   const dataSource = data?.pages.flatMap((page) => page.items) || [];
 
+  if (readablePDF.error && !readablePDF.url)
+    return (
+      <AsyncError
+        error={readablePDF.error}
+        retrying={readablePDF.isValidating}
+        onRetry={() => {
+          void readablePDF.mutate();
+        }}
+      />
+    );
+
+  if (readablePDF.isLoading)
+    return (
+      <Flexbox align={'center'} justify={'center'} padding={24}>
+        <Spin size="large" />
+      </Flexbox>
+    );
+
   return (
     <Flexbox className={styles.container}>
       <Flexbox
@@ -65,7 +86,7 @@ const PDFViewer = memo<PDFViewerProps>(({ url, fileId }) => {
       >
         <Document
           className={styles.document}
-          file={url}
+          file={readablePDF.url}
           loading={<Spin size="large" />}
           options={options}
           onLoadSuccess={onDocumentLoadSuccess}
