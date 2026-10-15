@@ -1,9 +1,9 @@
+import { consumeStreamUntilDone } from '@lobechat/model-runtime';
 import { chainAnswerWithContext } from '@lobechat/prompts';
 import { EvalEvaluationStatus, RequestTrigger } from '@lobechat/types';
 import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { ModelProvider } from 'model-bank';
-import type OpenAI from 'openai';
 import { z } from 'zod';
 
 import { DEFAULT_EMBEDDING_MODEL, DEFAULT_RAG_EVAL_MODEL } from '@/const/settings';
@@ -123,21 +123,32 @@ export const ragEvalRouter = router({
 
         // Generate LLM answer
         const { messages } = chainAnswerWithContext({ context, knowledge: [], question });
+        let answer = '';
+        let streamError: unknown;
 
         const response = await modelRuntime.chat(
           {
             messages: messages!,
             model: languageModel,
-            responseMode: 'json',
             stream: false,
             temperature: 1,
           },
-          { metadata: { trigger: RequestTrigger.Eval } },
+          {
+            callback: {
+              onError: (error) => {
+                streamError = error;
+              },
+              onText: (text) => {
+                answer += text;
+              },
+            },
+            metadata: { trigger: RequestTrigger.Eval },
+          },
         );
 
-        const data = (await response.json()) as OpenAI.ChatCompletion;
-
-        const answer = data.choices[0].message.content;
+        await consumeStreamUntilDone(response);
+        if (streamError) throw streamError;
+        if (!answer.trim()) throw new Error('RAG evaluation returned an empty answer');
 
         await evalRecordModel.update(input.evalRecordId, {
           answer,

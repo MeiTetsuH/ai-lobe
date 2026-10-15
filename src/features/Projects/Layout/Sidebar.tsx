@@ -30,11 +30,13 @@ const ProjectSidebarContent = memo(() => {
 
   const header = <ProjectHeader project={detail?.project} />;
 
-  if (detailSWR.error)
+  if (detailSWR.error && !detail)
     return (
       <SideBarLayout
-        body={<AsyncError error={detailSWR.error} variant="inline" onRetry={detailSWR.mutate} />}
         header={header}
+        body={
+          <AsyncError error={detailSWR.error} variant="inline" onRetry={detailSWR.revalidate} />
+        }
       />
     );
 

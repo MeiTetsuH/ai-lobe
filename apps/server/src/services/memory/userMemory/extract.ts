@@ -521,13 +521,19 @@ export const resolveRuntimeAgentConfig = (
     .map(normalizeProvider)
     .filter(Boolean);
 
-  const providerOrder = Array.from(
-    new Set([
-      ...normalizedPreferredProviders,
-      normalizeProvider(agent.provider || 'openai'),
-      ...Object.keys(keyVaults || {}),
-    ]),
-  );
+  const configuredProvider = normalizeProvider(agent.provider || 'openai');
+  // Explicit system credentials must not be displaced by another provider's user vault.
+  // The configured provider's user credentials still take precedence over its system defaults.
+  const providerOrder =
+    agent.apiKey || options?.fallback?.apiKey
+      ? [configuredProvider]
+      : Array.from(
+          new Set([
+            ...normalizedPreferredProviders,
+            configuredProvider,
+            ...Object.keys(keyVaults || {}),
+          ]),
+        );
 
   for (const provider of providerOrder) {
     if (provider === 'lobehub') {

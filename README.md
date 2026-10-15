@@ -307,8 +307,8 @@ An API Key is required to chat with LLMs in LobeHub. This section uses the OpenA
 
 If you find signing up for an OpenAI account or binding a foreign-currency credit card troublesome, you can consider using a well-known OpenAI third-party proxy to obtain an API Key, which can effectively lower the barrier to getting one. At the same time, however, once you use a third-party service, you may also need to bear its potential risks — please decide based on your own actual situation. Below is a list of common third-party model proxies for your reference:
 
-|                                                                     | Provider     | Features                                                                                                | Proxy URL                 | Link                              |
-| ------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------------------- |
+|                                                                     | Provider     | Features                                                                                                                  | Proxy URL                 | Link                                               |
+| ------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------- | ------------------------- | -------------------------------------------------- |
 | <img src="https://resource.aihubmix.com/logo.png?v=1" width="48" /> | **AIHubMix** | Uses the OpenAI enterprise API; all models site-wide at **14% off** the official price (incl. GPT-5.6 and Claude Fable 5) | `https://aihubmix.com/v1` | [Get](https://console.aihubmix.com/token?aff=8DBz) |
 
 > \[!WARNING]
@@ -381,7 +381,8 @@ $ bun run dev:spa   # SPA frontend only (port 9876)
 
 > **Debug Proxy**: After running `dev:spa`, the terminal prints a proxy URL like
 > `https://app.lobehub.com/_dangerous_local_dev_proxy?debug-host=http%3A%2F%2Flocalhost%3A9876`.
-> Open it to develop locally against the production backend with HMR.
+> Open it to develop locally against the production backend with HMR — a
+> development convenience, not a place to verify a change.
 
 If you would like to learn more details, please feel free to look at our [📘 Development Guide][docs-dev-guide].
 
@@ -527,9 +528,9 @@ This project is [LobeHub Community License](./LICENSE) licensed.
 [docs-upstream-sync]: https://lobehub.com/docs/self-hosting/advanced/upstream-sync
 [fossa-license-link]: https://app.fossa.com/projects/git%2Bgithub.com%2Flobehub%2Flobehub
 [fossa-license-shield]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Flobehub%2Flobehub.svg?type=large
-[github-action-release-link]: https://github.com/actions/workflows/lobehub/lobehub/release.yml
+[github-action-release-link]: https://github.com/lobehub/lobehub/actions/workflows/release.yml
 [github-action-release-shield]: https://img.shields.io/github/actions/workflow/status/lobehub/lobehub/release.yml?label=release&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
-[github-action-test-link]: https://github.com/actions/workflows/lobehub/lobehub/test.yml
+[github-action-test-link]: https://github.com/lobehub/lobehub/actions/workflows/test.yml
 [github-action-test-shield]: https://img.shields.io/github/actions/workflow/status/lobehub/lobehub/test.yml?label=test&labelColor=black&logo=githubactions&logoColor=white&style=flat-square
 [github-contributors-link]: https://github.com/lobehub/lobehub/graphs/contributors
 [github-contributors-shield]: https://img.shields.io/github/contributors/lobehub/lobehub?color=c4f042&labelColor=black&style=flat-square

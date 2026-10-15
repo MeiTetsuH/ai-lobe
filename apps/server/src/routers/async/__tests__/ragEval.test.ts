@@ -1,6 +1,8 @@
 // @vitest-environment node
+import { LobeOpenAI } from '@lobechat/model-runtime';
 import { EvalEvaluationStatus } from '@lobechat/types';
 import { TRPCError } from '@trpc/server';
+import type OpenAI from 'openai';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DEFAULT_RAG_EVAL_MODEL } from '@/const/settings';
@@ -113,11 +115,24 @@ describe('ragEvalRouter.runRecordEvaluation', () => {
       questionEmbeddingId: 'embedding-1',
       status: EvalEvaluationStatus.Pending,
     });
-    mocks.chat.mockResolvedValue({
-      json: vi.fn().mockResolvedValue({
-        choices: [{ message: { content: 'A Terra answer' } }],
-      }),
-    });
+    const runtime = new LobeOpenAI({ apiKey: 'test' });
+    vi.spyOn(runtime.client.responses, 'create').mockResolvedValue({
+      id: 'resp-test',
+      object: 'response',
+      status: 'completed',
+      model: DEFAULT_RAG_EVAL_MODEL,
+      output: [
+        {
+          id: 'msg-test',
+          type: 'message',
+          role: 'assistant',
+          status: 'completed',
+          content: [{ type: 'output_text', text: 'A Terra answer', annotations: [] }],
+        },
+      ],
+      usage: { input_tokens: 5, output_tokens: 4, total_tokens: 9 },
+    } as OpenAI.Responses.Response);
+    mocks.chat.mockImplementation(runtime.chat.bind(runtime));
     mocks.initModelRuntimeFromDB.mockResolvedValue({ chat: mocks.chat });
 
     const caller = ragEvalRouter.createCaller({ serverDB, userId } as any);
@@ -137,6 +152,27 @@ describe('ragEvalRouter.runRecordEvaluation', () => {
         languageModel: DEFAULT_RAG_EVAL_MODEL,
         status: EvalEvaluationStatus.Success,
       }),
+    );
+  });
+
+  it('does not mark an empty response as a successful evaluation', async () => {
+    mocks.evalRecordFindById.mockResolvedValue({
+      context: ['retrieved context'],
+      evaluationId: 'evaluation-1',
+      id: 'eval-record-1',
+      question: 'What is LobeHub?',
+      questionEmbeddingId: 'embedding-1',
+    });
+    mocks.chat.mockResolvedValue(new Response(''));
+    mocks.initModelRuntimeFromDB.mockResolvedValue({ chat: mocks.chat });
+    const caller = ragEvalRouter.createCaller({ serverDB, userId } as any);
+
+    await expect(caller.runRecordEvaluation({ evalRecordId: 'eval-record-1' })).resolves.toEqual({
+      success: false,
+    });
+    expect(mocks.evalRecordUpdate).toHaveBeenCalledWith(
+      'eval-record-1',
+      expect.objectContaining({ status: EvalEvaluationStatus.Error }),
     );
   });
 });

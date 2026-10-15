@@ -1,10 +1,11 @@
+import { ModelRuntime } from '@lobechat/model-runtime';
 import { type AiProviderRuntimeState } from '@lobechat/types';
 import { type EnabledAiModel } from 'model-bank';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { type MemoryExtractionPrivateConfig } from '@/server/globalConfig/parseMemoryExtractionConfig';
 
-import { makeTaskErrorItem, MemoryExtractionExecutor } from '../extract';
+import { makeTaskErrorItem, MemoryExtractionExecutor, resolveRuntimeAgentConfig } from '../extract';
 
 const createRuntimeState = (models: EnabledAiModel[], keyVaults: Record<string, any>) =>
   ({
@@ -473,6 +474,105 @@ describe('MemoryExtractionExecutor.resolveRuntimeKeyVaults', () => {
     });
 
     warnSpy.mockRestore();
+  });
+});
+
+describe('resolveRuntimeAgentConfig', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it.each(['agent', 'fallback'] as const)(
+    'keeps explicit %s credentials on the configured provider',
+    (source) => {
+      const initialize = vi.spyOn(ModelRuntime, 'initializeWithProvider');
+      const credentials = {
+        apiKey: 'system-gateway-key',
+        baseURL: 'https://gateway.example.invalid/v1',
+      };
+
+      resolveRuntimeAgentConfig(
+        {
+          ...(source === 'agent' ? credentials : {}),
+          model: 'google/gemini-3.8-flash',
+          provider: 'openai',
+        },
+        {
+          openai: {},
+          vertex2openai: {
+            apiKey: 'other-provider-key',
+            baseURL: 'https://other-provider.example.invalid/v1',
+          },
+        },
+        {
+          fallback: source === 'fallback' ? credentials : undefined,
+          preferred: { providerIds: ['vertex2openai'] },
+          userId: 'user-1',
+        },
+      );
+
+      expect(initialize).toHaveBeenCalledExactlyOnceWith('openai', {
+        ...credentials,
+        userId: 'user-1',
+      });
+    },
+  );
+
+  it('preserves user credentials for the exact configured provider', () => {
+    const initialize = vi.spyOn(ModelRuntime, 'initializeWithProvider');
+    const userCredentials = {
+      apiKey: 'user-openai-key',
+      baseURL: 'https://user-gateway.example.invalid/v1',
+    };
+
+    resolveRuntimeAgentConfig(
+      { apiKey: 'system-key', model: 'google/gemini-3.8-flash', provider: 'openai' },
+      { openai: userCredentials, vertex2openai: { apiKey: 'other-provider-key' } },
+      { preferred: { providerIds: ['vertex2openai'] }, userId: 'user-1' },
+    );
+
+    expect(initialize).toHaveBeenCalledExactlyOnceWith('openai', {
+      ...userCredentials,
+      userId: 'user-1',
+    });
+  });
+
+  it('retains preferred provider selection without explicit system credentials', () => {
+    const initialize = vi.spyOn(ModelRuntime, 'initializeWithProvider');
+    const preferredCredentials = {
+      apiKey: 'preferred-key',
+      baseURL: 'https://preferred.example.invalid/v1',
+    };
+
+    resolveRuntimeAgentConfig(
+      { model: 'shared-model', provider: 'openai' },
+      { openai: { apiKey: 'user-openai-key' }, vertex2openai: preferredCredentials },
+      { preferred: { providerIds: ['vertex2openai'] }, userId: 'user-1' },
+    );
+
+    expect(initialize).toHaveBeenCalledExactlyOnceWith('vertex2openai', {
+      ...preferredCredentials,
+      userId: 'user-1',
+    });
+  });
+
+  it('retains alternative user provider fallback without explicit system credentials', () => {
+    const initialize = vi.spyOn(ModelRuntime, 'initializeWithProvider');
+    const alternativeCredentials = {
+      apiKey: 'alternative-key',
+      baseURL: 'https://alternative.example.invalid/v1',
+    };
+
+    resolveRuntimeAgentConfig(
+      { model: 'shared-model', provider: 'openai' },
+      { openai: {}, vertex2openai: alternativeCredentials },
+      { userId: 'user-1' },
+    );
+
+    expect(initialize).toHaveBeenCalledExactlyOnceWith('vertex2openai', {
+      ...alternativeCredentials,
+      userId: 'user-1',
+    });
   });
 });
 

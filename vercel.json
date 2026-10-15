@@ -58,7 +58,7 @@
       ]
     }
   ],
-  "installCommand": "npx pnpm@12.4.1 install --frozen-lockfile",
+  "installCommand": "npx pnpm@12.4.1 --filter @lobehub/lobehub... --filter @lobechat/server... --filter @lobehub/auth... --filter @lobehub/share... --filter @lobehub/workbench... install --frozen-lockfile",
   "rewrites": [
     {
       "source": "/_dangerous_local_dev_proxy",

@@ -11,8 +11,14 @@ const vercelConfig = {
       'node_modules/.pnpm/@img+sharp-libvips-*musl*',
       // Exclude SPA/desktop/mobile build artifacts from serverless functions
       'public/_spa/**',
+      'public/_spa-auth/**',
+      'public/_spa-share/**',
+      'public/_spa-workbench/**',
       'dist/desktop/**',
       'dist/mobile/**',
+      'dist/auth/**',
+      'dist/share/**',
+      'dist/workbench/**',
       'apps/desktop/**',
       'packages/database/migrations/**',
     ],
@@ -20,6 +26,12 @@ const vercelConfig = {
 };
 const nextConfig = defineConfig({
   ...(isVercel ? vercelConfig : {}),
+  headers: [
+    {
+      headers: [{ key: 'x-robots-tag', value: 'noindex, nofollow' }],
+      source: '/:path*',
+    },
+  ],
 });
 
 export default nextConfig;

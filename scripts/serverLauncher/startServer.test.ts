@@ -5,7 +5,7 @@ import vm from 'node:vm';
 
 import { describe, expect, it } from 'vitest';
 
-const launcher = path.join(import.meta.dirname, 'startServer.js');
+const launcher = path.join(import.meta.dirname, 'startServer.cjs');
 
 /** Exercise the real launcher with child processes replaced by deterministic exits. */
 const launch = async (env: Record<string, string>, failure?: { code: number; script: string }) => {

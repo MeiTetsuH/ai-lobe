@@ -4,7 +4,7 @@ import { GatewayService } from '@/server/services/gateway';
 
 /**
  * Non-Vercel `ensureRunning` entry point — used by the standalone server
- * launcher (`scripts/serverLauncher/startServer.js`). Body: `{ restart?: boolean }`.
+ * launcher (`scripts/serverLauncher/startServer.cjs`). Body: `{ restart?: boolean }`.
  *
  * Auth: `bearerSecretAuth(KEY_VAULTS_SECRET)` on the route.
  */
