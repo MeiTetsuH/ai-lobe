@@ -31,6 +31,10 @@ Paths below are repository-relative. Tests are targeted checks, not substitutes 
 | Bounded automatic prompt cache keys                | Hash overlong automatic user/model keys to respect the upstream 64-character limit while retaining stable isolation and existing short keys. Remove when upstream bounds automatic keys equivalently.                                                                                        | OpenAI-compatible factory prompt-cache regression tests; real BYOK preset chat.                                                                                                |
 | Owned upload reservations                          | Require authenticated upload reservations before signing storage operations or registering new file keys; retain caller-scoped deduplication and settled retries. Remove when upstream enforces equivalent ownership checks.                                                                 | Upload/file router regression tests; real upload and readback.                                                                                                                 |
 
+## Chat image access
+
+`src/services/chat/resolveImageUrls.ts` resolves same-origin `/f/:id` image parts through the authorized readable-URL API before model requests. Providers otherwise fetch the protected application origin and can receive a WAF challenge or 429 even after a successful upload. Resolution is request-scoped, preserves stored message URLs and external images, and stops on authorization failures. Keep the bucket private and retain the firewall. Remove this patch when upstream resolves model-facing image URLs equivalently. Regression checks: `src/services/chat/resolveImageUrls.test.ts` and the signed-image payload case in `src/services/chat/chat.test.ts`.
+
 ## Stable-tag upgrade procedure
 
 1. Record the current production commit, previous upstream tag, target stable tag, and deployment configuration revision. Preserve unrelated working-tree changes and create a recoverable Git reference before merging.
