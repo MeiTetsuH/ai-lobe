@@ -1,9 +1,8 @@
 'use client';
 
 import { BRANDING_NAME } from '@lobechat/business-const';
-import { Button } from '@lobehub/ui/base-ui';
+import { Button, createStaticStyles } from '@lobehub/ui';
 import { Flexbox } from '@lobehub/ui/es/Flex/index';
-import { createStaticStyles } from 'antd-style';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 

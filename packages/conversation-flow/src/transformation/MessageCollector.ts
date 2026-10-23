@@ -7,6 +7,7 @@ import type {
   SignalCallbacksNode,
   ThreadScope,
 } from '../types';
+import { toTime } from '../utils/timestamp';
 import { BranchResolver } from './BranchResolver';
 
 /**
@@ -357,7 +358,10 @@ export class MessageCollector {
       .flatMap((parentId) => this.childrenOf(allMessages, parentId))
       .filter((m) => m.role !== 'tool' && !processedIds.has(m.id))
       .filter((m) => m.role === 'assistant' && m.agentId === groupAgentId && !getMessageSignal(m))
-      .sort((a, b) => a.createdAt - b.createdAt || position.get(a.id)! - position.get(b.id)!);
+      .sort(
+        (a, b) =>
+          toTime(a.createdAt) - toTime(b.createdAt) || position.get(a.id)! - position.get(b.id)!,
+      );
 
     const activeId = this.resolveActiveContinuationId(candidates, currentAssistant);
     if (!activeId) {
@@ -534,7 +538,7 @@ export class MessageCollector {
         completions.push(child);
       }
     }
-    completions.sort((a, b) => a.createdAt - b.createdAt);
+    completions.sort((a, b) => toTime(a.createdAt) - toTime(b.createdAt));
     return completions;
   }
 
@@ -634,7 +638,7 @@ export class MessageCollector {
         (c) =>
           c.msg?.role === 'assistant' && c.msg.agentId === groupAgentId && !getMessageSignal(c.msg),
       )
-      .sort((a, b) => a.msg!.createdAt - b.msg!.createdAt);
+      .sort((a, b) => toTime(a.msg!.createdAt) - toTime(b.msg!.createdAt));
 
     const activeId = this.resolveActiveContinuationId(
       eligible.map((c) => c.msg!),

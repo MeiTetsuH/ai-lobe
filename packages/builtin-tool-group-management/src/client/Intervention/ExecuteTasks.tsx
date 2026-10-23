@@ -2,7 +2,6 @@
 
 import { DEFAULT_AVATAR } from '@lobechat/const';
 import type { BuiltinInterventionProps } from '@lobechat/types';
-import { Flexbox, Icon, stopPropagation, Tooltip } from '@lobehub/ui';
 import {
   AccordionHeader,
   AccordionItem,
@@ -10,11 +9,16 @@ import {
   AccordionRoot,
   AccordionTrigger,
   Avatar,
+  createStaticStyles,
+  Flexbox,
+  Icon,
   Input,
   InputNumber,
+  stopPropagation,
   TextArea,
-} from '@lobehub/ui/base-ui';
-import { createStaticStyles, useTheme } from 'antd-style';
+  Tooltip,
+  useTheme,
+} from '@lobehub/ui';
 import isEqual from 'fast-deep-equal';
 import { Clock, Trash2 } from 'lucide-react';
 import type { ChangeEvent } from 'react';

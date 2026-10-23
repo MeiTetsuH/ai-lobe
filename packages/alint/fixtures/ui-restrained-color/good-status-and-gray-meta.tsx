@@ -1,6 +1,5 @@
 // Fixture: color only for a real failure; metadata and types stay gray.
-import { Flexbox, Icon } from '@lobehub/ui';
-import { createStaticStyles, cssVar } from 'antd-style';
+import { createStaticStyles, cssVar, Flexbox, Icon } from '@lobehub/ui';
 import { AlertCircle, ListTodo } from 'lucide-react';
 import { memo } from 'react';
 

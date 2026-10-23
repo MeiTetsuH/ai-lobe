@@ -1,7 +1,6 @@
 'use client';
 
-import { Flexbox } from '@lobehub/ui';
-import { Spin, Tag, Text } from '@lobehub/ui/base-ui';
+import { Flexbox, Spin, Tag, Text } from '@lobehub/ui';
 import { memo } from 'react';
 
 import BubblesLoading from '@/components/BubblesLoading';

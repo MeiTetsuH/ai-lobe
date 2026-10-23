@@ -1,8 +1,7 @@
 'use client';
 
 import type { BuiltinInspectorProps } from '@lobechat/types';
-import { Icon, Tooltip } from '@lobehub/ui';
-import { createStaticStyles, cssVar, cx } from 'antd-style';
+import { createStaticStyles, cssVar, cx, Icon, Tooltip } from '@lobehub/ui';
 import { CornerDownRight } from 'lucide-react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';

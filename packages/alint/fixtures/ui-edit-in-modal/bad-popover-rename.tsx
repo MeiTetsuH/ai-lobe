@@ -1,6 +1,5 @@
 // Fixture: renaming a topic through a popover input anchored to the row.
-import { Flexbox } from '@lobehub/ui';
-import { DropdownMenu, Input, Popover, Text } from '@lobehub/ui/base-ui';
+import { DropdownMenu, Flexbox, Input, Popover, Text } from '@lobehub/ui';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

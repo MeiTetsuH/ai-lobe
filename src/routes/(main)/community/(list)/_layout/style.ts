@@ -1,15 +1,13 @@
-import { createStaticStyles } from 'antd-style';
+import { createStaticStyles } from '@lobehub/ui';
 
 export const styles = createStaticStyles(({ css }) => ({
-  
   // Content container
-contentContainer: css`
+  contentContainer: css`
     min-height: 100%;
   `,
 
-  
   // Main container
-mainContainer: css`
+  mainContainer: css`
     overflow-y: auto;
   `,
 

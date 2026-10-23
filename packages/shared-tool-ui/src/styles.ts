@@ -1,5 +1,4 @@
-import { textStyles } from '@lobehub/ui/base-ui';
-import { createStaticStyles, cx } from 'antd-style';
+import { createStaticStyles, cx, textStyles } from '@lobehub/ui';
 
 const localTextGroupStyles = createStaticStyles(({ css }) => ({
   shinyGroup: css`

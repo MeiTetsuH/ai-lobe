@@ -1,8 +1,7 @@
 'use client';
 
 import type { BuiltinInspectorProps } from '@lobechat/types';
-import { Text } from '@lobehub/ui/base-ui';
-import { cssVar, cx } from 'antd-style';
+import { cssVar, cx, Text } from '@lobehub/ui';
 import { memo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 

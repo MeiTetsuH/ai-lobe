@@ -15,9 +15,7 @@ import {
   shinyTextStyles,
 } from '@lobechat/shared-tool-ui/styles';
 import type { BuiltinInspector, BuiltinInspectorProps, BuiltinRenderProps } from '@lobechat/types';
-import { CodeDiff, Highlighter, Markdown } from '@lobehub/ui';
-import { Skeleton } from '@lobehub/ui/base-ui';
-import { cx } from 'antd-style';
+import { CodeDiff, cx, Highlighter, Markdown, Skeleton } from '@lobehub/ui';
 import path from 'path-browserify-esm';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

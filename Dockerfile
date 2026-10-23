@@ -1,5 +1,5 @@
 ## Set global build ENV
-ARG NODEJS_VERSION="24"
+ARG NODEJS_VERSION="24.22.1"
 
 ## Base image for all building stages
 FROM node:${NODEJS_VERSION}-slim AS base
@@ -122,6 +122,7 @@ COPY --from=builder /app/public/_spa-workbench /app/public/_spa-workbench
 COPY --from=builder /app/packages/database/migrations /app/migrations
 COPY --from=builder /app/scripts/migrateServerDB/docker.cjs /app/docker.cjs
 COPY --from=builder /app/scripts/migrateServerDB/errorHint.js /app/errorHint.js
+COPY --from=builder /app/scripts/migrateServerDB/pgSearchGuard.js /app/pgSearchGuard.js
 COPY --from=builder /app/fts-search-elasticsearch-reindex.cjs /app/fts-search-elasticsearch-reindex.cjs
 COPY --from=builder /app/fts-search-elasticsearch-sync.cjs /app/fts-search-elasticsearch-sync.cjs
 COPY --from=builder /app/fts-search-ineligible-message-cleanup.cjs /app/fts-search-ineligible-message-cleanup.cjs

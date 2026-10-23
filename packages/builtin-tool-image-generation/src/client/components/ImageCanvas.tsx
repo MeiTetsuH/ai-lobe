@@ -1,7 +1,6 @@
 'use client';
 
-import { Image } from '@lobehub/ui';
-import { createStaticStyles, cssVar, cx, keyframes } from 'antd-style';
+import { createStaticStyles, cssVar, cx, Image, keyframes } from '@lobehub/ui';
 import type { CSSProperties, ReactNode } from 'react';
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

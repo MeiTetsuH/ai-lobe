@@ -2,9 +2,7 @@
 
 import type { GoalStatus } from '@lobechat/const/goal';
 import type { BuiltinRenderProps } from '@lobechat/types';
-import { Flexbox, Icon } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
-import { cssVar } from 'antd-style';
+import { cssVar, Flexbox, Icon, Text } from '@lobehub/ui';
 import type { TFunction } from 'i18next';
 import {
   AlertTriangle,

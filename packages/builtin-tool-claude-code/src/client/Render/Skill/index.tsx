@@ -1,9 +1,7 @@
 'use client';
 
 import type { BuiltinRenderProps } from '@lobechat/types';
-import { Flexbox, Icon, Markdown } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles } from 'antd-style';
+import { createStaticStyles, Flexbox, Icon, Markdown, Text } from '@lobehub/ui';
 import { Sparkles } from 'lucide-react';
 import { memo } from 'react';
 

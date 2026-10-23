@@ -2,9 +2,7 @@
 
 import type { ModifyNodesArgs, ModifyOperation } from '@lobechat/editor-runtime';
 import type { BuiltinRenderProps } from '@lobechat/types';
-import { Block, Icon } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles, cssVar } from 'antd-style';
+import { Block, createStaticStyles, cssVar, Icon, Text } from '@lobehub/ui';
 import { Check, DiffIcon, Minus, Plus, X } from 'lucide-react';
 import { memo } from 'react';
 

@@ -1,8 +1,6 @@
 'use client';
 
-import { Flexbox } from '@lobehub/ui';
-import { Progress, Spin, Tag, Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles } from 'antd-style';
+import { createStaticStyles, Flexbox, Progress, Spin, Tag, Text } from '@lobehub/ui';
 import { memo } from 'react';
 
 import BubblesLoading from '@/components/BubblesLoading';

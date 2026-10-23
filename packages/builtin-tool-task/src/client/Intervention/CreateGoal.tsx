@@ -10,9 +10,17 @@ import {
   ReactTablePlugin,
 } from '@lobehub/editor';
 import { Editor, useEditor } from '@lobehub/editor/react';
-import { Flexbox, Icon } from '@lobehub/ui';
-import { ActionIcon, Button, Input, InputNumber, Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles, cssVar } from 'antd-style';
+import {
+  ActionIcon,
+  Button,
+  createStaticStyles,
+  cssVar,
+  Flexbox,
+  Icon,
+  Input,
+  InputNumber,
+  Text,
+} from '@lobehub/ui';
 import { ChevronRight, Pencil, Plus, Trash2 } from 'lucide-react';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

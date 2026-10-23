@@ -3,9 +3,7 @@
 import { DEFAULT_AVATAR } from '@lobechat/const';
 import { HETEROGENEOUS_TYPE_LABELS } from '@lobechat/heterogeneous-agents';
 import type { BuiltinRenderProps } from '@lobechat/types';
-import { Flexbox } from '@lobehub/ui';
-import { Avatar } from '@lobehub/ui/base-ui';
-import { createStaticStyles, useTheme } from 'antd-style';
+import { Avatar, createStaticStyles, Flexbox, useTheme } from '@lobehub/ui';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 

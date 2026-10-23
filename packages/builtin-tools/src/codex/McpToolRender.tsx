@@ -3,9 +3,7 @@
 import { LINEAR_TOOL_NAMES } from '@lobechat/shared-tool-ui/inspectors';
 import { GitHubRender, LinearRender } from '@lobechat/shared-tool-ui/renders';
 import type { BuiltinRenderProps } from '@lobechat/types';
-import { Flexbox, Highlighter } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles, cssVar } from 'antd-style';
+import { createStaticStyles, cssVar, Flexbox, Highlighter, Text } from '@lobehub/ui';
 import type { ComponentType } from 'react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';

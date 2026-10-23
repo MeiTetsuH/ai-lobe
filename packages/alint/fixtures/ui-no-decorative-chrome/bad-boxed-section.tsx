@@ -1,6 +1,5 @@
 // Fixture: a bordered, filled box with a bold restating title around one list.
-import { Flexbox } from '@lobehub/ui';
-import { createStaticStyles, cssVar } from 'antd-style';
+import { createStaticStyles, cssVar, Flexbox } from '@lobehub/ui';
 import { memo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 

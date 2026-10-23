@@ -1,6 +1,5 @@
 // Fixture: one readable line with the raw details folded behind a toggle.
-import { Flexbox, Icon } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
+import { Flexbox, Icon, Text } from '@lobehub/ui';
 import { AlertCircle } from 'lucide-react';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

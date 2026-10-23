@@ -1,6 +1,5 @@
 // Fixture: "Rename" from a menu swaps the project title for an inline input.
-import { Flexbox } from '@lobehub/ui';
-import { DropdownMenu, Input, Text } from '@lobehub/ui/base-ui';
+import { DropdownMenu, Flexbox, Input, Text } from '@lobehub/ui';
 import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

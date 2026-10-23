@@ -2,8 +2,7 @@
 
 import type { SearchFilesState } from '@lobechat/tool-runtime';
 import type { BuiltinInspectorProps } from '@lobechat/types';
-import { Text } from '@lobehub/ui/base-ui';
-import { cssVar, cx } from 'antd-style';
+import { cssVar, cx, Text } from '@lobehub/ui';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 

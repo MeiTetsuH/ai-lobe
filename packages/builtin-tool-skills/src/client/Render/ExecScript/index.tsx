@@ -1,8 +1,7 @@
 'use client';
 
 import { type BuiltinRenderProps } from '@lobechat/types';
-import { Block, Flexbox, Highlighter } from '@lobehub/ui';
-import { createStaticStyles } from 'antd-style';
+import { Block, createStaticStyles, Flexbox, Highlighter } from '@lobehub/ui';
 import { memo } from 'react';
 
 import type { ExecScriptParams, ExecScriptState } from '../../../types';

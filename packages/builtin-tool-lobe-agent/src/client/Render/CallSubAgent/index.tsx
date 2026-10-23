@@ -1,9 +1,7 @@
 'use client';
 
 import type { BuiltinRenderProps } from '@lobechat/types';
-import { Flexbox, Icon, Markdown } from '@lobehub/ui';
-import { Button, Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles, cssVar, cx } from 'antd-style';
+import { Button, createStaticStyles, cssVar, cx, Flexbox, Icon, Markdown, Text } from '@lobehub/ui';
 import { AlertTriangle, ListTree } from 'lucide-react';
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';

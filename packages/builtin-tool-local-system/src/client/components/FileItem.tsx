@@ -1,7 +1,5 @@
 import { useToolRenderCapabilities } from '@lobechat/shared-tool-ui';
-import { Flexbox } from '@lobehub/ui';
-import { ActionIcon } from '@lobehub/ui/base-ui';
-import { createStaticStyles } from 'antd-style';
+import { ActionIcon, createStaticStyles, Flexbox } from '@lobehub/ui';
 import dayjs from 'dayjs';
 import { FolderOpen } from 'lucide-react';
 import nodePath from 'path-browserify-esm';

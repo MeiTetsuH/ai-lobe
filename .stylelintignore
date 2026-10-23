@@ -36,5 +36,8 @@ docs/.local
 .claude
 .serena
 
+# Deliberately invalid negative fixtures are checked by the vendored skill's own linter.
+/.agents/skills/lobe-design/tests/fixtures/**
+
 # MCP tools
 /.serena/**

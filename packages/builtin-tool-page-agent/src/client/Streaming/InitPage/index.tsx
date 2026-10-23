@@ -2,9 +2,7 @@
 
 import type { InitDocumentArgs } from '@lobechat/editor-runtime';
 import type { BuiltinStreamingProps } from '@lobechat/types';
-import { Flexbox, Icon } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles, cssVar } from 'antd-style';
+import { createStaticStyles, cssVar, Flexbox, Icon, Text } from '@lobehub/ui';
 import { FileText, Hash, ListTree } from 'lucide-react';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

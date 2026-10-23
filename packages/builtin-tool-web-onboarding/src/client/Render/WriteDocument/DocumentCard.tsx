@@ -1,7 +1,13 @@
 'use client';
 
-import { CopyButton, Flexbox, Markdown, ScrollShadow, TooltipGroup } from '@lobehub/ui';
-import { createStaticStyles } from 'antd-style';
+import {
+  CopyButton,
+  createStaticStyles,
+  Flexbox,
+  Markdown,
+  ScrollShadow,
+  TooltipGroup,
+} from '@lobehub/ui';
 import { FileTextIcon } from 'lucide-react';
 import { memo } from 'react';
 

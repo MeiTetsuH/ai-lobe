@@ -1,9 +1,7 @@
 'use client';
 
 import type { BuiltinStreamingProps } from '@lobechat/types';
-import { Flexbox, Icon } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
-import { createStaticStyles } from 'antd-style';
+import { createStaticStyles, Flexbox, Icon, Text } from '@lobehub/ui';
 import { ListChecksIcon } from 'lucide-react';
 import { memo } from 'react';
 

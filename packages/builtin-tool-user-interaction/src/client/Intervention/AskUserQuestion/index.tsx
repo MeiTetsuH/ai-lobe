@@ -8,8 +8,7 @@ import {
   useAskUserForm,
 } from '@lobechat/shared-tool-ui/ask-user';
 import type { BuiltinInterventionProps } from '@lobechat/types';
-import { Flexbox } from '@lobehub/ui';
-import { Alert, Button, Spin, Text } from '@lobehub/ui/base-ui';
+import { Alert, Button, Flexbox, Spin, Text } from '@lobehub/ui';
 import { memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 

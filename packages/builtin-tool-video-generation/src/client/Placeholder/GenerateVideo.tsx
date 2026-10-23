@@ -1,8 +1,7 @@
 'use client';
 
 import type { BuiltinPlaceholderProps } from '@lobechat/types';
-import { Block, Flexbox } from '@lobehub/ui';
-import { createStaticStyles } from 'antd-style';
+import { Block, createStaticStyles, Flexbox } from '@lobehub/ui';
 import { memo } from 'react';
 
 import type { GenerateVideoParams } from '../../types';

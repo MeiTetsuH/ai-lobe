@@ -1,8 +1,15 @@
 'use client';
 
-import { CopyButton, Flexbox, Markdown, ScrollShadow, TooltipGroup } from '@lobehub/ui';
-import { ActionIcon, Button } from '@lobehub/ui/base-ui';
-import { createStaticStyles } from 'antd-style';
+import {
+  ActionIcon,
+  Button,
+  CopyButton,
+  createStaticStyles,
+  Flexbox,
+  Markdown,
+  ScrollShadow,
+  TooltipGroup,
+} from '@lobehub/ui';
 import { FileTextIcon, Maximize2, Minimize2, PencilLine } from 'lucide-react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';

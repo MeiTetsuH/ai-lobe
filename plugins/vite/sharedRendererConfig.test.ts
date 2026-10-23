@@ -25,7 +25,7 @@ const getPluginNames = (platform: 'desktop' | 'web') =>
     .map((plugin) => plugin.name);
 
 describe('locale chunk initialization', () => {
-  it('loads Ant Design and dayjs locales in either order', async () => {
+  it('loads Lobe UI and dayjs locales in either order', async () => {
     const directory = await mkdtemp(path.join(tmpdir(), 'lobe-locale-chunks-'));
     try {
       const result = await build({
@@ -47,7 +47,7 @@ describe('locale chunk initialization', () => {
             load(id) {
               if (id !== '\0locale-order') return;
               return `
-                export const antd = () => import('antd/es/locale/zh_CN.js');
+                export const ui = async () => ({ default: (await import('@lobehub/ui/es/i18n/resources/index')).zhCn });
                 export const dayjs = () => import('dayjs/locale/zh-cn.js');
               `;
             },
@@ -69,8 +69,8 @@ describe('locale chunk initialization', () => {
       const entry = chunks.find((chunk) => chunk.isEntry)!;
       const entryUrl = pathToFileURL(path.join(directory, entry.fileName)).href;
       for (const order of [
-        ['dayjs', 'antd'],
-        ['antd', 'dayjs'],
+        ['dayjs', 'ui'],
+        ['ui', 'dayjs'],
       ]) {
         const { stdout } = await promisify(execFile)(process.execPath, [
           '--input-type=module',
@@ -78,9 +78,9 @@ describe('locale chunk initialization', () => {
           `const loaders = await import(${JSON.stringify(entryUrl)});
            const results = {};
            for (const name of ${JSON.stringify(order)}) results[name] = (await loaders[name]()).default;
-           console.log(JSON.stringify([results.antd.locale, results.dayjs.name]));`,
+           console.log(JSON.stringify([results.ui.form['form.submit'], results.dayjs.name]));`,
         ]);
-        expect(JSON.parse(stdout)).toEqual(['zh-cn', 'zh-cn']);
+        expect(JSON.parse(stdout)).toEqual(['提交', 'zh-cn']);
       }
     } finally {
       await rm(directory, { force: true, recursive: true });
@@ -123,10 +123,8 @@ describe('lobe-dev-editor-provider', () => {
 });
 
 describe('sharedOptimizeDeps', () => {
-  it('pre-bundles the root and base-ui entrypoints together', () => {
-    expect(sharedOptimizeDeps.include).toEqual(
-      expect.arrayContaining(['@lobehub/ui', '@lobehub/ui/base-ui']),
-    );
+  it('pre-bundles the @lobehub/ui root entrypoint', () => {
+    expect(sharedOptimizeDeps.include).toContain('@lobehub/ui');
   });
 });
 
@@ -197,8 +195,34 @@ describe('sharedManualChunks', () => {
       'i18n-zh-CN-ui-runtime',
     );
     expect(__testing.sharedManualChunks('/repo/node_modules/dayjs/locale/zh-cn.js')).toBe(
-      'i18n-zh-CN-dayjs-runtime',
+      'i18n-zh-CN-ui-runtime',
     );
+  });
+
+  it('keeps the whole antd locale graph in the ui-runtime chunk so it cannot form a cycle', () => {
+    const pnpm = '/repo/node_modules/.pnpm/antd@6.3.5/node_modules';
+    for (const id of [
+      `${pnpm}/antd/locale/zh_CN.js`,
+      `${pnpm}/antd/es/calendar/locale/zh_CN.js`,
+      `${pnpm}/antd/es/date-picker/locale/zh_CN.js`,
+      `${pnpm}/antd/es/time-picker/locale/zh_CN.js`,
+      '/repo/node_modules/@rc-component/pagination/es/locale/zh_CN.js',
+      '/repo/node_modules/@rc-component/picker/es/locale/zh_CN.js',
+    ]) {
+      expect(__testing.sharedManualChunks(id)).toBe('i18n-zh-CN-ui-runtime');
+    }
+    expect(
+      __testing.sharedManualChunks('/repo/node_modules/@rc-component/picker/es/locale/ar_EG.js'),
+    ).toBe('i18n-ar-ui-runtime');
+  });
+
+  it('leaves antd default en_US component locales with the antd vendor graph', () => {
+    expect(
+      __testing.sharedManualChunks('/repo/node_modules/antd/es/date-picker/locale/en_US.js'),
+    ).toBe(undefined);
+    expect(
+      __testing.sharedManualChunks('/repo/node_modules/@rc-component/picker/es/locale/common.js'),
+    ).toBe(undefined);
   });
 
   it('keeps locale runtime helpers out of the default locale chunk', () => {

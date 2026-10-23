@@ -366,6 +366,31 @@ describe('SessionModel', () => {
     });
   });
 
+  describe('findSessionsByKeywords BM25 limit', () => {
+    it.each([
+      [undefined, 0, 8192, 0],
+      [9999, 0, 8192, 0],
+      [20, 1, 20, 20],
+    ])(
+      'returns matching sessions for page size %s and page %s',
+      async (pageSize, current, limit, offset) => {
+        const matchingSession = { id: 'matching-session', userId };
+        const findMany = vi.fn().mockImplementation(async ({ limit }) => {
+          if (limit > 8192) throw new Error(`min > max. min = ${limit}, max = 8192`);
+          return [{ agentsToSessions: [{ session: matchingSession }] }];
+        });
+        const model = new SessionModel(
+          { query: { agents: { findMany } } } as unknown as LobeChatDatabase,
+          userId,
+        );
+        await expect(
+          model.findSessionsByKeywords({ current, keyword: 'hello', pageSize }),
+        ).resolves.toEqual([matchingSession]);
+        expect(findMany).toHaveBeenCalledWith(expect.objectContaining({ limit, offset }));
+      },
+    );
+  });
+
   describe('queryByKeyword with external candidates', () => {
     it('hydrates only current-scope sessions and surfaces candidate failures', async () => {
       await serverDB.insert(users).values({ id: 'candidate-other-user' });

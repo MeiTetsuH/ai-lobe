@@ -3,9 +3,8 @@
 import { AnimatedNumber } from '@lobechat/shared-tool-ui/components';
 import { inspectorTextStyles, shinyTextStyles } from '@lobechat/shared-tool-ui/styles';
 import type { BuiltinInspectorProps } from '@lobechat/types';
-import { Tooltip } from '@lobehub/ui';
+import { createStaticStyles, cx, Tooltip } from '@lobehub/ui';
 import { GroupBotIcon } from '@lobehub/ui/icons';
-import { createStaticStyles, cx } from 'antd-style';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 

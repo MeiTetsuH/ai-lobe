@@ -1,9 +1,7 @@
 'use client';
 
 import type { BuiltinStreamingProps } from '@lobechat/types';
-import { Flexbox } from '@lobehub/ui';
-import { Spin } from '@lobehub/ui/base-ui';
-import { createStaticStyles } from 'antd-style';
+import { createStaticStyles, Flexbox, Spin } from '@lobehub/ui';
 import { FileTextIcon } from 'lucide-react';
 import { memo } from 'react';
 

@@ -1,8 +1,7 @@
 'use client';
 
 import type { BuiltinInterventionProps, SaveUserQuestionInput } from '@lobechat/types';
-import { EmojiPicker, Flexbox } from '@lobehub/ui';
-import { Text } from '@lobehub/ui/base-ui';
+import { EmojiPicker, Flexbox, Text } from '@lobehub/ui';
 import type { CSSProperties } from 'react';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

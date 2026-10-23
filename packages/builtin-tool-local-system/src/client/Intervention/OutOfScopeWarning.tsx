@@ -1,6 +1,5 @@
 import { isPathWithinScope } from '@lobechat/tool-runtime';
-import { Flexbox } from '@lobehub/ui';
-import { Alert } from '@lobehub/ui/base-ui';
+import { Alert, Flexbox } from '@lobehub/ui';
 import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 

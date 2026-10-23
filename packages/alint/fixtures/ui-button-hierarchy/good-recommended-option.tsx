@@ -1,6 +1,5 @@
 // Fixture: a mapped option row where only the recommended option is primary.
-import { Flexbox } from '@lobehub/ui';
-import { Button } from '@lobehub/ui/base-ui';
+import { Button, Flexbox } from '@lobehub/ui';
 import { memo } from 'react';
 
 interface DecisionOption {
