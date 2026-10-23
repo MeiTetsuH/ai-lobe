@@ -735,7 +735,7 @@ describe('ErrorMessageExtra', () => {
     );
 
     expect(screen.getByText('Raw runtime error')).toBeInTheDocument();
-    expect(screen.getByText(/"detail": "raw detail"/)).toBeInTheDocument();
+    expect(document.querySelector('pre code')).toHaveTextContent('"detail": "raw detail"');
   });
 
   it('shows the localized empty-completion message while retaining the raw error in details', () => {
@@ -754,9 +754,9 @@ describe('ErrorMessageExtra', () => {
     );
 
     expect(screen.getByText('response.ModelEmptyCompletion')).toBeInTheDocument();
-    expect(
-      screen.getByText(/"message": "The model provider returned an empty completion\."/),
-    ).toBeInTheDocument();
+    expect(document.querySelector('pre code')).toHaveTextContent(
+      '"message": "The model provider returned an empty completion."',
+    );
   });
 
   it('prefers the business message while retaining the standard error details', () => {
@@ -780,9 +780,9 @@ describe('ErrorMessageExtra', () => {
     );
 
     expect(screen.getByText('This request cost 5.98M credits.')).toBeInTheDocument();
-    expect(
-      screen.getByText(/"message": "The model provider returned an empty completion\."/),
-    ).toBeInTheDocument();
+    expect(document.querySelector('pre code')).toHaveTextContent(
+      '"message": "The model provider returned an empty completion."',
+    );
   });
 
   it('falls back to the raw message for a known error when localized content is unavailable', () => {
