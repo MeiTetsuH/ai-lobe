@@ -8,6 +8,18 @@ describe('private Vercel deployment configuration', () => {
     vi.resetModules();
   });
 
+  it.each([
+    ['production', '1'],
+    ['preview', '1'],
+    [undefined, '0'],
+  ])('inlines only the build target for %s', async (target, expected) => {
+    vi.stubEnv('VERCEL_ENV', target);
+    vi.stubEnv('DATABASE_URL', 'private-test-value');
+    const { default: config } = await import('../next.config');
+
+    expect(config.env).toEqual({ LOBE_VERCEL_BUILD: expected });
+  });
+
   it('keeps application responses out of search indexes', async () => {
     vi.stubEnv('VERCEL_ENV', 'production');
     const { default: config } = await import('../next.config');

@@ -26,6 +26,9 @@ const vercelConfig = {
 };
 const nextConfig = defineConfig({
   ...(isVercel ? vercelConfig : {}),
+  // Inline only this non-secret target flag so Docker startup imports can be
+  // removed from Vercel instrumentation without changing runtime env semantics.
+  env: { LOBE_VERCEL_BUILD: isVercel ? '1' : '0' },
   headers: [
     {
       headers: [{ key: 'x-robots-tag', value: 'noindex, nofollow' }],

@@ -5,6 +5,7 @@ import { type Header, type Redirect } from 'next/dist/lib/load-custom-routes';
 const LANDING_SITEMAP_URL = 'https://lobehub.com/sitemap.xml';
 
 interface CustomNextConfig {
+  env?: NextConfig['env'];
   experimental?: NextConfig['experimental'];
   headers?: Header[];
   outputFileTracingExcludes?: NextConfig['outputFileTracingExcludes'];
@@ -67,6 +68,7 @@ export function defineConfig(config: CustomNextConfig) {
       emotion: true,
     },
     compress: isProd,
+    env: config.env,
     experimental: {
       optimizePackageImports: [
         'emoji-mart',

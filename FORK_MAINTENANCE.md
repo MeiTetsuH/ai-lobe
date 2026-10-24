@@ -74,6 +74,8 @@ The retained security changes live in `package.json`, `pnpm-workspace.yaml`, `pn
 
 The desktop `fetch-socks>undici` override stays on patched 8.x to match its existing dispatcher instance and types; a broad `>=7` dependency range must not silently move that caller to 7.x. Root and desktop locks are independent. Ordinary version movement from the stable upstream merge is distinct from targeted security fixes.
 
+Run production dependency audits against `deploy/vercel-production`, including both the root and independent desktop lockfiles. The default `main` branch intentionally mirrors upstream and has no fork overrides; its dependency alerts do not describe the deployment branch's resolved graph.
+
 ## Other retained maintenance differences
 
 | Paths                                                                                                                                                      | Reason and review condition                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -101,6 +103,8 @@ These are maintenance instructions, not a copy of any live deployment configurat
 For an eligible Vercel deployment whose required server functions exceed the standard 250 MB bundle limit, use the supported [`VERCEL_SUPPORT_LARGE_FUNCTIONS=1` opt-in](https://vercel.com/docs/functions/limitations#large-functions) in the production environment. It requires Fluid compute with Active CPU and does not support Secure Compute or Static IPs. Keep the existing plan, compute resources, duration limits, and application routes unchanged; only oversized functions use the large-function path. Recheck eligibility and usage limits before deployment. To return to standard bundles, first verify that every required function fits the standard limit, then set the flag to `0` and redeploy. Coordinate any code, environment, and database rollback as described above.
 
 Large-function support does not increase the Hobby limit of 12 functions per deployment. The full v2.2.20 build passed compilation and migrations but exceeded that count during artifact publication; it must not be described as a successful production release. Investigate actual cloud bundle output before changing tracing, and preserve required routes and runtime dependencies. Use the official `VERCEL_ANALYZE_BUILD_OUTPUT=1` flag only for a bounded diagnostic build, then remove it. Do not automatically upgrade the plan or remove functionality to pass the limit.
+
+The root Next configuration inlines only the non-secret `LOBE_VERCEL_BUILD` target flag through the supported `env` option. `src/instrumentation.ts` uses it to make the existing Docker/local gateway and agent-transfer startup imports statically unreachable in Vercel builds. Original runtime guards, Docker startup behavior, telemetry, HTTP routes and cron handlers remain intact. Do not inline the full environment or exclude runtime dependencies by filename. Retain the patch until upstream provides the same build boundary; validate its effect against actual cloud function output as well as `src/instrumentation.test.ts` and `scripts/vercelConfiguration.test.ts`.
 
 | Area                   | Configuration and operational notes                                                                                                                                                                                                                                                                                                 |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -131,7 +135,7 @@ The stable `v2.2.20` sync is the baseline for this ledger. Deployment and accept
 
 ## Upstream tracking
 
-Checked on 2026-10-15; recheck status before the next upgrade. An open PR is not a released fix, and related reports do not necessarily cover every local regression case.
+Checked on 2026-10-24; recheck status before the next upgrade. An open PR is not a released fix, and related reports do not necessarily cover every local regression case.
 
 - Upload reservation enforcement: [upstream PR #20524](https://github.com/lobehub/lobehub/pull/20524), open at inspection. Compare the multipart and missing-size behavior before removing the local patch; separately retain checks for file registration, caller-scoped deduplication, and settled retries.
 - Memory credential selection: [upstream PR #13331](https://github.com/lobehub/lobehub/pull/13331), open at inspection. It addresses related mixed-provider credential resolution; verify exact precedence behavior instead of treating it as an identical patch.

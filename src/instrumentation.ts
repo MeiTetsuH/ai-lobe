@@ -10,6 +10,7 @@ export async function register() {
   // In local dev, opt-in via ENABLE_BOT_IN_DEV to avoid clobbering a shared bot binding.
   const isDev = process.env.NODE_ENV !== 'production';
   if (
+    process.env.LOBE_VERCEL_BUILD !== '1' &&
     process.env.NEXT_RUNTIME === 'nodejs' &&
     process.env.DATABASE_URL &&
     !process.env.VERCEL_ENV &&
@@ -27,6 +28,7 @@ export async function register() {
   // so re-arm every pending job at boot. Serverless (Vercel) deployments use
   // a durable-queue driver instead and don't need this hook.
   if (
+    process.env.LOBE_VERCEL_BUILD !== '1' &&
     process.env.NEXT_RUNTIME === 'nodejs' &&
     process.env.DATABASE_URL &&
     !process.env.VERCEL_ENV
