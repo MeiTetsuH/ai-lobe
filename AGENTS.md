@@ -4,7 +4,7 @@ Guidelines for using AI coding agents in this opensource LobeHub repository.
 
 ## Fork-specific maintenance
 
-Before upgrading or changing this fork's deployment, read [FORK_MAINTENANCE.md](./FORK_MAINTENANCE.md). It records retained patches, configuration boundaries, regression checks, and rollback requirements. This fork's production branch is `main` and follows stable upstream tags; the upstream `canary` workflow below is not an instruction to deploy canary here.
+Before upgrading or changing this fork's deployment, read [FORK_MAINTENANCE.md](./FORK_MAINTENANCE.md). It records retained patches, configuration boundaries, regression checks, and rollback requirements. This fork keeps `main` identical to `upstream/main`; personal changes and production deployments belong only to `deploy/vercel-production`, which follows selected stable upstream tags. Never merge deployment patches back into `main` or deploy `canary` here.
 
 Update that ledger when adding, changing, or removing a local patch. Keep account-specific configuration, credentials, production data, and private acceptance evidence out of this public repository.
 
@@ -67,8 +67,8 @@ This proxy is a **development convenience, not a verification surface**: it runs
 
 ### Git Workflow
 
-- **Branch strategy**: `canary` is the development branch (cloud production); `main` is the release branch (periodically cherry-picks from canary)
-- New branches should be created from `canary`; PRs should target `canary`
+- **Fork branch strategy**: `main` mirrors `upstream/main`; `deploy/vercel-production` owns personal patches, deployment configuration, and the maintenance ledger.
+- Create temporary maintenance branches from `deploy/vercel-production`; PRs target that branch. Delete completed temporary branches only after their commits are preserved in the deployment branch or a verified recovery tag.
 - Use rebase for `git pull`
 - Commit messages: prefix with gitmoji
 - Branch format: `<type>/<feature-name>`

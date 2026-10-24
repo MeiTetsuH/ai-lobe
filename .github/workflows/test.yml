@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - canary
+      - deploy/vercel-production
     paths-ignore:
       - '**/*.md'
       - 'docs/**'
