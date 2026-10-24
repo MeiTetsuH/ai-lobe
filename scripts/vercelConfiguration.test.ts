@@ -44,6 +44,9 @@ describe('private Vercel deployment configuration', () => {
     for (const surface of ['desktop', 'mobile', 'auth', 'share', 'workbench']) {
       expect(excluded(`dist/${surface}/assets/entry.js`)).toBe(true);
     }
+    expect(
+      excluded('node_modules/.pnpm/ffmpeg-static@5.3.0/node_modules/ffmpeg-static/ffmpeg'),
+    ).toBe(true);
     expect(excluded('apps/server/src/services/file/index.ts')).toBe(false);
     expect(excluded('src/app/spa-share/shareHtmlTemplate.ts')).toBe(false);
   });

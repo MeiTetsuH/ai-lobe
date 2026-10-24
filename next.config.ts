@@ -9,6 +9,8 @@ const vercelConfig = {
   outputFileTracingExcludes: {
     '*': [
       'node_modules/.pnpm/@img+sharp-libvips-*musl*',
+      'node_modules/.pnpm/ffmpeg-static*/**',
+      'node_modules/ffmpeg-static/**',
       // Exclude SPA/desktop/mobile build artifacts from serverless functions
       'public/_spa/**',
       'public/_spa-auth/**',
