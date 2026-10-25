@@ -13,6 +13,7 @@ import { SkillsApiName, SkillsManifest } from '@lobechat/builtin-tool-skills';
 import { VideoGenerationManifest } from '@lobechat/builtin-tool-video-generation';
 import { WebBrowsingManifest } from '@lobechat/builtin-tool-web-browsing';
 import { builtinTools } from '@lobechat/builtin-tools';
+import { getDeploymentDisabledToolIds } from '@lobechat/builtin-tools/featureGates';
 import { ToolsEngine } from '@lobechat/context-engine';
 import { describe, expect, it } from 'vitest';
 
@@ -118,16 +119,14 @@ describe('createServerToolsEngine', () => {
     expect(result).toBeUndefined();
   });
 
-  it('should include builtin tools', () => {
-    const context = createMockContext();
-    const engine = createServerToolsEngine(context);
-
+  it('should include available builtins and exclude deployment-disabled video', () => {
+    const engine = createServerToolsEngine(createMockContext());
     const availablePlugins = engine.getAvailablePlugins();
-
-    // Should include builtin tools
-    for (const tool of builtinTools) {
+    const disabled = getDeploymentDisabledToolIds();
+    for (const tool of builtinTools.filter((tool) => !disabled.includes(tool.identifier))) {
       expect(availablePlugins).toContain(tool.identifier);
     }
+    expect(availablePlugins).not.toContain(VideoGenerationManifest.identifier);
   });
 
   it('should include additional manifests when provided', () => {
@@ -511,7 +510,7 @@ describe('createServerAgentToolsEngine', () => {
     expect(result.enabledToolIds).not.toContain(VideoGenerationManifest.identifier);
   });
 
-  it('should enable VideoGeneration in chat mode when pinned and model can call tools', () => {
+  it('should exclude deployment-disabled VideoGeneration even when pinned', () => {
     const context = createMockContext();
     const engine = createServerAgentToolsEngine(context, {
       agentConfig: {
@@ -529,7 +528,7 @@ describe('createServerAgentToolsEngine', () => {
       toolIds: [VideoGenerationManifest.identifier],
     });
 
-    expect(result.enabledToolIds).toContain(VideoGenerationManifest.identifier);
+    expect(result.enabledToolIds).not.toContain(VideoGenerationManifest.identifier);
   });
 
   it('should not enable pinned VideoGeneration in chat mode when model cannot call tools', () => {

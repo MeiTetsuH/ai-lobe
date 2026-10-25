@@ -1,11 +1,11 @@
 'use client';
 
+import { VideoGenerationInput as PromptInput } from '@/features/VideoGenerationInput';
 import GenerationWorkspace from '@/routes/(main)/(create)/features/GenerationWorkspace';
 import { useVideoStore } from '@/store/video';
 import { generationBatchSelectors, videoGenerationTopicSelectors } from '@/store/video/selectors';
 
 import GenerationFeed from '../GenerationFeed';
-import PromptInput from '../PromptInput';
 import SkeletonList from './SkeletonList';
 
 interface VideoWorkspaceProps {

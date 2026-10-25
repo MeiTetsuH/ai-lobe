@@ -1,4 +1,6 @@
 export default {
+  'generation.disabled':
+    'Video generation is turned off. You can still view and download existing videos.',
   'config.aspectRatio.followStartFrame': 'Follows the start frame',
   'config.aspectRatio.label': 'Aspect Ratio',
   'config.cameraFixed.label': 'Fixed Camera',

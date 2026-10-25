@@ -21,6 +21,22 @@ describe('generationTopicRouter', () => {
     vi.clearAllMocks();
   });
 
+  it('rejects new video topics without writing rows but preserves historical video reads', async () => {
+    const create = vi.fn();
+    const existing = [{ id: 'existing-video', type: 'video' }];
+    const queryAll = vi.fn().mockResolvedValue(existing);
+    vi.mocked(GenerationTopicModel).mockImplementation(function () {
+      return { create, queryAll } as any;
+    });
+    const caller = generationTopicRouter.createCaller(mockCtx);
+    await expect(caller.createTopic({ type: 'video' })).rejects.toMatchObject({
+      code: 'PRECONDITION_FAILED',
+    });
+    expect(create).not.toHaveBeenCalled();
+    expect(await caller.getAllGenerationTopics({ type: 'video' })).toEqual(existing);
+    expect(queryAll).toHaveBeenCalledWith('video');
+  });
+
   it('should create a new topic', async () => {
     const mockTopicId = 'topic-123';
     const mockCreatedTopic = {

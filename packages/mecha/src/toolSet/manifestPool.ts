@@ -1,3 +1,4 @@
+import { getDeploymentDisabledToolIds } from '@lobechat/builtin-tools/featureGates';
 import type { LobeToolManifest } from '@lobechat/context-engine';
 import type { BuiltinToolResolveContext, LobeBuiltinTool } from '@lobechat/types';
 import debug from 'debug';
@@ -222,7 +223,10 @@ export const assembleManifestPool = (
   ).map(withPermissions);
   const additionalManifests = dropInvalidManifests(sources.additional ?? [], 'additionalManifests');
 
-  const excluded = new Set(options.excludedIdentifiers ?? []);
+  const excluded = new Set([
+    ...(options.excludedIdentifiers ?? []),
+    ...getDeploymentDisabledToolIds(),
+  ]);
   const merged = [
     ...pluginManifests,
     ...builtinManifests,

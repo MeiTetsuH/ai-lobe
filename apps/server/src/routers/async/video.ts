@@ -22,6 +22,7 @@ import { asyncAuthedProcedure, asyncRouter as router } from '@/libs/trpc/async';
 import { initModelRuntimeFromDB } from '@/server/modules/ModelRuntime';
 import { GenerationService } from '@/server/services/generation';
 import { VideoGenerationService } from '@/server/services/generation/video';
+import { assertVideoGenerationEnabled } from '@/server/services/generation/videoAvailability';
 import { buildVideoGenerationFilePayload } from '@/server/services/generation/videoFile';
 import { measureVideoOutputUsage } from '@/server/services/generation/videoOutputUsage';
 import { FileSource } from '@/types/files';
@@ -133,6 +134,7 @@ async function pollUntilCompletion(
 
 export const videoRouter = router({
   createVideo: videoProcedure.input(createVideoInputSchema).mutation(async ({ input, ctx }) => {
+    assertVideoGenerationEnabled();
     const {
       asyncTaskCreatedAt,
       asyncTaskId,

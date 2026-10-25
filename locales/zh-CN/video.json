@@ -35,6 +35,7 @@
   "generation.actions.errorCopyFailed": "复制错误信息失败",
   "generation.actions.generate": "生成",
   "generation.actions.generateEdit": "生成编辑版本",
+  "generation.disabled": "视频生成已关闭，仍可查看和下载已有视频。",
   "generation.editing.badge": "编辑中",
   "generation.editing.cancelHint": "取消编辑（Esc）",
   "generation.editing.hint": "描述要修改的地方，其余内容保持不变",

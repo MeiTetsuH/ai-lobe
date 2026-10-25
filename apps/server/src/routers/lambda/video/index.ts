@@ -44,6 +44,7 @@ import { serverDatabase } from '@/libs/trpc/lambda/middleware';
 import { initModelRuntimeFromDB } from '@/server/modules/ModelRuntime';
 import { FileService } from '@/server/services/file';
 import { getVideoAvgLatencies, getVideoLatencyKey } from '@/server/services/generation/latency';
+import { assertVideoGenerationEnabled } from '@/server/services/generation/videoAvailability';
 import { processBackgroundVideoPolling } from '@/server/services/generation/videoBackgroundPolling';
 import { fillVideoPricingDefaults } from '@/server/services/generation/videoPricingDefaults';
 import { after } from '@/server/utils/scheduleAfterResponse';
@@ -103,6 +104,7 @@ export const videoRouter = router({
   createVideo: videoCreateProcedure
     .input(createVideoInputSchema)
     .mutation(async ({ input, ctx }) => {
+      assertVideoGenerationEnabled();
       const { userId, serverDB, asyncTaskModel, fileService, generationTopicModel } = ctx;
       const wsId = ctx.workspaceId ?? undefined;
       const { generationTopicId, previousGenerationId, provider, model } = input;

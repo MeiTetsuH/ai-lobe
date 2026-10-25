@@ -471,7 +471,7 @@ describe('toolEngineering', () => {
       expect(result.enabledToolIds).not.toContain('lobe-image-generation');
     });
 
-    it('should enable video generation in chat mode when the tool is pinned', () => {
+    it('should exclude deployment-disabled video generation even when pinned', () => {
       mockCurrentChatConfig = { enableAgentMode: false };
       mockCurrentAgentPlugins = ['lobe-video-generation'];
 
@@ -486,7 +486,7 @@ describe('toolEngineering', () => {
         provider: 'anthropic',
       });
 
-      expect(result.enabledToolIds).toContain('lobe-video-generation');
+      expect(result.enabledToolIds).not.toContain('lobe-video-generation');
     });
 
     it('should not enable video generation in chat mode when model cannot call tools', () => {

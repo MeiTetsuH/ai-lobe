@@ -1,5 +1,10 @@
 import { DashboardIdentifier } from '@lobechat/builtin-tool-dashboard';
+import { VideoGenerationIdentifier } from '@lobechat/builtin-tool-video-generation';
+import { VIDEO_GENERATION_ENABLED } from '@lobechat/const/deploymentCapabilities';
 import type { IFeatureFlagsState } from '@lobechat/types';
+
+export const getDeploymentDisabledToolIds = (): string[] =>
+  VIDEO_GENERATION_ENABLED ? [] : [VideoGenerationIdentifier];
 
 /** Builtin tools that exist only while a runtime feature flag is on for the user. */
 export const FEATURE_GATED_TOOLS: Record<string, keyof IFeatureFlagsState> = {
@@ -22,6 +27,7 @@ export const isToolEnabledByFeatureFlags = (
   identifier: string,
   flags: Partial<IFeatureFlagsState> | undefined,
 ) => {
+  if (getDeploymentDisabledToolIds().includes(identifier)) return false;
   const flag = FEATURE_GATED_TOOLS[identifier];
   return !flag || flags?.[flag] === true;
 };

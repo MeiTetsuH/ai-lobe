@@ -4,6 +4,13 @@ import { AsyncTaskModel } from '@/database/models/asyncTask';
 import { FileService } from '@/server/services/file';
 import { AsyncTaskStatus } from '@/types/asyncTask';
 
+const deployment = vi.hoisted(() => ({ videoEnabled: true }));
+vi.mock('@lobechat/const/deploymentCapabilities', () => ({
+  get VIDEO_GENERATION_ENABLED() {
+    return deployment.videoEnabled;
+  },
+}));
+
 // ---- hoisted mocks (available inside vi.mock factories) ----
 
 const {
@@ -212,6 +219,7 @@ describe('videoRouter', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    deployment.videoEnabled = true;
     mockResolveBusinessModelMapping.mockImplementation(
       async (_provider: string, model: string) => ({
         resolvedModelId: model,
@@ -225,6 +233,19 @@ describe('videoRouter', () => {
     mockServerDB.query.generationBatches.findFirst.mockResolvedValue(undefined);
     mockAppEnv.VIDEO_GENERATION_PREFER_WEBHOOK = false;
     mockAppEnv.WEBHOOK_PROXY_URL = undefined;
+  });
+
+  it('rejects disabled video creation before task writes or provider submission', async () => {
+    deployment.videoEnabled = false;
+    const caller = videoRouter.createCaller(mockCtx);
+    await expect(caller.createVideo(defaultInput)).rejects.toMatchObject({
+      code: 'PRECONDITION_FAILED',
+      message: 'Video generation is disabled on this deployment.',
+    });
+    expect(mockTransaction).not.toHaveBeenCalled();
+    expect(mockCreateVideo).not.toHaveBeenCalled();
+    expect(mockFillVideoPricingDefaults).not.toHaveBeenCalled();
+    expect(mockAfter).not.toHaveBeenCalled();
   });
 
   describe('createVideo - async strategy routing', () => {

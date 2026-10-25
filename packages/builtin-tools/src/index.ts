@@ -56,6 +56,7 @@ import { VideoGenerationManifest } from '@lobechat/builtin-tool-video-generation
 import { WebBrowsingManifest } from '@lobechat/builtin-tool-web-browsing';
 import { WebOnboardingManifest } from '@lobechat/builtin-tool-web-onboarding';
 import { isDesktop, RECOMMENDED_SKILLS, RecommendedSkillType } from '@lobechat/const';
+import { VIDEO_GENERATION_ENABLED } from '@lobechat/const/deploymentCapabilities';
 import { type LobeBuiltinTool } from '@lobechat/types';
 
 /**
@@ -457,7 +458,8 @@ const builtinToolRegistry: LobeBuiltinTool[] = [
     type: 'builtin',
   },
   {
-    // Opt-in video generation: exposed in the Tools popover so users can pin it.
+    discoverable: VIDEO_GENERATION_ENABLED,
+    hidden: !VIDEO_GENERATION_ENABLED,
     identifier: VideoGenerationManifest.identifier,
     manifest: VideoGenerationManifest,
     type: 'builtin',

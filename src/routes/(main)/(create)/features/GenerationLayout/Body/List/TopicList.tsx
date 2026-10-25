@@ -1,5 +1,6 @@
 'use client';
 
+import { isGenerationTypeEnabled } from '@lobechat/const/deploymentCapabilities';
 import { Grid, TooltipGroup } from '@lobehub/ui';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,6 +43,7 @@ const TopicsList = memo<TopicListProps>(({ viewMode = 'auto', visibility }) => {
   };
 
   if (isEmpty) {
+    if (!isGenerationTypeEnabled(namespace)) return null;
     return <EmptyNavItem title={t('topic.createNew')} onClick={handleCreate} />;
   }
 

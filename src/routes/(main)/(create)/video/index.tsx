@@ -1,10 +1,11 @@
 'use client';
 
+import { VIDEO_GENERATION_ENABLED } from '@lobechat/const/deploymentCapabilities';
 import { memo } from 'react';
 
+import { VideoGenerationInput as PromptInput } from '@/features/VideoGenerationInput';
 import CreateGenerationPage from '@/routes/(main)/(create)/features/CreateGenerationPage';
 
-import PromptInput from './features/PromptInput';
 import { useVideoReferenceUpload } from './features/PromptInput/useVideoReferenceUpload';
 import VideoWorkspace from './features/VideoWorkspace';
 
@@ -15,9 +16,9 @@ const DesktopVideoPage = memo(() => {
     <CreateGenerationPage
       PromptInput={PromptInput}
       Workspace={VideoWorkspace}
-      dragDisabled={!canDropImage}
+      dragDisabled={!VIDEO_GENERATION_ENABLED || !canDropImage}
       path="/video"
-      onUploadFiles={handleUploadFiles}
+      onUploadFiles={VIDEO_GENERATION_ENABLED ? handleUploadFiles : undefined}
     />
   );
 });

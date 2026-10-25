@@ -13,6 +13,25 @@ const manifest = (identifier: string, extra: Record<string, unknown> = {}) => ({
   ...extra,
 });
 
+describe('deployment-disabled tools', () => {
+  it('removes video from every source while preserving image generation and file tools', () => {
+    const video = manifest('lobe-video-generation');
+    const { manifests, excludedCount } = assembleManifestPool({
+      additional: [video, manifest('lobe-image-generation')],
+      builtinTools: [{ identifier: video.identifier, manifest: video as never }],
+      composio: [video],
+      connectors: [video],
+      installedPlugins: [video],
+      lobehubSkills: [video, manifest('lobe-attachments')],
+    });
+    expect(manifests.map((tool) => tool.identifier)).toEqual([
+      'lobe-attachments',
+      'lobe-image-generation',
+    ]);
+    expect(excludedCount).toBe(5);
+  });
+});
+
 describe('buildConnectorManifest', () => {
   it('lists every synced tool with its permission mapped, and nothing for a disabled or empty connector', () => {
     const built = buildConnectorManifest({

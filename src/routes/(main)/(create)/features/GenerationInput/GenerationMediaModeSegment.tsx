@@ -1,5 +1,6 @@
 'use client';
 
+import { isGenerationTypeEnabled } from '@lobechat/const/deploymentCapabilities';
 import { createStaticStyles, Flexbox, Icon } from '@lobehub/ui';
 import { Segmented, type SegmentedOptions, Select, type SelectProps } from '@lobehub/ui';
 import { ImageIcon, Video } from 'lucide-react';
@@ -42,42 +43,44 @@ const GenerationMediaModeSegment = memo<GenerationMediaModeSegmentProps>(
     const isHero = layout === 'hero';
 
     const heroOptions = useMemo<SelectProps['options']>(
-      () => [
-        {
-          label: (
-            <Flexbox horizontal align="center" gap={8}>
-              <span className={styles.heroText}>{t('tab.image')}</span>
-            </Flexbox>
-          ),
-          value: 'image',
-        },
-        {
-          label: (
-            <Flexbox horizontal align="center" gap={8}>
-              <span className={styles.heroText}>{t('tab.video')}</span>
-            </Flexbox>
-          ),
-          value: 'video',
-        },
-      ],
+      () =>
+        [
+          {
+            label: (
+              <Flexbox horizontal align="center" gap={8}>
+                <span className={styles.heroText}>{t('tab.image')}</span>
+              </Flexbox>
+            ),
+            value: 'image' as const,
+          },
+          {
+            label: (
+              <Flexbox horizontal align="center" gap={8}>
+                <span className={styles.heroText}>{t('tab.video')}</span>
+              </Flexbox>
+            ),
+            value: 'video' as const,
+          },
+        ].filter((option) => isGenerationTypeEnabled(option.value)),
       [t],
     );
 
     const toolbarOptions = useMemo<SegmentedOptions<'image' | 'video'>>(
-      () => [
-        {
-          icon: <Icon icon={ImageIcon} size={16} />,
-          label: t('tab.image'),
-          title: t('tab.image'),
-          value: 'image',
-        },
-        {
-          icon: <Icon icon={Video} size={16} />,
-          label: t('tab.video'),
-          title: t('tab.video'),
-          value: 'video',
-        },
-      ],
+      () =>
+        [
+          {
+            icon: <Icon icon={ImageIcon} size={16} />,
+            label: t('tab.image'),
+            title: t('tab.image'),
+            value: 'image' as const,
+          },
+          {
+            icon: <Icon icon={Video} size={16} />,
+            label: t('tab.video'),
+            title: t('tab.video'),
+            value: 'video' as const,
+          },
+        ].filter((option) => isGenerationTypeEnabled(option.value)),
       [t],
     );
 
@@ -102,7 +105,7 @@ const GenerationMediaModeSegment = memo<GenerationMediaModeSegmentProps>(
 
     const handleChange = useCallback(
       (value: string) => {
-        if (value === mode) return;
+        if (value === mode || !isGenerationTypeEnabled(value)) return;
         navigate(value === 'video' ? '/video' : '/image');
       },
       [mode, navigate],

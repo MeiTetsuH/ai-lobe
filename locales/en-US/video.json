@@ -35,6 +35,7 @@
   "generation.actions.errorCopyFailed": "Failed to Copy Error Message",
   "generation.actions.generate": "Generate",
   "generation.actions.generateEdit": "Generate Edit",
+  "generation.disabled": "Video generation is turned off. You can still view and download existing videos.",
   "generation.editing.badge": "Editing",
   "generation.editing.cancelHint": "Cancel editing (Esc)",
   "generation.editing.hint": "Describe what to change; everything else stays the same",

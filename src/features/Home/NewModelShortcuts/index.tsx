@@ -1,3 +1,4 @@
+import { isGenerationTypeEnabled } from '@lobechat/const/deploymentCapabilities';
 import {
   Avatar,
   Button,
@@ -84,7 +85,8 @@ export const NewModelShortcuts = () => {
   );
   const [switchingKey, setSwitchingKey] = useState<string | null>(null);
   const { defaultHomeNewModels, fallbackChatProvider } = useStarterModelDefaults();
-  const { isLoading, items } = useHomeNewModels([...defaultHomeNewModels]);
+  const { isLoading, items: modelItems } = useHomeNewModels([...defaultHomeNewModels]);
+  const items = modelItems.filter((item) => isGenerationTypeEnabled(item.type));
   const applyBusinessModelModeConfig = useBusinessModelModeConfig();
 
   const handleClick = useCallback(

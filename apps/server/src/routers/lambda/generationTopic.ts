@@ -9,6 +9,7 @@ import { router } from '@/libs/trpc/lambda';
 import { serverDatabase } from '@/libs/trpc/lambda/middleware';
 import { FileService } from '@/server/services/file';
 import { GenerationService } from '@/server/services/generation';
+import { assertVideoGenerationEnabled } from '@/server/services/generation/videoAvailability';
 
 import { assertWorkspaceRowManageable } from './_helpers/assertWorkspaceRowManageable';
 
@@ -55,6 +56,7 @@ export const generationTopicRouter = router({
         .optional(),
     )
     .mutation(async ({ ctx, input }) => {
+      if (input?.type === 'video') assertVideoGenerationEnabled();
       const data = await ctx.generationTopicModel.create(
         input?.title ?? '',
         input?.type,

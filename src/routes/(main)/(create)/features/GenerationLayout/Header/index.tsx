@@ -22,12 +22,14 @@ const Header = memo<GenerationLayoutCommonProps>((props) => {
     <>
       <SideBarHeaderLayout breadcrumb={breadcrumb} />
       <Flexbox paddingInline={4}>
-        <NavItem
-          icon={MessageSquarePlusIcon}
-          key={'new-topic'}
-          title={tGeneration('topic.createNew')}
-          onClick={openNewGenerationTopic}
-        />
+        {!props.disableCreate && (
+          <NavItem
+            icon={MessageSquarePlusIcon}
+            key={'new-topic'}
+            title={tGeneration('topic.createNew')}
+            onClick={openNewGenerationTopic}
+          />
+        )}
         <NavItem
           icon={SearchIcon}
           key={'search'}

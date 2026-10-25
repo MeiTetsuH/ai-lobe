@@ -1,5 +1,6 @@
 'use client';
 
+import { VIDEO_GENERATION_ENABLED } from '@lobechat/const/deploymentCapabilities';
 import {
   ActionIconGroup,
   Block,
@@ -102,6 +103,7 @@ export const VideoGenerationBatchItem = memo<VideoGenerationBatchItemProps>(
 
     const isEditingSource = Boolean(generation && editingGenerationId === generation.id);
     const canEdit =
+      VIDEO_GENERATION_ENABLED &&
       supportsConversationalVideoEdit(batch.model) &&
       generation?.task.status === AsyncTaskStatus.Success &&
       Boolean((generation.asset as VideoGenerationAsset | null | undefined)?.interactionId);
@@ -354,12 +356,16 @@ export const VideoGenerationBatchItem = memo<VideoGenerationBatchItemProps>(
         <Flexbox horizontal align={'center'} className={styles.batchActions}>
           <ActionIconGroup
             items={[
-              {
-                icon: RotateCcwSquareIcon,
-                key: 'reuseSettings',
-                label: t('generation.actions.reuseSettings', { ns: 'image' }),
-                onClick: handleReuseSettings,
-              },
+              ...(VIDEO_GENERATION_ENABLED
+                ? [
+                    {
+                      icon: RotateCcwSquareIcon,
+                      key: 'reuseSettings',
+                      label: t('generation.actions.reuseSettings', { ns: 'image' }),
+                      onClick: handleReuseSettings,
+                    },
+                  ]
+                : []),
               {
                 icon: CopyIcon,
                 key: 'copyPrompt',

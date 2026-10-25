@@ -1,5 +1,6 @@
 'use client';
 
+import { VIDEO_GENERATION_ENABLED } from '@lobechat/const/deploymentCapabilities';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,6 +14,7 @@ import { generationTopicSelectors } from '@/store/video/slices/generationTopic/s
 const useVideoSidebarProps = (): GenerationLayoutCommonProps => {
   const { t } = useTranslation('common');
   return {
+    disableCreate: !VIDEO_GENERATION_ENABLED,
     breadcrumb: [{ href: '/video', title: t('tab.video') }],
     generationTopicsSelector: generationTopicSelectors.generationTopics,
     namespace: 'video',
