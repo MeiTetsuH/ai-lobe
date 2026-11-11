@@ -1,11 +1,11 @@
 'use client';
 
-import { DEFAULT_AVATAR } from '@lobechat/const';
 import type { BuiltinInspectorProps } from '@lobechat/types';
-import { Avatar, createStaticStyles, cx, Flexbox, useTheme } from '@lobehub/ui';
+import { createStaticStyles, cx, Flexbox, useTheme } from '@lobehub/ui';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import AgentAvatar from '@/components/AgentAvatar';
 import { useAgentGroupStore } from '@/store/agentGroup';
 import { agentGroupSelectors } from '@/store/agentGroup/selectors';
 import { highlightTextStyles, shinyTextStyles } from '@/styles';
@@ -59,8 +59,9 @@ export const SpeakInspector = memo<BuiltinInspectorProps<SpeakParams>>(
           {t('builtins.lobe-group-management.inspector.speak.title')}
         </span>
         {agent && (
-          <Avatar
-            avatar={agent.avatar || DEFAULT_AVATAR}
+          <AgentAvatar
+            agentId={agentId}
+            avatar={agent.avatar}
             background={agent.backgroundColor || theme.colorBgContainer}
             shape={'square'}
             size={24}

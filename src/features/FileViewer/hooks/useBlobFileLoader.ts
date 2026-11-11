@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { fileService } from '@/services/file';
 
+import { toSameOriginFileProxyUrl } from '../fileProxyUrl';
 import { fileIdFromProxyUrl } from '../Renderer/Image/Tools/exportImage';
 
 /** Mirrors the device-side document preview ceiling in `@lobechat/device-control`. */
@@ -45,7 +46,9 @@ export const useBlobFileLoader = (url: string | null): BlobFileState => {
       try {
         // Fetch storage directly: following /f redirects can lose the CORS Origin.
         const fileId = fileIdFromProxyUrl(url);
-        const readableUrl = fileId ? await fileService.getReadableUrl(fileId) : url;
+        const readableUrl = fileId
+          ? await fileService.getReadableUrl(fileId)
+          : toSameOriginFileProxyUrl(url);
         if (controller.signal.aborted) return;
         const response = await fetch(readableUrl, { signal: controller.signal });
         if (!response.ok) throw new Error(`Failed to load file: ${response.status}`);

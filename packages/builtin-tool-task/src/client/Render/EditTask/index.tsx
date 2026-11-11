@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import TaskPriorityTag from '@/features/AgentTasks/features/TaskPriorityTag';
 
+import { resolveTaskOpenTarget } from '../../../taskRef';
 import type { EditTaskParams, EditTaskState } from '../../../types';
 import {
   AssigneeInline,
@@ -79,6 +80,7 @@ export const EditTaskRender = memo<BuiltinRenderProps<EditTaskParams, EditTaskSt
       <TaskResultCard
         icon={Pencil}
         identifier={identifier}
+        taskId={resolveTaskOpenTarget(pluginState, params)}
         title={t('builtins.lobe-task.apiName.editTask')}
       >
         {hasAnyChange ? (

@@ -19,10 +19,10 @@ OTA 版本不再在用户数据目录里展开完整的 renderer。renderer 的�
 
 以 canary `2.2.19-canary.33-core.2` 为例（1,706 个文件，111.6 MB）：
 
-| 部分                                                               | 文件数 | 大小    |
-| ------------------------------------------------------------------ | ------ | ------- |
-| `dist/renderer`                                                    | 1,609  | 95.5 MB |
-| 其余（main、preload、CLI、node\_modules、resources、package.json） | 97     | 16.1 MB |
+| 部分                                                              | 文件数 | 大小    |
+| ----------------------------------------------------------------- | ------ | ------- |
+| `dist/renderer`                                                   | 1,609  | 95.5 MB |
+| 其余（main、preload、CLI、node_modules、resources、package.json） | 97     | 16.1 MB |
 
 实测：Windows（i5-13600KF、NVMe、Defender 关闭）一次首次 OTA，下载 10.3 MB（635 个对象）并组装 1,707 个文件，端到端 4.19 s。macOS 冷缓存下首次 OTA 组装 1.8–3.3 s。
 

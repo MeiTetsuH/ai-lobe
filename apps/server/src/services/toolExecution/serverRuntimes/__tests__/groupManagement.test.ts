@@ -173,4 +173,24 @@ describe('groupManagementRuntime', () => {
       expect(result.error?.code).toBe('INVALID_ARGUMENTS');
     });
   });
+
+  describe('vote', () => {
+    it('returns an explicit not-implemented error (not a success-shaped stub)', async () => {
+      const result = await runtime().vote(
+        {
+          options: [
+            { id: 'a', label: 'Option A' },
+            { id: 'b', label: 'Option B' },
+          ],
+          question: 'Which design should we pick?',
+        },
+        makeCtx(),
+      );
+
+      expect(result.success).toBe(false);
+      expect(result.error?.code).toBe('VOTE_NOT_IMPLEMENTED');
+      expect(result.content).toContain('broadcast');
+      expect(run).not.toHaveBeenCalled();
+    });
+  });
 });

@@ -9,6 +9,7 @@ describe('asyncRouter', () => {
     expect(keys).toContain('file');
     expect(keys).toContain('healthcheck');
     expect(keys).toContain('image');
+    expect(keys).toContain('linear');
     expect(keys).toContain('ragEval');
     expect(keys).not.toContain('document');
     expect(keys).not.toContain('video');

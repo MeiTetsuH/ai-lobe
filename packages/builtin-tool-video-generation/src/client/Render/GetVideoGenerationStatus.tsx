@@ -5,6 +5,8 @@ import { Alert, Block, createStaticStyles, Text } from '@lobehub/ui';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import MessageVideo from '@/components/MessageVideo';
+
 import type { GetVideoGenerationStatusParams, GetVideoGenerationStatusState } from '../../types';
 
 const styles = createStaticStyles(({ css, cssVar }) => ({
@@ -18,12 +20,6 @@ const styles = createStaticStyles(({ css, cssVar }) => ({
     font-family: ${cssVar.fontFamilyCode};
     font-size: 12px;
     color: ${cssVar.colorTextSecondary};
-  `,
-  video: css`
-    width: 100%;
-    max-height: 560px;
-    border-radius: 8px;
-    background: ${cssVar.colorFillTertiary};
   `,
 }));
 
@@ -62,15 +58,7 @@ export const GetVideoGenerationStatusRender = memo<
         <Text as={'span'} className={styles.status}>
           {t(`builtins.lobe-video-generation.render.status.${pluginState.status}`)}
         </Text>
-        {url && (
-          <video
-            controls
-            className={styles.video}
-            poster={getPosterUrl(pluginState)}
-            preload={'metadata'}
-            src={url}
-          />
-        )}
+        {url && <MessageVideo maxHeight={560} poster={getPosterUrl(pluginState)} src={url} />}
       </div>
     </Block>
   );

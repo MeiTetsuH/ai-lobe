@@ -155,6 +155,7 @@ const RENDER_BY_API: Record<BrowserMcpApi, BuiltinRender> = {
   readPage: PageDump as BuiltinRender,
   screenshot: Screenshot as BuiltinRender,
   scroll: PageAction as BuiltinRender,
+  setViewport: PageAction as BuiltinRender,
   snapshot: PageDump as BuiltinRender,
 };
 

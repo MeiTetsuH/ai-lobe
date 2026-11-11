@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 
 import TaskPriorityTag from '@/features/AgentTasks/features/TaskPriorityTag';
 import TaskStatusTag from '@/features/AgentTasks/features/TaskStatusTag';
-import { useChatStore } from '@/store/chat';
-import { chatPortalSelectors } from '@/store/chat/selectors';
 
+import { resolveTaskOpenTarget } from '../../../taskRef';
 import type { CreateTaskParams, CreateTaskState } from '../../../types';
+import { useTaskDetailToggle } from '../shared';
 
 const styles = createStaticStyles(({ css, cssVar }) => ({
   description: css`
@@ -76,16 +76,9 @@ const styles = createStaticStyles(({ css, cssVar }) => ({
 export const CreateTaskRender = memo<BuiltinRenderProps<CreateTaskParams, CreateTaskState>>(
   ({ args, pluginState }) => {
     const { t } = useTranslation('chat');
-    const [activeTaskDetailId, showTaskDetail, openTaskDetail, closeTaskDetail] = useChatStore(
-      (s) => [
-        chatPortalSelectors.taskDetailId(s),
-        chatPortalSelectors.showTaskDetail(s),
-        s.openTaskDetail,
-        s.closeTaskDetail,
-      ],
-    );
-
     const identifier = pluginState?.identifier;
+    const target = resolveTaskOpenTarget(pluginState);
+    const { canOpen, isExpanded, open, toggle } = useTaskDetailToggle(target);
     // Auto-expanding the freshly created task's detail portal is driven by the
     // executor's `onAfterCall` hook (gateway `tool_end`), not a render effect —
     // see `client/executor`. The card itself only handles the manual toggle.
@@ -101,20 +94,13 @@ export const CreateTaskRender = memo<BuiltinRenderProps<CreateTaskParams, Create
     const description = pluginState?.description;
     const instruction = args?.instruction;
     const parent = pluginState?.parentIdentifier ?? args?.parentIdentifier;
-    const isExpanded = !!identifier && showTaskDetail && activeTaskDetailId === identifier;
-
-    const toggle = () => {
-      if (!identifier) return;
-      if (isExpanded) closeTaskDetail();
-      else openTaskDetail(identifier);
-    };
 
     return (
       <Block
-        clickable={!!identifier}
+        clickable={canOpen}
         variant={'outlined'}
         width={'100%'}
-        onClick={identifier ? () => openTaskDetail(identifier) : undefined}
+        onClick={canOpen ? open : undefined}
       >
         <div className={styles.taskItem}>
           <div className={styles.row}>

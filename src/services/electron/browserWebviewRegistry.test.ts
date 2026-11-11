@@ -1,9 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const registerWebview = vi.fn().mockResolvedValue({ success: true });
+const reportPanelSize = vi.fn().mockResolvedValue(undefined);
 
 vi.mock('@/utils/electron/ipc', () => ({
-  ensureElectronIpc: () => ({ browserSidebar: { registerWebview } }),
+  ensureElectronIpc: () => ({
+    browserControl: { reportPanelSize },
+    browserSidebar: { registerWebview },
+  }),
 }));
 
 describe('browserWebviewRegistry', () => {
@@ -24,6 +28,7 @@ describe('browserWebviewRegistry', () => {
   beforeEach(() => {
     vi.resetModules();
     registerWebview.mockReset().mockResolvedValue({ success: true });
+    reportPanelSize.mockReset().mockResolvedValue(undefined);
     document.body.replaceChildren();
     vi.stubGlobal(
       'ResizeObserver',
@@ -132,6 +137,43 @@ describe('browserWebviewRegistry', () => {
 
     expect(webview?.style.left).toBe('240px');
     await browserWebviewRegistry.detach('moving-topic', viewport);
+    vi.useRealTimers();
+  });
+
+  // A fixed agent viewport is scaled to fit the panel; without the new size the
+  // main process kept the old fit, clipping the page and misplacing clicks.
+  it('reports the panel size to the main process when it changes', async () => {
+    vi.useFakeTimers();
+
+    const { browserWebviewRegistry } = await import('./browserWebviewRegistry');
+    let width = 360;
+    const viewport = document.createElement('div');
+    viewport.getBoundingClientRect = () => ({ height: 600, left: 320, top: 40, width }) as DOMRect;
+    document.body.append(viewport);
+
+    const attaching = browserWebviewRegistry.attach('resizing-topic', viewport);
+    document.querySelector<HTMLElement>('webview')?.dispatchEvent(new Event('dom-ready'));
+    await vi.advanceTimersByTimeAsync(0);
+    await attaching;
+    expect(reportPanelSize).toHaveBeenLastCalledWith({
+      height: 600,
+      sessionId: 'resizing-topic',
+      width: 360,
+    });
+
+    await vi.advanceTimersByTimeAsync(120);
+    expect(reportPanelSize).toHaveBeenCalledOnce();
+
+    width = 280;
+    await vi.advanceTimersByTimeAsync(120);
+    expect(reportPanelSize).toHaveBeenLastCalledWith({
+      height: 600,
+      sessionId: 'resizing-topic',
+      width: 280,
+    });
+    expect(reportPanelSize).toHaveBeenCalledTimes(2);
+
+    await browserWebviewRegistry.detach('resizing-topic', viewport);
     vi.useRealTimers();
   });
 

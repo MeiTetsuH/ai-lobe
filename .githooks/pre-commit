@@ -10,7 +10,15 @@ if [ "$BRANCH" = "dev" ] || [ "$BRANCH" = "main" ]; then
   npm run type-check
 fi
 
-lint-staged
+if git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1; then
+  lint-staged --diff="--staged MERGE_HEAD"
+else
+  lint-staged
+fi
 
 # Runs after lint-staged autofix so it measures the final staged content.
-bun run .agents/scripts/check/size-gate.ts --staged
+if command -v bun >/dev/null 2>&1; then
+  bun run .agents/scripts/check/size-gate.ts --staged
+else
+  tsx .agents/scripts/check/size-gate.ts --staged
+fi

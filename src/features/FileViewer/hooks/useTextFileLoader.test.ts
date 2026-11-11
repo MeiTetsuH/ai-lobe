@@ -1,6 +1,8 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { fileService } from '@/services/file';
+
 import { useTextFileLoader } from './useTextFileLoader';
 
 vi.mock('@/services/file', () => ({ fileService: { getReadableUrl: vi.fn() } }));
@@ -22,6 +24,22 @@ describe('useTextFileLoader', () => {
       /** @example Whitespace and markup are preserved verbatim. */
       expect(result.current.fileData).toBe(content);
     });
+  });
+
+  /** @example A proxy URL built from another app host resolves directly to storage. */
+  it('resolves a cross-origin file proxy URL through getReadableUrl before fetching', async () => {
+    vi.mocked(fileService.getReadableUrl).mockResolvedValue('https://storage.test/file_abc?sig=1');
+    const fetchMock = vi.fn().mockResolvedValue(new Response('# title'));
+    vi.stubGlobal('fetch', fetchMock);
+    const { result } = renderHook(() => useTextFileLoader('https://app.lobehub.com/f/file_abc'));
+    await waitFor(() => {
+      expect(result.current.fileData).toBe('# title');
+    });
+    expect(fileService.getReadableUrl).toHaveBeenCalledWith('file_abc');
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://storage.test/file_abc?sig=1',
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
   });
 
   /** @example Empty uploads are successful previews, not perpetual loading. */

@@ -5,6 +5,7 @@ import { Alert, Block, Button, createStaticStyles, cssVar, Text } from '@lobehub
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import MessageVideo from '@/components/MessageVideo';
 import { useClientDataSWR } from '@/libs/swr';
 import { videoKeys } from '@/libs/swr/keys';
 import { normalizeAsyncError } from '@/libs/swr/normalizeError';
@@ -30,6 +31,7 @@ const styles = createStaticStyles(({ css, cssVar }) => ({
     justify-content: center;
 
     min-height: 180px;
+    padding: 12px;
 
     background: ${cssVar.colorFillTertiary};
   `,
@@ -96,12 +98,6 @@ const styles = createStaticStyles(({ css, cssVar }) => ({
     font-size: 12px;
     color: ${cssVar.colorTextSecondary};
 
-    background: ${cssVar.colorFillTertiary};
-  `,
-  video: css`
-    display: block;
-    width: 100%;
-    max-height: 560px;
     background: ${cssVar.colorFillTertiary};
   `,
 }));
@@ -239,7 +235,7 @@ export const GenerateVideoRender = memo<
       </div>
       {url ? (
         <div className={styles.body}>
-          <video controls className={styles.video} poster={poster} preload={'metadata'} src={url} />
+          <MessageVideo maxHeight={560} poster={poster} src={url} />
         </div>
       ) : (
         <div className={styles.statusBody}>

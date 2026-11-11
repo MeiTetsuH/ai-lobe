@@ -1,4 +1,4 @@
-import { DashboardIdentifier } from '@lobechat/builtin-tool-dashboard';
+import { DashboardIdentifier, LegacyDashboardIdentifier } from '@lobechat/builtin-tool-dashboard';
 import { VideoGenerationIdentifier } from '@lobechat/builtin-tool-video-generation';
 import { describe, expect, it } from 'vitest';
 
@@ -12,10 +12,14 @@ describe('feature-gated builtin tools', () => {
     expect(isToolEnabledByFeatureFlags('lobe-image-generation', {})).toBe(true);
   });
 
-  it('drops lobe-dashboard unless the dashboard flag is on', () => {
+  it('drops the dashboard tool unless the dashboard flag is on', () => {
     expect(getFeatureDisabledToolIds(undefined)).toContain(DashboardIdentifier);
+    expect(getFeatureDisabledToolIds(undefined)).toContain(LegacyDashboardIdentifier);
     expect(getFeatureDisabledToolIds({ enableDashboard: false })).toContain(DashboardIdentifier);
     expect(getFeatureDisabledToolIds({ enableDashboard: true })).not.toContain(DashboardIdentifier);
+    expect(getFeatureDisabledToolIds({ enableDashboard: true })).not.toContain(
+      LegacyDashboardIdentifier,
+    );
   });
 
   it('only gates tools that declare a flag', () => {

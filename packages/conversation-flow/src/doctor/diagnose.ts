@@ -7,8 +7,8 @@ import type { RepairOp, TopicDiagnosis, TopicIssue } from './types';
  * Every message id referenced anywhere in the rendered payload.
  *
  * The renderer does not emit one flat entry per message: tool results live in
- * `children[].tools[].result_msg_id`, signal turns in `signalCallbacks[]`, post-task
- * summaries in `taskCompletions[]`, and so on. Rather than mirror each nesting site
+ * `children[].tools[].result_msg_id`, signal turns in `signalCallbacks[]`, and so on.
+ * Rather than mirror each nesting site
  * (and silently start over-reporting whenever a new one is added), walk the payload
  * generically and collect anything that could be a message id. Ids that are not
  * messages (tool_call ids) fall out when the set is intersected with the topic.

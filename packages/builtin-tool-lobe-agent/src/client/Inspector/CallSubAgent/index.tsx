@@ -12,6 +12,11 @@ import type { CallSubAgentParams, CallSubAgentState } from '../../../types';
 import { SubAgentStats } from '../../components/SubAgentStats';
 
 const styles = createStaticStyles(({ css, cssVar }) => ({
+  background: css`
+    flex-shrink: 0;
+    font-size: 12px;
+    color: ${cssVar.colorTextDescription};
+  `,
   chip: css`
     overflow: hidden;
     display: inline-flex;
@@ -55,7 +60,10 @@ export const CallSubAgentInspector = memo<
   const { t } = useTranslation('plugin');
 
   const description = (args?.description || partialArgs?.description)?.trim();
-  const isShiny = isArgumentsStreaming || isLoading;
+  // A background call finishes its tool step at once, so `isLoading` drops
+  // while the sub-agent is still working.
+  const runningInBackground = pluginState?.background === true && pluginState.status === 'pending';
+  const isShiny = isArgumentsStreaming || isLoading || runningInBackground;
 
   // The completion bridge writes the authoritative stats flat onto pluginState at
   // the end of the run; until then `progress` holds the live totals streamed off
@@ -72,6 +80,11 @@ export const CallSubAgentInspector = memo<
         {t('builtins.lobe-agent.apiName.callSubAgent')}
       </span>
       {description && <span className={styles.chip}>{description}</span>}
+      {runningInBackground && (
+        <span className={styles.background}>
+          {t('builtins.lobe-agent.subAgent.backgroundRunning')}
+        </span>
+      )}
       {stats && (
         <SubAgentStats
           model={stats.model}

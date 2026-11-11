@@ -18,7 +18,7 @@ const styles = createStaticStyles(({ css, cssVar }) => ({
   `,
 }));
 
-/** Compact "acted on this page" row used by navigate/click/fill/press/scroll. */
+/** Compact "acted on this page" row used by navigate/click/fill/press/scroll/setViewport. */
 const PageAction = memo<BuiltinRenderProps<unknown, BrowserPageState, string>>(
   ({ content, pluginState }) => {
     return (

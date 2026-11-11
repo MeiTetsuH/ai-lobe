@@ -30,7 +30,9 @@ export interface IAgentService {
       avatar?: string | null;
       backgroundColor?: string | null;
       description?: string | null;
+      heteroType?: HeterogeneousProviderConfig['type'];
       id: string;
+      name?: string | null;
       title?: string | null;
     }>
   >;
@@ -167,6 +169,8 @@ export interface AgentSearchItem {
   heteroType?: HeterogeneousProviderConfig['type'];
   id: string;
   isMarket?: boolean;
+  /** User-facing display name; `title` is the agent's role */
+  name?: string;
   title?: string;
 }
 

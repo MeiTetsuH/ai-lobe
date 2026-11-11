@@ -6,6 +6,7 @@ import { Check, ShieldCheck, X } from 'lucide-react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { resolveTaskOpenTarget } from '../../../taskRef';
 import type { SetTaskVerifyParams, SetTaskVerifyState } from '../../../types';
 import { TaskResultCard } from '../shared';
 
@@ -68,6 +69,7 @@ export const SetTaskVerifyRender = memo<
       icon={ShieldCheck}
       iconColor={enabled === false ? cssVar.colorTextTertiary : cssVar.colorSuccess}
       identifier={identifier}
+      taskId={resolveTaskOpenTarget(pluginState, params)}
       title={t('builtins.lobe-task.apiName.setTaskVerify')}
     >
       {requirement ? (

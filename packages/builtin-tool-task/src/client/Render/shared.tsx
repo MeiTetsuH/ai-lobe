@@ -13,6 +13,7 @@ import { useAgentDisplayMeta } from '@/features/AgentTasks/shared/useAgentDispla
 import { useUserDisplayMeta } from '@/features/AgentTasks/shared/useUserDisplayMeta';
 import { useChatStore } from '@/store/chat';
 import { chatPortalSelectors } from '@/store/chat/selectors';
+import { useTaskStore } from '@/store/task';
 
 const styles = createStaticStyles(({ css, cssVar }) => ({
   assignee: css`
@@ -125,8 +126,14 @@ export const useTaskDetailToggle = (identifier?: string) => {
     ],
   );
 
+  const canonicalActive = useTaskStore((state) =>
+    activeTaskDetailId ? (state.taskRefIndex[activeTaskDetailId] ?? activeTaskDetailId) : undefined,
+  );
+  const canonicalTarget = useTaskStore((state) =>
+    identifier ? (state.taskRefIndex[identifier] ?? identifier) : undefined,
+  );
   const canOpen = !!identifier;
-  const isExpanded = canOpen && showTaskDetail && activeTaskDetailId === identifier;
+  const isExpanded = canOpen && showTaskDetail && canonicalActive === canonicalTarget;
 
   const open = () => {
     if (identifier) openTaskDetail(identifier);
@@ -148,6 +155,7 @@ interface TaskResultCardProps {
   icon?: LucideIcon;
   iconColor?: string;
   identifier?: string;
+  taskId?: string;
   title: ReactNode;
 }
 
@@ -157,9 +165,9 @@ interface TaskResultCardProps {
  * optional body of detail fields. The whole card opens the task detail portal.
  */
 export const TaskResultCard = memo<TaskResultCardProps>(
-  ({ children, headerExtra, icon, iconColor, identifier, title }) => {
+  ({ children, headerExtra, icon, iconColor, identifier, taskId, title }) => {
     const { t } = useTranslation('chat');
-    const { canOpen, isExpanded, open, toggle } = useTaskDetailToggle(identifier);
+    const { canOpen, isExpanded, open, toggle } = useTaskDetailToggle(taskId ?? identifier);
 
     return (
       <Block

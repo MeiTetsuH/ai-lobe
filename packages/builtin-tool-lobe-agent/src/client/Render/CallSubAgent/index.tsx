@@ -62,7 +62,8 @@ const styles = createStaticStyles(({ css, cssVar }) => ({
  * than rendered as a dead no-op.
  *
  * A run that stopped before finishing is marked with a warning, so its partial
- * summary is not mistaken for a finished result.
+ * summary is not mistaken for a finished result. A background run says it is
+ * still running until its answer arrives on the state.
  */
 export const CallSubAgentRender = memo<
   BuiltinRenderProps<CallSubAgentParams, CallSubAgentState, string>
@@ -70,7 +71,15 @@ export const CallSubAgentRender = memo<
   const { t } = useTranslation('plugin');
   const { t: tChat } = useTranslation('chat');
   const prompt = args?.instruction?.trim();
-  const result = typeof content === 'string' ? stripSubAgentReference(content).trim() : '';
+  // A background run's tool result is only its start receipt; the answer is
+  // kept on the state once it arrives.
+  const background = pluginState?.background === true;
+  const result = background
+    ? (pluginState?.result ?? '').trim()
+    : typeof content === 'string'
+      ? stripSubAgentReference(content).trim()
+      : '';
+  const runningInBackground = background && pluginState?.status === 'pending';
   const threadId = pluginState?.threadId;
   const stopped = pluginState?.status === 'error';
 
@@ -95,7 +104,7 @@ export const CallSubAgentRender = memo<
 
   if (!prompt && !result && !subagentThread) return null;
 
-  const showResultSection = !!result || !!subagentThread;
+  const showResultSection = !!result || !!subagentThread || runningInBackground;
 
   return (
     <Flexbox className={styles.container} gap={12}>
@@ -127,6 +136,10 @@ export const CallSubAgentRender = memo<
                   {t('builtins.lobe-agent.subAgent.stopped')}
                 </Text>
               </Flexbox>
+            ) : runningInBackground ? (
+              <Text className={styles.label}>
+                {t('builtins.lobe-agent.subAgent.backgroundRunning')}
+              </Text>
             ) : (
               <Text className={styles.label}>{t('builtins.lobe-claude-code.agent.result')}</Text>
             )}
@@ -144,6 +157,9 @@ export const CallSubAgentRender = memo<
               </Button>
             )}
           </Flexbox>
+          {runningInBackground && (
+            <Text className={styles.label}>{t('builtins.lobe-agent.subAgent.backgroundHint')}</Text>
+          )}
           {result && (
             <Flexbox className={cx(styles.resultBox, stopped && styles.stoppedResultBox)}>
               <Markdown style={{ maxHeight: 320, overflow: 'auto' }} variant={'chat'}>

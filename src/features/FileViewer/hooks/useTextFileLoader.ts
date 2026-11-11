@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { fileService } from '@/services/file';
 
+import { toSameOriginFileProxyUrl } from '../fileProxyUrl';
 import { fileIdFromProxyUrl } from '../Renderer/Image/Tools/exportImage';
 
 /** Bound text downloads and decoding to 2 MiB to keep preview rendering responsive. */
@@ -46,7 +47,9 @@ export const useTextFileLoader = (url: string | null): TextFileState => {
       try {
         // Fetch storage directly: following /f redirects can lose the CORS Origin.
         const fileId = fileIdFromProxyUrl(url);
-        const readableUrl = fileId ? await fileService.getReadableUrl(fileId) : url;
+        const readableUrl = fileId
+          ? await fileService.getReadableUrl(fileId)
+          : toSameOriginFileProxyUrl(url);
         if (controller.signal.aborted) return;
         // Abort on navigation; enforce the limit even when Content-Length is missing or wrong.
         const response = await fetch(readableUrl, { signal: controller.signal });
