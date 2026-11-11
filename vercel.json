@@ -58,7 +58,7 @@
       ]
     }
   ],
-  "installCommand": "npx pnpm@12.4.1 --filter @lobehub/lobehub... --filter @lobechat/server... --filter @lobehub/auth... --filter @lobehub/share... --filter @lobehub/workbench... --filter @lobechat/app-config... --filter @lobechat/business-server... --filter @lobechat/canvas-runtime... --filter @lobechat/locales... --filter @lobechat/trpc... install --frozen-lockfile",
+  "installCommand": "npx pnpm@12.4.1 -F '@lobehub/*...' -F @lobechat/server... -F @lobechat/app-config... -F @lobechat/business-server... -F @lobechat/canvas-runtime... -F @lobechat/locales... install --frozen-lockfile",
   "rewrites": [
     {
       "source": "/_dangerous_local_dev_proxy",

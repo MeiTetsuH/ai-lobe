@@ -51,8 +51,13 @@ describe('private Vercel deployment configuration', () => {
       }
     }
 
-    const roots = [...vercelConfig.installCommand.matchAll(/--filter\s+([^\s.]+)\.\.\./g)].map(
-      (match) => match[1],
+    expect(vercelConfig.installCommand.length).toBeLessThanOrEqual(256);
+
+    const patterns = [
+      ...vercelConfig.installCommand.matchAll(/(?:--filter|-F)\s+['"]?([^\s'"]+?)['"]?\.\.\./g),
+    ].map((match) => match[1].replace(/^\.\.\./, ''));
+    const roots = [...manifests.keys()].filter((pkgName) =>
+      patterns.some((pattern) => path.matchesGlob(pkgName, pattern)),
     );
     const closure = new Set<string>();
     const queue = [...roots];
