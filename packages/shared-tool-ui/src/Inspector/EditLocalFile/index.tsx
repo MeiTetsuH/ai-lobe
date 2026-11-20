@@ -2,7 +2,9 @@
 
 import type { EditFileState } from '@lobechat/tool-runtime';
 import type { BuiltinInspectorProps } from '@lobechat/types';
-import { createStaticStyles, cssVar, cx, Icon, Text } from '@lobehub/ui';
+import { cx, Icon, Text } from '@lobehub/ui';
+import { cssVar } from '@lobehub/ui/stylex/cssVar.stylex';
+import * as stylex from '@stylexjs/stylex';
 import { Minus, Plus } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { memo } from 'react';
@@ -11,12 +13,9 @@ import { useTranslation } from 'react-i18next';
 import { FilePathDisplay } from '../../components/FilePathDisplay';
 import { inspectorTextStyles, shinyTextStyles } from '../../styles';
 
-const styles = createStaticStyles(({ css, cssVar }) => ({
-  separator: css`
-    margin-inline: 2px;
-    color: ${cssVar.colorTextQuaternary};
-  `,
-}));
+const styles = stylex.create({
+  separator: { marginInline: '2px', color: cssVar.colorTextQuaternary },
+});
 
 interface EditFileArgs {
   all?: boolean;
@@ -90,7 +89,7 @@ export const EditLocalFileInspector = memo<EditLocalFileInspectorProps>(
             {' '}
             {statsParts.map((part, index) => (
               <span key={index}>
-                {index > 0 && <span className={styles.separator}> / </span>}
+                {index > 0 && <span {...stylex.props(styles.separator)}> / </span>}
                 {part}
               </span>
             ))}

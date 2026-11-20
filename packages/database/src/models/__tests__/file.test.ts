@@ -25,6 +25,45 @@ import {
 import type { LobeChatDatabase } from '../../type';
 import { FileModel } from '../file';
 
+const queryFiles = (): (typeof files.$inferInsert)[] => [
+  {
+    name: 'document.pdf',
+    url: 'https://example.com/document.pdf',
+    size: 1000,
+    fileType: 'application/pdf',
+    userId,
+  },
+  {
+    name: 'image.jpg',
+    url: 'https://example.com/image.jpg',
+    size: 500,
+    fileType: 'image/jpeg',
+    userId,
+  },
+  {
+    name: 'audio.mp3',
+    url: 'https://example.com/audio.mp3',
+    size: 2000,
+    fileType: 'audio/mpeg',
+    userId,
+  },
+];
+
+const globalFileInput = (): Parameters<FileModel['createGlobalFile']>[0] => ({
+  hashId: '1',
+  url: 'https://example.com/file1.txt',
+  size: 100,
+  fileType: 'text/plain',
+  creator: userId,
+});
+
+const newFileInput = (): Parameters<FileModel['create']>[0] => ({
+  name: 'test-file.txt',
+  url: 'https://example.com/test-file.txt',
+  size: 100,
+  fileType: 'text/plain',
+});
+
 const serverDB: LobeChatDatabase = await getTestDB();
 
 const userId = 'file-model-test-user-id';
@@ -46,12 +85,7 @@ afterEach(async () => {
 describe('FileModel', () => {
   describe('create', () => {
     it('should create a new file', async () => {
-      const params = {
-        name: 'test-file.txt',
-        url: 'https://example.com/test-file.txt',
-        size: 100,
-        fileType: 'text/plain',
-      };
+      const params = newFileInput();
 
       const { id } = await fileModel.create(params);
       expect(id).toBeDefined();
@@ -212,13 +246,7 @@ describe('FileModel', () => {
 
   describe('delete', () => {
     it('should delete a file by id', async () => {
-      await fileModel.createGlobalFile({
-        hashId: '1',
-        url: 'https://example.com/file1.txt',
-        size: 100,
-        fileType: 'text/plain',
-        creator: userId,
-      });
+      await fileModel.createGlobalFile(globalFileInput());
 
       const { id } = await fileModel.create({
         name: 'test-file.txt',
@@ -239,13 +267,7 @@ describe('FileModel', () => {
       expect(globalFile).toBeUndefined();
     });
     it('should delete a file by id but global file not removed ', async () => {
-      await fileModel.createGlobalFile({
-        hashId: '1',
-        url: 'https://example.com/file1.txt',
-        size: 100,
-        fileType: 'text/plain',
-        creator: userId,
-      });
+      await fileModel.createGlobalFile(globalFileInput());
 
       const { id } = await fileModel.create({
         name: 'test-file.txt',
@@ -598,13 +620,7 @@ describe('FileModel', () => {
 
   describe('deleteMany', () => {
     it('should delete multiple files', async () => {
-      await fileModel.createGlobalFile({
-        hashId: '1',
-        url: 'https://example.com/file1.txt',
-        size: 100,
-        fileType: 'text/plain',
-        creator: userId,
-      });
+      await fileModel.createGlobalFile(globalFileInput());
       await fileModel.createGlobalFile({
         hashId: '2',
         url: 'https://example.com/file2.txt',
@@ -649,13 +665,7 @@ describe('FileModel', () => {
       expect(deletedFiles.map((file) => file.id).sort()).toEqual([file1.id, file2.id].sort());
     });
     it('should delete multiple files but not remove global files if DISABLE_REMOVE_GLOBAL_FILE=true', async () => {
-      await fileModel.createGlobalFile({
-        hashId: '1',
-        url: 'https://example.com/file1.txt',
-        size: 100,
-        fileType: 'text/plain',
-        creator: userId,
-      });
+      await fileModel.createGlobalFile(globalFileInput());
       await fileModel.createGlobalFile({
         hashId: '2',
         url: 'https://example.com/file2.txt',
@@ -833,29 +843,7 @@ describe('FileModel', () => {
   });
 
   describe('Query', () => {
-    const sharedFileList = [
-      {
-        name: 'document.pdf',
-        url: 'https://example.com/document.pdf',
-        size: 1000,
-        fileType: 'application/pdf',
-        userId,
-      },
-      {
-        name: 'image.jpg',
-        url: 'https://example.com/image.jpg',
-        size: 500,
-        fileType: 'image/jpeg',
-        userId,
-      },
-      {
-        name: 'audio.mp3',
-        url: 'https://example.com/audio.mp3',
-        size: 2000,
-        fileType: 'audio/mpeg',
-        userId,
-      },
-    ];
+    const sharedFileList = queryFiles();
 
     it('should query files for the user', async () => {
       const file1 = await fileModel.create({
@@ -1136,12 +1124,7 @@ describe('FileModel', () => {
 
   describe('findById', () => {
     it('should find a file by id', async () => {
-      const { id } = await fileModel.create({
-        name: 'test-file.txt',
-        url: 'https://example.com/test-file.txt',
-        size: 100,
-        fileType: 'text/plain',
-      });
+      const { id } = await fileModel.create(newFileInput());
 
       const file = await fileModel.findById(id);
       expect(file).toMatchObject({
@@ -1185,12 +1168,7 @@ describe('FileModel', () => {
   });
 
   it('should update a file', async () => {
-    const { id } = await fileModel.create({
-      name: 'test-file.txt',
-      url: 'https://example.com/test-file.txt',
-      size: 100,
-      fileType: 'text/plain',
-    });
+    const { id } = await fileModel.create(newFileInput());
 
     await fileModel.update(id, { name: 'updated-test-file.txt', size: 200 });
 
@@ -1260,29 +1238,7 @@ describe('FileModel', () => {
   });
 
   describe('countUsage', () => {
-    const sharedFileList = [
-      {
-        name: 'document.pdf',
-        url: 'https://example.com/document.pdf',
-        size: 1000,
-        fileType: 'application/pdf',
-        userId,
-      },
-      {
-        name: 'image.jpg',
-        url: 'https://example.com/image.jpg',
-        size: 500,
-        fileType: 'image/jpeg',
-        userId,
-      },
-      {
-        name: 'audio.mp3',
-        url: 'https://example.com/audio.mp3',
-        size: 2000,
-        fileType: 'audio/mpeg',
-        userId,
-      },
-    ];
+    const sharedFileList = queryFiles();
 
     it('should get total size of files for the user', async () => {
       await serverDB.insert(files).values(sharedFileList);

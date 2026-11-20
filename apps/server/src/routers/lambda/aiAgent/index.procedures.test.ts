@@ -20,6 +20,7 @@ describe('aiAgentRouter procedures', () => {
 
 function expected(): Array<[name: string, type: 'mutation' | 'query']> {
   return [
+    ['beginLocalHeteroRunFee', 'mutation'],
     ['beginServerDefaultHeterogeneousOperation', 'mutation'],
     ['cancelServerDefaultHeterogeneousOperation', 'mutation'],
     ['createClientGroupAgentTaskThread', 'mutation'],
@@ -29,6 +30,7 @@ function expected(): Array<[name: string, type: 'mutation' | 'query']> {
     ['execAgents', 'mutation'],
     ['execGroupAgent', 'mutation'],
     ['execSubAgentTask', 'mutation'],
+    ['finishLocalHeteroRunFee', 'mutation'],
     ['finishServerDefaultHeterogeneousOperation', 'mutation'],
     ['getAgentInterventionReview', 'mutation'],
     ['getAgentInterventionReviewBySource', 'mutation'],
@@ -47,16 +49,20 @@ function expected(): Array<[name: string, type: 'mutation' | 'query']> {
     ['refreshGatewayToken', 'query'],
     ['refreshHeteroOperationToken', 'mutation'],
     ['releaseSubAgentLlmRelay', 'mutation'],
+    ['reportHeteroControlResult', 'mutation'],
     ['resolveAgentIntervention', 'mutation'],
     ['resolveAgentInterventionBySource', 'mutation'],
     ['resolveHeteroIntervention', 'mutation'],
     ['resumeClientLlmWait', 'mutation'],
+    ['returnHeteroSteer', 'mutation'],
     ['scheduleAgentRun', 'mutation'],
     ['setQueuedMessages', 'mutation'],
     ['startExecution', 'mutation'],
+    ['stopHeteroBackgroundTask', 'mutation'],
     ['stopPendingApproval', 'mutation'],
     ['submitHeteroIntervention', 'mutation'],
     ['updateClientTaskThreadStatus', 'mutation'],
+    ['waitHeteroSteer', 'mutation'],
     ['waitInterventionResponse', 'query'],
   ];
 }

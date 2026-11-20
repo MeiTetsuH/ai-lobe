@@ -9,6 +9,33 @@ import { AsyncTaskStatus } from '@/types/asyncTask';
 import { FileSource } from '@/types/files';
 import { TransferErrorCode } from '@/types/transferError';
 
+const uploadInput = () => ({
+  hash: 'test-hash',
+  fileType: 'text',
+  name: 'test.txt',
+  size: 100,
+  url: 'files/test.txt',
+  metadata: {},
+});
+
+const plainTextUploadInput = () => ({
+  fileType: 'text/plain',
+  hash: 'test-hash',
+  metadata: {},
+  name: 'test.txt',
+  size: 100,
+  url: 'files/test.txt',
+});
+
+const movedFileInput = () => ({
+  hash: 'test-hash',
+  fileType: 'text',
+  metadata: { path: 'new/path.txt' },
+  name: 'test.txt',
+  size: 100,
+  url: 'new/path.txt',
+});
+
 const buildMockFileAccessUrl = ({ id }: { id: string }) => `https://lobehub.com/f/${id}`;
 
 const routerMocks = vi.hoisted(() => {
@@ -593,14 +620,7 @@ describe('fileRouter', () => {
       mockFileModelCheckAccessibleHash.mockResolvedValue({ isExist: false });
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
-      const result = await caller.createFile({
-        hash: 'test-hash',
-        fileType: 'text',
-        name: 'test.txt',
-        size: 100,
-        url: 'files/test.txt',
-        metadata: {},
-      });
+      const result = await caller.createFile(uploadInput());
 
       expect(result).toEqual({
         id: 'new-file-id',
@@ -727,14 +747,7 @@ describe('fileRouter', () => {
         .mockRejectedValueOnce(new Error('NoSuchKey'));
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(function () {});
 
-      await caller.createFile({
-        hash: 'test-hash',
-        fileType: 'text',
-        metadata: { path: 'new/path.txt' },
-        name: 'test.txt',
-        size: 100,
-        url: 'new/path.txt',
-      });
+      await caller.createFile(movedFileInput());
 
       expect(mockFileModelUpdateGlobalFile).toHaveBeenCalledWith(
         'test-hash',
@@ -769,14 +782,7 @@ describe('fileRouter', () => {
         contentType: 'text/plain',
       });
 
-      await caller.createFile({
-        hash: 'test-hash',
-        fileType: 'text',
-        metadata: { path: 'new/path.txt' },
-        name: 'test.txt',
-        size: 100,
-        url: 'new/path.txt',
-      });
+      await caller.createFile(movedFileInput());
 
       expect(mockFileModelUpdateGlobalFile).not.toHaveBeenCalled();
       expect(mockFileModelCreate).toHaveBeenCalledWith(
@@ -792,14 +798,7 @@ describe('fileRouter', () => {
       mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
-      await caller.createFile({
-        hash: 'test-hash',
-        fileType: 'text',
-        name: 'test.txt',
-        size: 100,
-        url: 'files/test.txt',
-        metadata: {},
-      });
+      await caller.createFile(uploadInput());
 
       expect(routerMocks.serverDB.transaction).toHaveBeenCalledTimes(1);
       expect(routerMocks.businessFileUploadCheck).toHaveBeenCalledWith(
@@ -833,14 +832,7 @@ describe('fileRouter', () => {
         status: 'settled',
       });
 
-      await caller.createFile({
-        fileType: 'text/plain',
-        hash: 'test-hash',
-        metadata: {},
-        name: 'test.txt',
-        size: 100,
-        url: 'files/test.txt',
-      });
+      await caller.createFile(plainTextUploadInput());
 
       expect(routerMocks.businessFileUploadCheck).not.toHaveBeenCalled();
       expect(mockFileUploadFindLatestForUpdate).toHaveBeenCalledWith(
@@ -866,16 +858,10 @@ describe('fileRouter', () => {
       mockFileUploadTouchActive.mockResolvedValue(upload);
       mockFileServiceGetFileMetadata.mockResolvedValue({ contentLength: 101 });
 
-      await expect(
-        caller.createFile({
-          fileType: 'text/plain',
-          hash: 'test-hash',
-          metadata: {},
-          name: 'test.txt',
-          size: 100,
-          url: 'files/test.txt',
-        }),
-      ).rejects.toMatchObject({ code: 'BAD_REQUEST', message: 'Uploaded file size mismatch' });
+      await expect(caller.createFile(plainTextUploadInput())).rejects.toMatchObject({
+        code: 'BAD_REQUEST',
+        message: 'Uploaded file size mismatch',
+      });
 
       expect(mockFileUploadReleaseBestEffort).toHaveBeenCalledWith('files/test.txt');
       expect(mockFileModelCreate).not.toHaveBeenCalled();
@@ -923,16 +909,7 @@ describe('fileRouter', () => {
         url: 'files/test.txt',
       });
 
-      await expect(
-        caller.createFile({
-          fileType: 'text/plain',
-          hash: 'test-hash',
-          metadata: {},
-          name: 'test.txt',
-          size: 100,
-          url: 'files/test.txt',
-        }),
-      ).resolves.toEqual({
+      await expect(caller.createFile(plainTextUploadInput())).resolves.toEqual({
         id: 'settled-file-id',
         url: 'https://lobehub.com/f/settled-file-id',
       });
@@ -995,14 +972,7 @@ describe('fileRouter', () => {
       mockFileUploadFindLatest.mockResolvedValue(undefined);
       mockFileModelCreate.mockResolvedValue({ id: 'new-file-id' });
 
-      await caller.createFile({
-        hash: 'test-hash',
-        fileType: 'text',
-        name: 'test.txt',
-        size: 100,
-        url: 'files/test.txt',
-        metadata: {},
-      });
+      await caller.createFile(uploadInput());
 
       expect(routerMocks.businessFileUploadCheck).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -1185,14 +1155,7 @@ describe('fileRouter', () => {
         contentType: 'text/plain',
       });
 
-      await caller.createFile({
-        hash: 'test-hash',
-        fileType: 'text',
-        name: 'test.txt',
-        size: 100,
-        url: 'files/test.txt',
-        metadata: {},
-      });
+      await caller.createFile(uploadInput());
 
       // Verify create was called with input size since contentLength < 1
       expect(mockFileModelCreate).toHaveBeenCalledWith(
