@@ -20,13 +20,15 @@ import { ArchivedNotice } from './ArchivedNotice';
 import { visibleChannelDetail } from './channelAccess';
 import { ChannelMessage, ThreadRootMessage } from './ChannelMessage';
 import { Composer } from './Composer';
+import { hasReplyActivity } from './jobStatus';
 import { JoinEventLine } from './JoinEventLine';
-import { channelJoinEvents, channelTimeline } from './joinEvents';
+import { channelJoinEvents, channelTimeline, isSelfJoinable } from './joinEvents';
 import { isCurrentUserMember } from './memberName';
 import { channelTimeFormatters, presentChannelTimeline } from './messagePresentation';
 import { presentOutgoingMessage, timelineTail } from './outgoing';
 import { OutgoingStatus } from './OutgoingStatus';
 import { ReplyActivity } from './ReplyActivity';
+import type { ReplyTopic } from './ReplyTopicPanel';
 import { styles } from './styles';
 import type { ChannelThreadDraft } from './threadDraft';
 import { useChannelEvents } from './useChannelEvents';
@@ -39,6 +41,7 @@ interface ChannelConversationProps {
   /** Mounted beside a thread panel that covers it, so keep it out of the tab order. */
   inert?: boolean;
   onOpenThread?: (threadId: string, toggle?: boolean) => void;
+  onOpenTopic?: (topic: ReplyTopic) => void;
   onStartThread?: (draft: ChannelThreadDraft) => void;
   threadId?: string | null;
 }
@@ -48,6 +51,7 @@ const Timeline = ({
   inert,
   threadId = null,
   onOpenThread,
+  onOpenTopic,
   onStartThread,
 }: ChannelConversationProps) => {
   const { t, i18n } = useTranslation('channel');
@@ -104,12 +108,14 @@ const Timeline = ({
     if (feed && followLatest.current && before === undefined) feed.scrollTop = feed.scrollHeight;
   }, [feedTail, before]);
 
+  // Someone reading an open project Channel without joining has no read position to move.
+  const joined = detail?.joined !== false;
   useEffect(() => {
-    if (threadId || sequence === undefined || before !== undefined) return;
+    if (!joined || threadId || sequence === undefined || before !== undefined) return;
     void channelActions
       .markRead(channelId, sequence)
       .catch((error: unknown) => console.error('Failed to mark Channel read', error));
-  }, [channelId, threadId, sequence, before]);
+  }, [channelId, joined, threadId, sequence, before]);
 
   const activeMembers = detail?.members.filter((member) => member.status === 'active') ?? [];
   const thread = threadId ? detail?.threads.find((entry) => entry.id === threadId) : undefined;
@@ -123,7 +129,9 @@ const Timeline = ({
         outgoing.length
           ? [...detail.messages, ...outgoing.map((item) => item.message)]
           : detail.messages,
-        threadId || direct ? [] : channelJoinEvents(detail.members),
+        threadId || direct
+          ? []
+          : channelJoinEvents(detail.members, { selfJoinable: isSelfJoinable(detail.channel) }),
         !detail.hasMore && before === undefined,
       )
     : [];
@@ -163,7 +171,7 @@ const Timeline = ({
               }}
               {...stylex.props(styles.feed)}
             >
-              <WideScreenContainer fullWidth paddingInline={24}>
+              <WideScreenContainer fullWidth paddingInline={16}>
                 {(detail.hasMore || before !== undefined) && (
                   <Flexbox horizontal align="center" gap={8} justify="center" paddingBlock={8}>
                     <Button
@@ -212,9 +220,9 @@ const Timeline = ({
                         role="separator"
                         {...stylex.props(styles.dateDivider)}
                       >
-                        <span {...stylex.props(styles.dateLine)} />
-                        <time dateTime={date.toISOString()}>{timeFormats.date.format(date)}</time>
-                        <span {...stylex.props(styles.dateLine)} />
+                        <time dateTime={date.toISOString()} title={timeFormats.date.format(date)}>
+                          {timeFormats.date.format(date)}
+                        </time>
                       </div>
                     )}
                     {item.kind === 'event' ? (
@@ -223,6 +231,7 @@ const Timeline = ({
                       <ChannelMessage
                         continuation={continuation}
                         message={item.message}
+                        pending={outgoingById.get(item.message.id)!.status === 'sending'}
                         threadId={threadId}
                         delivery={
                           <OutgoingStatus
@@ -245,6 +254,7 @@ const Timeline = ({
                         threadId={threadId}
                         onJumpToMessage={jumpToMessage}
                         onOpenThread={onOpenThread}
+                        onOpenTopic={onOpenTopic}
                         onStartThread={channelArchived ? undefined : onStartThread}
                         onReply={
                           channelArchived || thread?.status === 'archived' ? undefined : selectReply
@@ -259,16 +269,22 @@ const Timeline = ({
               <ArchivedNotice channel={detail.channel} threadId={threadId} />
             ) : (
               <Composer
-                activity={<ReplyActivity detail={detail} threadId={threadId} />}
                 channel={detail.channel}
                 draftKey={channelDraftKey(channelId, threadId)}
                 key={channelDraftKey(channelId, threadId)}
                 members={activeMembers}
                 replyTarget={reply.target}
+                activity={
+                  hasReplyActivity(detail, threadId) ? (
+                    <ReplyActivity detail={detail} threadId={threadId} />
+                  ) : null
+                }
                 placeholder={
                   threadId
                     ? t('threadComposer')
-                    : t(direct ? 'directComposer' : 'composer', { name: detail.channel.title })
+                    : t(direct ? 'directComposer' : joined ? 'composer' : 'composerToJoin', {
+                        name: detail.channel.title,
+                      })
                 }
                 onCancelReply={() => reply.clear()}
                 onQueue={(message) => {

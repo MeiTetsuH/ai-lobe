@@ -470,7 +470,7 @@ count the versions under `node_modules/<pkg>` and every `packages/*/node_modules
 and require one distinct value — never from the root manifest. Remember `apps/desktop`
 and `apps/cli` are standalone installs that a root install never covers.
 
-#### L-S15 — Trusting a lockfile-false workspace's node_modules to track current specs
+#### L-S15 — Trusting a lockfile-false workspace's node\_modules to track current specs
 
 **Wrong approach:** debug a "missing export" build failure in a workspace with
 `lockfile: false` by bumping package.json specs or running `pnpm up`, assuming the
@@ -483,7 +483,7 @@ because it installs from scratch.
 
 **Correct approach:** when installed versions contradict fresh-resolution
 expectations, delete the hidden `node_modules/.pnpm/lock.yaml` (or the whole
-node_modules) in the affected workspace root and reinstall, then re-verify the
+node\_modules) in the affected workspace root and reinstall, then re-verify the
 actual resolved version via the importing package's symlink.
 
 ### Moved to PROCESS.md as rules that hold under pressure (narrative kept here)

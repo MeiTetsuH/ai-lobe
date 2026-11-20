@@ -1,7 +1,9 @@
 'use client';
 
 import type { BuiltinRenderProps } from '@lobechat/types';
-import { Alert, Button, createStaticStyles, cssVar, Text } from '@lobehub/ui';
+import { Alert, Button, Text } from '@lobehub/ui';
+import { cssVar } from '@lobehub/ui/stylex/cssVar.stylex';
+import * as stylex from '@stylexjs/stylex';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -19,13 +21,7 @@ import {
   useGenerationStatus,
 } from '../components/useGenerationStatus';
 
-const styles = createStaticStyles(({ css }) => ({
-  root: css`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  `,
-}));
+const styles = stylex.create({ root: { display: 'flex', flexDirection: 'column', gap: '8px' } });
 
 const getAsset = (state?: GetImageGenerationStatusState) => state?.generation?.asset;
 
@@ -65,7 +61,7 @@ export const GetImageGenerationStatusRender = memo<
   const canRetry = Boolean(error) && normalizeAsyncError(error).retryable;
 
   return (
-    <div className={styles.root}>
+    <div {...stylex.props(styles.root)}>
       {/* Same canvas the generateImage card uses, so a follow-up status check
           reads as the same image continuing rather than a second card. */}
       <ImageCanvasGrid count={1} ratio={ratio}>

@@ -6,10 +6,12 @@ describe('asyncRouter', () => {
   it('exposes the retained async sub-routers without unused video or document routers', () => {
     const keys = Object.keys(asyncRouter._def.record);
 
+    expect(keys).toContain('dataExport');
     expect(keys).toContain('file');
     expect(keys).toContain('healthcheck');
     expect(keys).toContain('image');
     expect(keys).toContain('linear');
+    expect(keys).toContain('music');
     expect(keys).toContain('ragEval');
     expect(keys).not.toContain('document');
     expect(keys).not.toContain('video');

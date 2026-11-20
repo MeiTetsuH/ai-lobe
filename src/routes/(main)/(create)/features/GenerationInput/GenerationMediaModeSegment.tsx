@@ -10,16 +10,24 @@ import {
   Select,
   type SelectProps,
 } from '@lobehub/ui';
-import { ImageIcon, Video } from 'lucide-react';
+import { ImageIcon, Music, Video } from 'lucide-react';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useWorkspaceAwareNavigate } from '@/features/Workspace/useWorkspaceAwareNavigate';
 
+type GenerationMediaMode = 'image' | 'music' | 'video';
+
+const MODE_PATHS: Record<GenerationMediaMode, string> = {
+  image: '/image',
+  music: '/music',
+  video: '/video',
+};
+
 export interface GenerationMediaModeSegmentProps {
   /** `hero`: large labeled headline select. `toolbar`: compact icon-only toggle group. */
   layout?: 'hero' | 'toolbar';
-  mode: 'image' | 'video';
+  mode: GenerationMediaMode;
 }
 
 const styles = createStaticStyles(({ css }) => ({
@@ -68,11 +76,19 @@ const GenerationMediaModeSegment = memo<GenerationMediaModeSegmentProps>(
             ),
             value: 'video' as const,
           },
+          {
+            label: (
+              <Flexbox horizontal align="center" gap={8}>
+                <span className={styles.heroText}>{t('tab.music')}</span>
+              </Flexbox>
+            ),
+            value: 'music' as const,
+          },
         ].filter((option) => isGenerationTypeEnabled(option.value)),
       [t],
     );
 
-    const toolbarOptions = useMemo<SegmentedOptions<'image' | 'video'>>(
+    const toolbarOptions = useMemo<SegmentedOptions<GenerationMediaMode>>(
       () =>
         [
           {
@@ -87,6 +103,12 @@ const GenerationMediaModeSegment = memo<GenerationMediaModeSegmentProps>(
             title: t('tab.video'),
             value: 'video' as const,
           },
+          {
+            icon: <Icon icon={Music} size={16} />,
+            label: t('tab.music'),
+            title: t('tab.music'),
+            value: 'music' as const,
+          },
         ].filter((option) => isGenerationTypeEnabled(option.value)),
       [t],
     );
@@ -94,7 +116,8 @@ const GenerationMediaModeSegment = memo<GenerationMediaModeSegmentProps>(
     const labelRender: SelectProps['labelRender'] = useCallback(
       (props: any) => {
         const v = String((props as { value?: string }).value ?? '');
-        const text = v === 'video' ? t('tab.video') : t('tab.image');
+        const text =
+          v === 'video' ? t('tab.video') : v === 'music' ? t('tab.music') : t('tab.image');
         return (
           <span
             style={{
@@ -113,14 +136,14 @@ const GenerationMediaModeSegment = memo<GenerationMediaModeSegmentProps>(
     const handleChange = useCallback(
       (value: string) => {
         if (value === mode || !isGenerationTypeEnabled(value)) return;
-        navigate(value === 'video' ? '/video' : '/image');
+        navigate(MODE_PATHS[value as GenerationMediaMode] ?? '/image');
       },
       [mode, navigate],
     );
 
     if (!isHero)
       return (
-        <Segmented<'image' | 'video'>
+        <Segmented<GenerationMediaMode>
           classNames={{ item: styles.toolbarItem, itemLabel: styles.toolbarLabel }}
           options={toolbarOptions}
           size={'small'}

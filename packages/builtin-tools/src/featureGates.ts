@@ -1,5 +1,6 @@
 import { DashboardIdentifier, LegacyDashboardIdentifier } from '@lobechat/builtin-tool-dashboard';
 import { VideoGenerationIdentifier } from '@lobechat/builtin-tool-video-generation';
+import { WebhookIdentifier } from '@lobechat/builtin-tool-webhook';
 import { VIDEO_GENERATION_ENABLED } from '@lobechat/const/deploymentCapabilities';
 import type { IFeatureFlagsState } from '@lobechat/types';
 
@@ -11,6 +12,8 @@ export const FEATURE_GATED_TOOLS: Record<string, keyof IFeatureFlagsState> = {
   [DashboardIdentifier]: 'enableDashboard',
   // A legacy pinned or replayed id must stay behind the same flag.
   [LegacyDashboardIdentifier]: 'enableDashboard',
+  // Managing inbound webhooks is offered only where they can run at all.
+  [WebhookIdentifier]: 'enableWebhook',
 };
 
 /**

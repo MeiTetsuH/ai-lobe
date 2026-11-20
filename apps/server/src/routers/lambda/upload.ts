@@ -9,7 +9,11 @@ import { router } from '@/libs/trpc/lambda';
 import { serverDatabase } from '@/libs/trpc/lambda/middleware';
 import { FileS3 } from '@/server/modules/S3';
 import { FileUploadService } from '@/server/services/fileUpload';
-import { reserveUpload, uploadConflict } from '@/server/services/fileUploadReservation';
+import {
+  isMissingObject,
+  reserveUpload,
+  uploadConflict,
+} from '@/server/services/fileUploadReservation';
 
 const MAX_MULTIPART_PARTS = 10_000;
 const MULTIPART_PART_SIZE = 32 * 1024 * 1024;
@@ -76,10 +80,14 @@ const getActiveSession = async (
   service: FileUploadService,
   pathname: string,
 ): Promise<FileUploadItem> => {
-  const upload = await service.assertActiveOrLegacy(pathname);
-  // A storage key and multipart id are not proof that the caller owns the upload.
-  if (!upload) throw uploadConflict('An owned upload session is required');
-  return upload;
+  const active = await service.touchActive(pathname);
+  if (active) return active;
+
+  if (await service.hasAnyLiveSession(pathname)) {
+    throw uploadConflict('Upload pathname belongs to another session');
+  }
+
+  throw uploadConflict('Upload session is not active');
 };
 
 const validateMultipartSession = (upload: FileUploadItem, input: { uploadId: string }): number => {
@@ -101,20 +109,19 @@ export const uploadRouter = router({
     .use(withScopedPermission('file:upload'))
     .input(multipartUploadSchema)
     .mutation(async ({ ctx, input }) => {
-      const upload = await ctx.fileUploadService.findLatest(input.pathname);
+      const upload = await ctx.fileUploadService.touchActive(input.pathname);
 
       if (!upload) {
-        throw uploadConflict('An owned upload session is required');
+        if (await ctx.fileUploadService.hasAnyLiveSession(input.pathname)) {
+          throw uploadConflict('Upload pathname belongs to another session');
+        }
+        return { success: true };
       }
       if (upload.multipartUploadId !== input.uploadId) {
         throw uploadConflict('Multipart upload does not match the upload session');
       }
-      if (upload.status === 'settled') {
-        throw uploadConflict('A settled upload cannot be aborted');
-      }
-      if (upload.status !== 'active') return { success: true };
 
-      await ctx.fileUploadService.release(input.pathname);
+      await ctx.fileUploadService.release(upload.pathname);
       return { success: true };
     }),
 
@@ -143,7 +150,6 @@ export const uploadRouter = router({
     .mutation(async ({ ctx, input }) => {
       const s3 = new FileS3();
       const upload = await getActiveSession(ctx.fileUploadService, input.pathname);
-
       const partSize = validateMultipartSession(upload, input);
       const expectedPartCount = Math.ceil(upload.size / partSize);
       if (input.partCount !== expectedPartCount) {
@@ -152,8 +158,8 @@ export const uploadRouter = router({
 
       try {
         await s3.completeMultipartUpload(
-          input.pathname,
-          input.uploadId,
+          upload.pathname,
+          upload.multipartUploadId!,
           expectedPartCount,
           undefined,
           { partSize, size: upload.size },
@@ -161,8 +167,13 @@ export const uploadRouter = router({
       } catch (error) {
         if (!isMissingMultipartUpload(error)) throw error;
 
-        const { contentLength } = await s3.getFileMetadata(input.pathname);
-        if (contentLength !== upload.size) throw error;
+        const metadata = await s3.getFileMetadata(upload.pathname).catch((headError) => {
+          if (isMissingObject(headError)) {
+            throw uploadConflict('Multipart upload no longer exists in storage');
+          }
+          throw headError;
+        });
+        if (metadata.contentLength !== upload.size) throw error;
       }
 
       await ctx.fileUploadService.model.markCompleted(upload.id);
@@ -196,17 +207,17 @@ export const uploadRouter = router({
 
       let uploadId: string;
       try {
-        uploadId = await s3.createMultipartUpload(input.pathname, input.contentType);
+        uploadId = await s3.createMultipartUpload(upload.pathname, input.contentType);
       } catch (error) {
-        await ctx.fileUploadService.releaseBestEffort(input.pathname);
+        await ctx.fileUploadService.releaseBestEffort(upload.pathname);
         throw error;
       }
 
       const attached = await ctx.fileUploadService.model.attachMultipartUpload(upload.id, uploadId);
       if (attached) return { partSize, uploadId };
 
-      await s3.abortMultipartUpload(input.pathname, uploadId);
-      const concurrent = await ctx.fileUploadService.model.findActiveByPathname(input.pathname);
+      await s3.abortMultipartUpload(upload.pathname, uploadId);
+      const concurrent = await ctx.fileUploadService.model.findActiveByPathname(upload.pathname);
       if (concurrent?.multipartUploadId) {
         return { partSize: concurrent.multipartPartSize!, uploadId: concurrent.multipartUploadId };
       }
@@ -224,7 +235,6 @@ export const uploadRouter = router({
     .mutation(async ({ ctx, input }) => {
       const s3 = new FileS3();
       const upload = await getActiveSession(ctx.fileUploadService, input.pathname);
-
       const partSize = validateMultipartSession(upload, input);
       const partCount = Math.ceil(upload.size / partSize);
       if (input.partNumber > partCount) {
@@ -235,8 +245,8 @@ export const uploadRouter = router({
         input.partNumber === partCount ? upload.size - (partCount - 1) * partSize : partSize;
 
       return s3.createPreSignedUploadPartUrl(
-        input.pathname,
-        input.uploadId,
+        upload.pathname,
+        upload.multipartUploadId!,
         input.partNumber,
         contentLength,
       );
@@ -248,7 +258,8 @@ export const uploadRouter = router({
     .mutation(async ({ ctx, input }) => {
       assertOperationTokenUpload(ctx, input);
       const s3 = new FileS3();
-      await reserveUpload({
+
+      const upload = await reserveUpload({
         clientIp: ctx.clientIp ?? undefined,
         db: ctx.serverDB,
         model: ctx.fileUploadService.model,
@@ -260,9 +271,9 @@ export const uploadRouter = router({
       });
 
       try {
-        return await s3.createPreSignedUrl(input.pathname, input.size);
+        return await s3.createPreSignedUrl(upload.pathname, upload.size);
       } catch (error) {
-        await ctx.fileUploadService.releaseBestEffort(input.pathname);
+        await ctx.fileUploadService.releaseBestEffort(upload.pathname);
         throw error;
       }
     }),

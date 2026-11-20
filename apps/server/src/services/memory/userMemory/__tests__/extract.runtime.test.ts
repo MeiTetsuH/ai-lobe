@@ -67,6 +67,58 @@ const resolveRuntimeKeyVaults = async (
   return (executor as any).resolveRuntimeKeyVaults(runtimeState, memoryServiceConfig);
 };
 
+const availableRuntimeModels = (): EnabledAiModel[] => [
+  {
+    abilities: {},
+    enabled: true,
+    id: 'model-chat-1',
+    type: 'chat',
+    providerId: 'provider-a',
+  },
+  {
+    abilities: {},
+    enabled: true,
+    id: 'model-embedding-1',
+    type: 'embedding',
+    providerId: 'provider-e',
+  },
+  {
+    abilities: {},
+    enabled: true,
+    id: 'vendor-prefix/model-chat-1',
+    type: 'chat',
+    providerId: 'provider-b',
+  },
+  {
+    abilities: {},
+    enabled: true,
+    id: 'vendor-prefix/model-embedding-1',
+    type: 'embedding',
+    providerId: 'provider-b',
+  },
+  {
+    abilities: {},
+    enabled: false,
+    id: 'model-chat-1',
+    type: 'chat',
+    providerId: 'provider-c',
+  },
+  {
+    abilities: {},
+    enabled: false,
+    id: 'model-embedding-1',
+    type: 'embedding',
+    providerId: 'provider-c',
+  },
+];
+
+const fallbackEmbeddingConfig = (): MemoryExtractionPrivateConfig['embedding'] => ({
+  apiKey: 'openai-system-key',
+  baseURL: 'https://openai.example.com',
+  model: 'embed-1',
+  provider: 'openai',
+});
+
 describe('MemoryExtractionExecutor.resolveRuntimeKeyVaults', () => {
   it('uses the embedding window independently of the extractor window', () => {
     const executor = createExecutor({
@@ -91,12 +143,7 @@ describe('MemoryExtractionExecutor.resolveRuntimeKeyVaults', () => {
 
   it('drops fallback credentials when user memory provider is overridden', () => {
     const executor = createExecutor({
-      embedding: {
-        apiKey: 'openai-system-key',
-        baseURL: 'https://openai.example.com',
-        model: 'embed-1',
-        provider: 'openai',
-      },
+      embedding: fallbackEmbeddingConfig(),
     });
 
     const memoryServiceConfig = (executor as any).resolveUserMemoryServiceConfig({
@@ -116,12 +163,7 @@ describe('MemoryExtractionExecutor.resolveRuntimeKeyVaults', () => {
 
   it('keeps fallback credentials when user memory provider is unchanged', () => {
     const executor = createExecutor({
-      embedding: {
-        apiKey: 'openai-system-key',
-        baseURL: 'https://openai.example.com',
-        model: 'embed-1',
-        provider: 'openai',
-      },
+      embedding: fallbackEmbeddingConfig(),
     });
 
     const memoryServiceConfig = (executor as any).resolveUserMemoryServiceConfig({
@@ -210,12 +252,7 @@ describe('MemoryExtractionExecutor.resolveRuntimeKeyVaults', () => {
         model: 'layer-1',
         provider: 'provider-l',
       },
-      embedding: {
-        apiKey: 'openai-system-key',
-        baseURL: 'https://openai.example.com',
-        model: 'embed-1',
-        provider: 'openai',
-      },
+      embedding: fallbackEmbeddingConfig(),
       embeddingPreferredProviders: ['provider-b'],
     });
 
@@ -283,58 +320,12 @@ describe('MemoryExtractionExecutor.resolveRuntimeKeyVaults', () => {
       agentLayerExtractorPreferredProviders: ['provider-c', 'provider-a'],
     });
 
-    const runtimeState = createRuntimeState(
-      [
-        {
-          abilities: {},
-          enabled: true,
-          id: 'model-chat-1',
-          type: 'chat',
-          providerId: 'provider-a',
-        },
-        {
-          abilities: {},
-          enabled: true,
-          id: 'model-embedding-1',
-          type: 'embedding',
-          providerId: 'provider-e',
-        },
-        {
-          abilities: {},
-          enabled: true,
-          id: 'vendor-prefix/model-chat-1',
-          type: 'chat',
-          providerId: 'provider-b',
-        },
-        {
-          abilities: {},
-          enabled: true,
-          id: 'vendor-prefix/model-embedding-1',
-          type: 'embedding',
-          providerId: 'provider-b',
-        },
-        {
-          abilities: {},
-          enabled: false,
-          id: 'model-chat-1',
-          type: 'chat',
-          providerId: 'provider-c',
-        },
-        {
-          abilities: {},
-          enabled: false,
-          id: 'model-embedding-1',
-          type: 'embedding',
-          providerId: 'provider-c',
-        },
-      ],
-      {
-        'provider-a': { apiKey: 'a-key' },
-        'provider-b': { apiKey: 'b-key' },
-        'provider-c': { apiKey: 'c-key' },
-        'provider-e': { apiKey: 'e-key' },
-      },
-    );
+    const runtimeState = createRuntimeState(availableRuntimeModels(), {
+      'provider-a': { apiKey: 'a-key' },
+      'provider-b': { apiKey: 'b-key' },
+      'provider-c': { apiKey: 'c-key' },
+      'provider-e': { apiKey: 'e-key' },
+    });
 
     const keyVaults = await resolveRuntimeKeyVaults(executor, runtimeState);
 
@@ -348,56 +339,10 @@ describe('MemoryExtractionExecutor.resolveRuntimeKeyVaults', () => {
     const executor = createExecutor();
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
-    const runtimeState = createRuntimeState(
-      [
-        {
-          abilities: {},
-          enabled: true,
-          id: 'model-chat-1',
-          type: 'chat',
-          providerId: 'provider-a',
-        },
-        {
-          abilities: {},
-          enabled: true,
-          id: 'model-embedding-1',
-          type: 'embedding',
-          providerId: 'provider-e',
-        },
-        {
-          abilities: {},
-          enabled: true,
-          id: 'vendor-prefix/model-chat-1',
-          type: 'chat',
-          providerId: 'provider-b',
-        },
-        {
-          abilities: {},
-          enabled: true,
-          id: 'vendor-prefix/model-embedding-1',
-          type: 'embedding',
-          providerId: 'provider-b',
-        },
-        {
-          abilities: {},
-          enabled: false,
-          id: 'model-chat-1',
-          type: 'chat',
-          providerId: 'provider-c',
-        },
-        {
-          abilities: {},
-          enabled: false,
-          id: 'model-embedding-1',
-          type: 'embedding',
-          providerId: 'provider-c',
-        },
-      ],
-      {
-        'provider-b': { apiKey: 'b-key' },
-        'provider-l': { apiKey: 'l-key' },
-      },
-    );
+    const runtimeState = createRuntimeState(availableRuntimeModels(), {
+      'provider-b': { apiKey: 'b-key' },
+      'provider-l': { apiKey: 'l-key' },
+    });
 
     const keyVaults = await resolveRuntimeKeyVaults(executor, runtimeState);
 

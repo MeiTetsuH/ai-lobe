@@ -184,8 +184,8 @@ overrides:
   jsondiffpatch@<0.7.6: 0.7.6
   adm-zip@<0.6.1: 0.6.1
   '@opentelemetry/propagator-jaeger@<2.9.0': 2.12.0
-  '@lobehub/ui': ^6.12.0
-  '@lobehub/icons': ^6.0.0
+  '@lobehub/ui': ^6.16.1
+  '@lobehub/icons': ^6.15.2
   '@lobehub/editor': 7.2.1
   '@lobehub/charts': ^6.0.0
   '@lobehub/fluent-emoji': ^5.0.0
@@ -198,6 +198,8 @@ overrides:
   drizzle-orm: ^0.45.2
   fast-xml-parser: 5.11.2
   lexical: 0.42.0
+  mdast-util-to-markdown: 2.1.2
+  mdast-util-to-markdown-cjk-friendly>mdast-util-to-markdown: ^2.2.0
   micromark: 4.0.3
   micromark-extension-gfm-autolink-literal: 2.1.0
   node-gyp: ^12.4.0
@@ -215,7 +217,7 @@ overrides:
 
 patchedDependencies:
   '@upstash/qstash': cfd70a4be480061639bfed947c9df82d43a731f30856cba353a8b81ace933a26
-  micromark-extension-gfm-autolink-literal@2.1.0: 0ce95bb04dcc7abdd5e2e209daf4935dbb8a8503dc762845b4faf33b24c9dcd8
+  micromark-extension-gfm-autolink-literal@2.1.0: 984c5f9972e64c8349817bf63184fe5d20e74fef8fc6731f9dc4971a3a057407
   micromark@4.0.3: c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29
 
 importers:
@@ -310,7 +312,7 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
       '@google/genai':
-        specifier: ^2.13.0
+        specifier: ^2.24.0
         version: 2.29.1(@modelcontextprotocol/sdk@1.32.1(@cfworker/json-schema@4.1.1)(supports-color@10.2.2)(zod@4.6.6))(supports-color@10.2.2)
       '@henrygd/queue':
         specifier: ^1.2.0
@@ -327,6 +329,12 @@ importers:
       '@larksuiteoapi/node-sdk':
         specifier: ^1.73.0
         version: 1.73.3(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
+      '@lexical/list':
+        specifier: 0.42.0
+        version: 0.42.0
+      '@lexical/rich-text':
+        specifier: 0.42.0
+        version: 0.42.0
       '@lexical/utils':
         specifier: ^0.42.0
         version: 0.42.0
@@ -366,6 +374,9 @@ importers:
       '@lobechat/builtin-tool-activator':
         specifier: workspace:*
         version: link:packages/builtin-tool-activator
+      '@lobechat/builtin-tool-agent-account':
+        specifier: workspace:*
+        version: link:packages/builtin-tool-agent-account
       '@lobechat/builtin-tool-agent-builder':
         specifier: workspace:*
         version: link:packages/builtin-tool-agent-builder
@@ -432,6 +443,9 @@ importers:
       '@lobechat/builtin-tool-local-system':
         specifier: workspace:*
         version: link:packages/builtin-tool-local-system
+      '@lobechat/builtin-tool-mcp-events':
+        specifier: workspace:*
+        version: link:packages/builtin-tool-mcp-events
       '@lobechat/builtin-tool-memory':
         specifier: workspace:*
         version: link:packages/builtin-tool-memory
@@ -477,6 +491,9 @@ importers:
       '@lobechat/builtin-tool-web-onboarding':
         specifier: workspace:*
         version: link:packages/builtin-tool-web-onboarding
+      '@lobechat/builtin-tool-webhook':
+        specifier: workspace:*
+        version: link:packages/builtin-tool-webhook
       '@lobechat/builtin-tools':
         specifier: workspace:*
         version: link:packages/builtin-tools
@@ -486,6 +503,9 @@ importers:
       '@lobechat/business-const':
         specifier: workspace:*
         version: link:packages/business/const
+      '@lobechat/business-knowledge':
+        specifier: workspace:*
+        version: link:packages/business/knowledge
       '@lobechat/business-model-bank':
         specifier: workspace:*
         version: link:packages/business/model-bank
@@ -495,6 +515,9 @@ importers:
       '@lobechat/canvas':
         specifier: workspace:*
         version: link:packages/canvas
+      '@lobechat/chat-adapter-dingtalk':
+        specifier: workspace:*
+        version: link:packages/chat-adapter-dingtalk
       '@lobechat/chat-adapter-feishu':
         specifier: workspace:*
         version: link:packages/chat-adapter-feishu
@@ -510,6 +533,9 @@ importers:
       '@lobechat/chat-adapter-wechat':
         specifier: workspace:*
         version: link:packages/chat-adapter-wechat
+      '@lobechat/chat-adapter-wecom':
+        specifier: workspace:*
+        version: link:packages/chat-adapter-wecom
       '@lobechat/config':
         specifier: workspace:*
         version: link:packages/config
@@ -626,22 +652,25 @@ importers:
         version: 1.6.4(@types/react@19.2.13)(debug@4.4.3(supports-color@10.2.2))(preact-render-to-string@6.6.5)(react@19.2.7)(supports-color@10.2.2)
       '@lobehub/charts':
         specifier: ^6.0.0
-        version: 6.0.1(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        version: 6.0.1(@lobehub/ui@6.16.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@lobehub/desktop-ipc-typings':
         specifier: workspace:*
         version: link:apps/desktop/src/main
       '@lobehub/editor':
         specifier: 7.2.1
-        version: 7.2.1(@lobehub/ui@6.15.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
+        version: 7.2.1(@lobehub/ui@6.16.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
       '@lobehub/icons':
-        specifier: ^6.0.0
-        version: 6.7.0(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^6.15.2
+        version: 6.18.0(@lobehub/ui@6.16.2)(lucide-react@1.61.0(@types/react@19.2.13)(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@lobehub/market-sdk':
         specifier: 0.46.0
         version: 0.46.0(supports-color@10.2.2)(zod@4.6.6)
+      '@lobehub/tts':
+        specifier: ^6.1.0
+        version: 6.1.0(@aws-sdk/credential-provider-node@3.972.83)(@lobehub/ui@6.16.2)(@smithy/hash-node@4.5.2)(@smithy/signature-v4@5.7.3)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(ws@8.21.3)(zod@4.6.6)
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       '@modelcontextprotocol/client':
         specifier: ~2.4.0
         version: 2.4.0
@@ -769,8 +798,8 @@ importers:
         specifier: ~4.38.0
         version: 4.38.1(supports-color@10.2.2)(zod@4.6.6)
       chroma-js:
-        specifier: ^3.2.0
-        version: 3.2.0
+        specifier: ^3.3.0
+        version: 3.3.0
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -898,8 +927,8 @@ importers:
         specifier: ^17.0.6
         version: 17.0.6
       mdast-util-to-markdown:
-        specifier: ^2.1.2
-        version: 2.2.0
+        specifier: 2.1.2
+        version: 2.1.2
       mesurer:
         specifier: ^0.1.0
         version: 0.1.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1077,6 +1106,9 @@ importers:
       shiki:
         specifier: ^4.4.3
         version: 4.4.3
+      standardwebhooks:
+        specifier: ^1.1.1
+        version: 1.3.0
       stripe:
         specifier: ^17.7.0
         version: 17.7.0
@@ -1176,7 +1208,7 @@ importers:
         version: 1.27.0(@types/react@19.2.13)(immer@11.1.18)(supports-color@10.2.2)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.2.7))(ws@8.21.3)(zod@4.6.6)
       '@lobehub/market-types':
         specifier: ^1.19.0
-        version: 1.20.0
+        version: 1.22.0
       '@lobehub/oxlint-config':
         specifier: ^3.0.0
         version: 3.0.1(oxlint@1.90.0)
@@ -1626,7 +1658,7 @@ importers:
         version: 24.13.4
       standardwebhooks:
         specifier: ^1.0.0
-        version: 1.0.0
+        version: 1.3.0
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.7.0)(postcss@8.5.23)(supports-color@10.2.2)(tsx@4.23.13)(typescript@6.0.3)(yaml@2.9.1)
@@ -1729,6 +1761,9 @@ importers:
 
   packages/app-config:
     dependencies:
+      '@lobechat/business-const':
+        specifier: workspace:*
+        version: link:../business/const
       '@lobechat/database':
         specifier: workspace:*
         version: link:../database
@@ -1838,6 +1873,12 @@ importers:
         specifier: workspace:*
         version: link:../types
 
+  packages/builtin-tool-agent-account:
+    devDependencies:
+      '@lobechat/types':
+        specifier: workspace:*
+        version: link:../types
+
   packages/builtin-tool-agent-builder:
     dependencies:
       '@lobechat/agent-manager-runtime':
@@ -1853,8 +1894,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -1881,8 +1922,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -1972,8 +2013,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -1994,8 +2035,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       '@thi.ng/base-n':
         specifier: ^2.7.71
         version: 2.7.73
@@ -2025,8 +2066,8 @@ importers:
         specifier: workspace:*
         version: link:../canvas
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       '@stylexjs/stylex':
         specifier: '*'
         version: 0.19.1
@@ -2047,8 +2088,11 @@ importers:
   packages/builtin-tool-channel:
     dependencies:
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      lucide-react:
+        specifier: '*'
+        version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -2069,8 +2113,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2100,8 +2144,8 @@ importers:
         specifier: workspace:*
         version: link:../tool-runtime
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2122,8 +2166,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -2138,8 +2182,8 @@ importers:
         specifier: workspace:*
         version: link:../widget-spec
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2182,8 +2226,8 @@ importers:
         specifier: workspace:*
         version: link:../business/const
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2211,8 +2255,8 @@ importers:
   packages/builtin-tool-image-generation:
     dependencies:
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2236,8 +2280,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       polished:
         specifier: '*'
         version: 4.3.1
@@ -2271,10 +2315,10 @@ importers:
         version: link:../utils
       '@lobehub/editor':
         specifier: 7.2.1
-        version: 7.2.1(@lobehub/ui@6.15.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
+        version: 7.2.1(@lobehub/ui@6.16.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2298,14 +2342,30 @@ importers:
         specifier: workspace:*
         version: link:../tool-runtime
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
       path-browserify-esm:
         specifier: '*'
         version: 1.0.6
+      react:
+        specifier: 19.2.7
+        version: 19.2.7
+      react-i18next:
+        specifier: '*'
+        version: 16.6.6(i18next@25.10.10(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
+    devDependencies:
+      '@lobechat/types':
+        specifier: workspace:*
+        version: link:../types
+
+  packages/builtin-tool-mcp-events:
+    dependencies:
+      '@lobehub/ui':
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -2326,8 +2386,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2351,8 +2411,8 @@ importers:
         specifier: workspace:*
         version: link:../business/const
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2389,8 +2449,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       debug:
         specifier: '*'
         version: 4.4.3(supports-color@10.2.2)
@@ -2424,8 +2484,8 @@ importers:
   packages/builtin-tool-self-iteration:
     dependencies:
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2452,8 +2512,8 @@ importers:
   packages/builtin-tool-skill-store:
     dependencies:
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -2477,8 +2537,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -2502,8 +2562,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2524,8 +2584,8 @@ importers:
         specifier: workspace:*
         version: link:../shared-tool-ui
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2546,8 +2606,8 @@ importers:
   packages/builtin-tool-video-generation:
     dependencies:
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2574,8 +2634,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2602,8 +2662,8 @@ importers:
         specifier: workspace:*
         version: link:../prompts
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       react:
         specifier: 19.2.7
         version: 19.2.7
@@ -2621,6 +2681,22 @@ importers:
         specifier: workspace:*
         version: link:../types
 
+  packages/builtin-tool-webhook:
+    dependencies:
+      '@lobehub/ui':
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      react:
+        specifier: 19.2.7
+        version: 19.2.7
+      react-i18next:
+        specifier: '*'
+        version: 16.6.6(i18next@25.10.10(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
+    devDependencies:
+      '@lobechat/types':
+        specifier: workspace:*
+        version: link:../types
+
   packages/builtin-tools:
     dependencies:
       '@icons-pack/react-simple-icons':
@@ -2632,6 +2708,9 @@ importers:
       '@lobechat/builtin-tool-activator':
         specifier: workspace:*
         version: link:../builtin-tool-activator
+      '@lobechat/builtin-tool-agent-account':
+        specifier: workspace:*
+        version: link:../builtin-tool-agent-account
       '@lobechat/builtin-tool-agent-builder':
         specifier: workspace:*
         version: link:../builtin-tool-agent-builder
@@ -2695,6 +2774,9 @@ importers:
       '@lobechat/builtin-tool-local-system':
         specifier: workspace:*
         version: link:../builtin-tool-local-system
+      '@lobechat/builtin-tool-mcp-events':
+        specifier: workspace:*
+        version: link:../builtin-tool-mcp-events
       '@lobechat/builtin-tool-memory':
         specifier: workspace:*
         version: link:../builtin-tool-memory
@@ -2740,15 +2822,18 @@ importers:
       '@lobechat/builtin-tool-web-onboarding':
         specifier: workspace:*
         version: link:../builtin-tool-web-onboarding
+      '@lobechat/builtin-tool-webhook':
+        specifier: workspace:*
+        version: link:../builtin-tool-webhook
       '@lobechat/const':
         specifier: workspace:*
         version: link:../const
       '@lobehub/icons':
-        specifier: ^6.0.0
-        version: 6.7.0(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^6.15.2
+        version: 6.18.0(@lobehub/ui@6.16.2)(lucide-react@1.61.0(@types/react@19.2.13)(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       lucide-react:
         specifier: '*'
         version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -2805,6 +2890,8 @@ importers:
 
   packages/business/const: {}
 
+  packages/business/knowledge: {}
+
   packages/business/model-bank:
     dependencies:
       model-bank:
@@ -2846,6 +2933,31 @@ importers:
       pele:
         specifier: ^1.6.0
         version: 1.8.0
+
+  packages/chat-adapter-dingtalk:
+    dependencies:
+      chat:
+        specifier: ~4.38.0
+        version: 4.38.1(supports-color@10.2.2)(zod@4.6.6)
+      mime:
+        specifier: ^4.1.0
+        version: 4.1.0
+      ws:
+        specifier: ^8.21.0
+        version: 8.21.3
+    devDependencies:
+      '@types/node':
+        specifier: ^24.13.2
+        version: 24.13.4
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.23)(supports-color@10.2.2)(tsx@4.23.13)(typescript@6.0.3)(yaml@2.8.3)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
 
   packages/chat-adapter-feishu:
     dependencies:
@@ -2939,6 +3051,31 @@ importers:
         specifier: 6.0.3
         version: 6.0.3
 
+  packages/chat-adapter-wecom:
+    dependencies:
+      chat:
+        specifier: ~4.38.0
+        version: 4.38.1(supports-color@10.2.2)(zod@4.6.6)
+      mime:
+        specifier: ^4.1.0
+        version: 4.1.0
+      ws:
+        specifier: ^8.21.0
+        version: 8.21.3
+    devDependencies:
+      '@types/node':
+        specifier: ^24.13.2
+        version: 24.13.4
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
+      tsup:
+        specifier: ^8.5.1
+        version: 8.5.1(jiti@2.7.0)(postcss@8.5.23)(supports-color@10.2.2)(tsx@4.23.13)(typescript@6.0.3)(yaml@2.8.3)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+
   packages/config:
     dependencies:
       '@lobechat/business-config':
@@ -2995,8 +3132,8 @@ importers:
         specifier: workspace:*
         version: link:../business/const
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       query-string:
         specifier: ^9.4.1
         version: 9.5.1
@@ -3202,6 +3339,22 @@ importers:
         specifier: 5.0.5
         version: 5.0.5(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.1)(@types/node@24.13.4)(@vitest/coverage-v8@5.0.5)(happy-dom@20.11.15)(vite@8.3.5)
 
+  packages/device-mcp:
+    dependencies:
+      '@lobechat/const':
+        specifier: workspace:*
+        version: link:../const
+      '@lobechat/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@modelcontextprotocol/client':
+        specifier: ~2.4.0
+        version: 2.4.0
+    devDependencies:
+      vitest:
+        specifier: 5.0.5
+        version: 5.0.5(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.1)(@types/node@24.13.4)(@vitest/coverage-v8@5.0.5)(happy-dom@20.11.15)(vite@8.3.5)
+
   packages/device-sandbox:
     dependencies:
       '@anthropic-ai/sandbox-runtime':
@@ -3225,11 +3378,17 @@ importers:
         version: link:../prompts
       '@lobehub/editor':
         specifier: 7.2.1
-        version: 7.2.1(@lobehub/ui@6.15.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
+        version: 7.2.1(@lobehub/ui@6.16.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)
       debug:
         specifier: '*'
         version: 4.4.3(supports-color@10.2.2)
     devDependencies:
+      '@lexical/list':
+        specifier: 0.42.0
+        version: 0.42.0
+      '@lexical/rich-text':
+        specifier: 0.42.0
+        version: 0.42.0
       lexical:
         specifier: 0.42.0
         version: 0.42.0
@@ -3316,6 +3475,9 @@ importers:
 
   packages/eval-dataset-parser:
     dependencies:
+      '@lobechat/file-loaders':
+        specifier: workspace:*
+        version: link:../file-loaders
       papaparse:
         specifier: ^5.5.4
         version: 5.7.0
@@ -3426,8 +3588,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@lobehub/icons':
-        specifier: ^6.0.0
-        version: 6.7.0(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^6.15.2
+        version: 6.18.0(@lobehub/ui@6.16.2)(lucide-react@1.61.0(@types/react@19.2.13)(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@modelcontextprotocol/node':
         specifier: ~2.1.2
         version: 2.1.2(@modelcontextprotocol/server@2.4.0)
@@ -3549,6 +3711,9 @@ importers:
         specifier: ^1.1.2
         version: 1.1.2
     devDependencies:
+      '@lobechat/types':
+        specifier: workspace:*
+        version: link:../types
       vite-tsconfig-paths:
         specifier: ^6.1.1
         version: 6.1.1(supports-color@10.2.2)(typescript@6.0.3)(vite@8.3.5)
@@ -3566,6 +3731,9 @@ importers:
       '@lobechat/builtin-skills':
         specifier: workspace:*
         version: link:../builtin-skills
+      '@lobechat/builtin-tool-agent-account':
+        specifier: workspace:*
+        version: link:../builtin-tool-agent-account
       '@lobechat/builtin-tool-agent-builder':
         specifier: workspace:*
         version: link:../builtin-tool-agent-builder
@@ -3605,6 +3773,9 @@ importers:
       '@lobechat/builtin-tool-local-system':
         specifier: workspace:*
         version: link:../builtin-tool-local-system
+      '@lobechat/builtin-tool-mcp-events':
+        specifier: workspace:*
+        version: link:../builtin-tool-mcp-events
       '@lobechat/builtin-tool-memory':
         specifier: workspace:*
         version: link:../builtin-tool-memory
@@ -3653,6 +3824,9 @@ importers:
       '@lobechat/types':
         specifier: workspace:*
         version: link:../types
+      '@lobechat/utils':
+        specifier: workspace:*
+        version: link:../utils
       debug:
         specifier: ^4.4.3
         version: 4.4.3(supports-color@10.2.2)
@@ -3748,11 +3922,14 @@ importers:
       '@azure/core-auth':
         specifier: ^1.10.1
         version: 1.11.0(supports-color@10.2.2)
+      '@breezystack/lamejs':
+        specifier: ^1.2.7
+        version: 1.2.7
       '@fal-ai/client':
         specifier: ^1.10.1
         version: 1.10.1
       '@google/genai':
-        specifier: ^2.13.0
+        specifier: ^2.24.0
         version: 2.29.1(@modelcontextprotocol/sdk@1.32.1(@cfworker/json-schema@4.1.1)(supports-color@10.2.2)(zod@4.6.6))(supports-color@10.2.2)
       '@huggingface/inference':
         specifier: ^4.13.21
@@ -4006,8 +4183,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       anser:
         specifier: ^2.3.5
         version: 2.3.5
@@ -4043,6 +4220,49 @@ importers:
       vitest:
         specifier: 5.0.5
         version: 5.0.5(@edge-runtime/vm@5.0.0)(@opentelemetry/api@1.9.1)(@types/node@24.13.4)(@vitest/coverage-v8@5.0.5)(happy-dom@20.11.15)(vite@8.3.5)
+
+  packages/style-equivalence:
+    dependencies:
+      '@lobehub/ui':
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@playwright/test':
+        specifier: ^1.62.1
+        version: 1.63.0
+      '@stylexjs/stylex':
+        specifier: 0.19.1
+        version: 0.19.1
+      '@vitejs/plugin-react':
+        specifier: ^6.0.5
+        version: 6.1.1(vite@8.0.16)
+      lucide-react:
+        specifier: ^1.31.0
+        version: 1.61.0(@types/react@19.2.13)(react@19.2.7)
+      motion:
+        specifier: ^14.1.0
+        version: 14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      postcss:
+        specifier: 8.5.23
+        version: 8.5.23
+      postcss-selector-parser:
+        specifier: 7.1.7
+        version: 7.1.7
+      react:
+        specifier: 19.2.7
+        version: 19.2.7
+      react-dom:
+        specifier: 19.2.7
+        version: 19.2.7(react@19.2.7)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vite:
+        specifier: 8.0.16
+        version: 8.0.16(@types/node@24.13.4)(@vitejs/devtools@0.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.8.3)
+
+  packages/style-equivalence/test/fixtures/mini-repo: {}
+
+  packages/style-equivalence/test/fixtures/shape-repo: {}
 
   packages/tool-runtime:
     dependencies:
@@ -4132,10 +4352,10 @@ importers:
         version: 0.46.0(supports-color@10.2.2)(zod@4.6.6)
       '@lobehub/market-types':
         specifier: ^1.19.0
-        version: 1.20.0
+        version: 1.22.0
       '@lobehub/ui':
-        specifier: ^6.12.0
-        version: 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+        specifier: ^6.16.1
+        version: 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       ajv:
         specifier: ^8.20.0
         version: 8.20.0
@@ -4173,8 +4393,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       chroma-js:
-        specifier: ^3.2.0
-        version: 3.2.0
+        specifier: ^3.3.0
+        version: 3.3.0
       countries-and-timezones:
         specifier: ^3.9.0
         version: 3.10.0
@@ -5555,6 +5775,9 @@ packages:
 
   '@braintree/sanitize-url@7.1.2':
     resolution: {integrity: sha512-jigsZK+sMF/cuiB7sERuo9V7N9jx+dhmHHnQyDSVdpZwVutaBu7WvNYqMDLSgFgfB30n452TP3vjDAvFC973mA==}
+
+  '@breezystack/lamejs@1.2.7':
+    resolution: {integrity: sha512-6wc7ck65ctA75Hq7FYHTtTvGnYs6msgdxiSUICQ+A01nVOWg6rqouZB8IdyteRlfpYYiFovkf67dIeOgWIUzTA==}
 
   '@cacheable/memory@2.2.0':
     resolution: {integrity: sha512-CTLKqLItRCEixEAewD3/j9DB3/o96gpTPD4eJ1v+DGOlxZRZncRQkGYqqnAGCscYd6RNeXfGeiuCphsPtqyIfQ==}
@@ -7826,7 +8049,7 @@ packages:
   '@lobehub/charts@6.0.1':
     resolution: {integrity: sha512-Aw231QKPb1J5vp7304a3rwH/88DrE3+GXF5pD7HqeDYu2az3AalK3xnOjiGXNHnblMLHwpIO2ulQ5i1K/LTRBw==}
     peerDependencies:
-      '@lobehub/ui': ^6.12.0
+      '@lobehub/ui': ^6.16.1
       react: 19.2.7
       react-dom: 19.2.7
 
@@ -7846,7 +8069,7 @@ packages:
   '@lobehub/editor@7.2.1':
     resolution: {integrity: sha512-coBqWW8qyJTRthFpLI2zb38+wiKZ3bt8AZYgT0LMkEdPOwwaBXX1WdlpnMNG7uYrkaD4PlxfIkKE4/5oeCUGAw==}
     peerDependencies:
-      '@lobehub/ui': ^6.12.0
+      '@lobehub/ui': ^6.16.1
       motion: ^13.0.0
       react: 19.2.7
       react-dom: 19.2.7
@@ -7865,10 +8088,11 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@lobehub/icons@6.7.0':
-    resolution: {integrity: sha512-PXZh0bDCuVZmdjbiUfLFnlGc0MLYzhz9UMgblubgZTsHOvIcMgOQ+fednCeHQpEMYornB8hhL470QnR9HMpwhg==}
+  '@lobehub/icons@6.18.0':
+    resolution: {integrity: sha512-naIh0E+AFGeOpQqOV4cQGQtgsikq08v0sDxbgOKf2amrax0qNdDX/uX/WRGlBQfVIudPszK5u7GF0Pn5aOJb5Q==}
     peerDependencies:
-      '@lobehub/ui': ^6.12.0
+      '@lobehub/ui': ^6.16.1
+      lucide-react: ^0.469.0 || ^1.0.0
       react: 19.2.7
       react-dom: 19.2.7
 
@@ -7876,9 +8100,6 @@ packages:
     resolution: {integrity: sha512-N2TFEUJLQ8GZwFaRimoTU6rPZEgMz3Qk9765e+2YrODv+H5qAGEXavTz1EnQww9FrrdpgzzhUhGmwxksh6wOxQ==}
     peerDependencies:
       zod: ^3.24.4
-
-  '@lobehub/market-types@1.20.0':
-    resolution: {integrity: sha512-pAtzN4BoG4LE0VjXUZ+tMrQk11tv1EgWvduy08mobuN+NWQRq9lKSU/nwXq8rj9rB5cRUz02+WMiuQ/6xApNsQ==}
 
   '@lobehub/market-types@1.22.0':
     resolution: {integrity: sha512-QAgcPaXgaelqPtiplYuV2aJO0JJ0N6NFICXrM0oUI+IPfFpYlTi4UUARzKCprLGnDg4rQvGHVrdiKEzOTaYYpw==}
@@ -7930,12 +8151,19 @@ packages:
     peerDependencies:
       stylelint: '>=16.0.0'
 
-  '@lobehub/ui@6.15.2':
-    resolution: {integrity: sha512-JZp1vPyFKUAVhbgxH5n4gy21c+8F2XSKs5dqMao1EGDo1nca7paI49hHetV0/hPx2WxaZdjhWRT2c2NcaEPgoA==}
+  '@lobehub/tts@6.1.0':
+    resolution: {integrity: sha512-xHV5Ipjl4geqQnSwjkdh1RUmmY8DvB3wT20TU9UvM82psyYfDZzZU0X6dwa8MPFmW7oYbe0+15jV4eBFW7NBeA==}
+    peerDependencies:
+      '@lobehub/ui': ^6.16.1
+      react: 19.2.7
+      react-dom: 19.2.7
+
+  '@lobehub/ui@6.16.2':
+    resolution: {integrity: sha512-QdtF3QAFaLV9ZZBW53g7NpXij3+saUD6q+TdrQXxQ8lAQptE/wEnSkjrFl2Y18P0wH7TG7YKsv655Wn6OCTpoA==}
     engines: {node: '>=22.22.0'}
     peerDependencies:
       '@lobehub/fluent-emoji': ^5.0.0
-      '@lobehub/icons': ^6.0.0
+      '@lobehub/icons': ^6.15.2
       '@splinetool/runtime': ^1.12.0
       motion: ^13.0.0 || ^14.0.0
       react: 19.2.7
@@ -9612,6 +9840,9 @@ packages:
   '@oxc-project/types@0.132.0':
     resolution: {integrity: sha512-FESMOxil5Se014ui/Eq8fT5uHJo6nIRwH0PfJrZJXs6Gek3ZVFOrpUv3YIZT20m+extU98Hg1Ym72U58rlsxUQ==}
 
+  '@oxc-project/types@0.133.0':
+    resolution: {integrity: sha512-KzkdCd6Uxqnf6l3HOw1xfatAlUURA0g14cvBYFyJ5SaNOQbOUvBr9PKArcPcrNIeRsBdgcUzOGrhKveVpvOIGA==}
+
   '@oxc-project/types@0.142.0':
     resolution: {integrity: sha512-7W+2q5AKQVU36fkaryontrHn3YDt1RyUYXatw9i5H8ocYe2sPKSFB6eS8WNPeRKiN1qAWWZUPm7gwFzJGrccqQ==}
 
@@ -10644,6 +10875,12 @@ packages:
     cpu: [arm64]
     os: [android]
 
+  '@rolldown/binding-android-arm64@1.0.3':
+    resolution: {integrity: sha512-454rs7jHngixp/NMxd5srYD57OnzSlZ/eFTETjORQHLwJG1lRtmNOJcBerZlfu4GjKqeq8aCCIQrMdHyhI51Hw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [android]
+
   '@rolldown/binding-android-arm64@1.2.15':
     resolution: {integrity: sha512-xD7DdZCrbThKuxNg7ooQmvp07ys4J/pnSEMTG3/OdOWl6daC67m/Q4fL78sRHMxTH/N4fGUbYhcPM0MF5WFHkg==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -10652,6 +10889,12 @@ packages:
 
   '@rolldown/binding-darwin-arm64@1.0.0-rc.17':
     resolution: {integrity: sha512-4ksWc9n0mhlZpZ9PMZgTGjeOPRu8MB1Z3Tz0Mo02eWfWCHMW1zN82Qz/pL/rC+yQa+8ZnutMF0JjJe7PjwasYw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@rolldown/binding-darwin-arm64@1.0.3':
+    resolution: {integrity: sha512-PcAhP+ynjURNyy8SKGl5DQP94aGuB/7JrXJb/t7P+hanXvQVMWzUvRRhBAcg/lNRadBhoUPqSoP4xw5tR/KBEA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
@@ -10668,6 +10911,12 @@ packages:
     cpu: [x64]
     os: [darwin]
 
+  '@rolldown/binding-darwin-x64@1.0.3':
+    resolution: {integrity: sha512-9YpfeUvSE2RS7wysJ81uOZkXJz7f7Q55H2Gvp3VEw/EsahqDtrphrZ0EwDLK5vvKOzaCrBsjF8JmnMLcUt78Gg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [darwin]
+
   '@rolldown/binding-darwin-x64@1.2.15':
     resolution: {integrity: sha512-5RtnsHM36nodM9WbMy+zip0LGS/G+y5wro5RHrpOlr4ac24+1zSi9kiV2MP1myZeZ/ifEHfulQcWjnAXzc2C2A==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -10676,6 +10925,12 @@ packages:
 
   '@rolldown/binding-freebsd-x64@1.0.0-rc.17':
     resolution: {integrity: sha512-hwnz3nw9dbJ05EDO/PvcjaaewqqDy7Y1rn1UO81l8iIK1GjenME75dl16ajbvSSMfv66WXSRCYKIqfgq2KCfxw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@rolldown/binding-freebsd-x64@1.0.3':
+    resolution: {integrity: sha512-yB1IlAsSNHncV6SCTL27/MVGR5htvQsoGxIv5KMGXALp+Ll1wYsn+x98M9MW7qa+NdSbvrrY7ANI4wLJ0n1e6g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
@@ -10692,6 +10947,12 @@ packages:
     cpu: [arm]
     os: [linux]
 
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.3':
+    resolution: {integrity: sha512-Yi30IVAAfLUCy2MseFjbB1jAMDl1VMCAas5StnYp8da9+CKvMd2H2cbEjWcw5NPaPqzvYkVIaF1nNUG+b7u/sw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
   '@rolldown/binding-linux-arm-gnueabihf@1.2.15':
     resolution: {integrity: sha512-nIe3VugI97nGQtspPxDqA4sXMUpeiocKIP/CqpY/u/vgbT+alX+cVxu1C/oVBPKg4feNTmYovE91v4DgXvXNwQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -10700,6 +10961,13 @@ packages:
 
   '@rolldown/binding-linux-arm64-gnu@1.0.0-rc.17':
     resolution: {integrity: sha512-e6usGaHKW5BMNZOymS1UcEYGowQMWcgZ71Z17Sl/h2+ZziNJ1a9n3Zvcz6LdRyIW5572wBCTH/Z+bKuZouGk9Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@rolldown/binding-linux-arm64-gnu@1.0.3':
+    resolution: {integrity: sha512-jsO7R8To+AdlYgUmN5sHSCZbfhtMBkO0WUx8iORQnPcMMdgr7qM2DQmMwgabs3GhNztdmoKkMKQFHD6DTMCIQw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
@@ -10719,6 +10987,13 @@ packages:
     os: [linux]
     libc: [musl]
 
+  '@rolldown/binding-linux-arm64-musl@1.0.3':
+    resolution: {integrity: sha512-VWkUHwWriDciit80wleYwKILoR/KMvxh/IdwS/paX+ZgpuRpCrKLUdadJbc0NpBEiyhpYawsJ73j9aCvOH+f7Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
   '@rolldown/binding-linux-arm64-musl@1.2.15':
     resolution: {integrity: sha512-uN26XOnVR7rqQupG3V9oAG2EGGatWjcJHOeDOHUFCh4TBWmP2tHTFoVN13aYbwfm0aHqJAEmcwhAu6sooIjfqQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -10728,6 +11003,13 @@ packages:
 
   '@rolldown/binding-linux-ppc64-gnu@1.0.0-rc.17':
     resolution: {integrity: sha512-4EII1iNGRUN5WwGbF/kOh/EIkoDN9HsupgLQoXfY+D1oyJm7/F4t5PYU5n8SWZgG0FEwakyM8pGgwcBYruGTlA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ppc64]
+    os: [linux]
+    libc: [glibc]
+
+  '@rolldown/binding-linux-ppc64-gnu@1.0.3':
+    resolution: {integrity: sha512-5f1laC0SlIR0yDbFCd8acUhvJIag6N3zC5P7oUPN6wX0aOma+uKJ0wBDH5aq7I1PVI2ttTlhJwzwRIBnLiSGEg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
@@ -10747,6 +11029,13 @@ packages:
     os: [linux]
     libc: [glibc]
 
+  '@rolldown/binding-linux-s390x-gnu@1.0.3':
+    resolution: {integrity: sha512-Iq4ko0r4XsgbrF/LunNgHtAGLRRVE2kXonAXQ/MV0mC6jQpMOhW1SvtZja2EhC/kd05++bP78dsqBeIQyYJ6Yg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [s390x]
+    os: [linux]
+    libc: [glibc]
+
   '@rolldown/binding-linux-s390x-gnu@1.2.15':
     resolution: {integrity: sha512-Ggh0ciFjLwIusLSLz7LZYEaGdxOAUJXI+Qu5JCbhPJJHEt8vP+IjRATTJheiJsdzzTYgUiHUiw3X1Ea3ZpMBdA==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -10756,6 +11045,13 @@ packages:
 
   '@rolldown/binding-linux-x64-gnu@1.0.0-rc.17':
     resolution: {integrity: sha512-cLnjV3xfo7KslbU41Z7z8BH/E1y5mzUYzAqih1d1MDaIGZRCMqTijqLv76/P7fyHuvUcfGsIpqCdddbxLLK9rA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@rolldown/binding-linux-x64-gnu@1.0.3':
+    resolution: {integrity: sha512-B8m6tD5+/N5FeNQFbKlLA/2yVq9ycQP1SeedyEYYKWBNR3ZQbkvIUcNnDNM03lO1l5F2roiiFJGgvoLLyZXtSg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
@@ -10775,6 +11071,13 @@ packages:
     os: [linux]
     libc: [musl]
 
+  '@rolldown/binding-linux-x64-musl@1.0.3':
+    resolution: {integrity: sha512-pSdpdUJHkuCxun9LE7jvgUB9qsRgaiyNNCX7m/AvHTcq67AiT/Yhoxvw5zPfhrM8k/BfP8ce/hMOpthKDpEUow==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
   '@rolldown/binding-linux-x64-musl@1.2.15':
     resolution: {integrity: sha512-/cvV/7v5VGz/moiz0XKRj2dE8DzsKyhIu1KpOvJGPjRywg3yscON889UGvAe8zfiJLHup7VLjBduoGWi3HusWQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -10784,6 +11087,12 @@ packages:
 
   '@rolldown/binding-openharmony-arm64@1.0.0-rc.17':
     resolution: {integrity: sha512-0ag/hEgXOwgw4t8QyQvUCxvEg+V0KBcA6YuOx9g0r02MprutRF5dyljgm3EmR02O292UX7UeS6HzWHAl6KgyhA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@rolldown/binding-openharmony-arm64@1.0.3':
+    resolution: {integrity: sha512-OXXS3RKJgX2uLwM+gYyuH5omcH8fL1LJs96pZGgtetVCahON57+d4SJHzTgZiOjxgGkSnpXpOsWuPDGAKAigEg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
@@ -10799,8 +11108,19 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [wasm32]
 
+  '@rolldown/binding-wasm32-wasi@1.0.3':
+    resolution: {integrity: sha512-JTtb8BWFynicNSoPrehsCzBtOKjZ6jhMiPFEmOiuXg1Fl8dn2KHQob+GuPSGR0dryQa1PQJbzjF3dqO/whhjLg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [wasm32]
+
   '@rolldown/binding-win32-arm64-msvc@1.0.0-rc.17':
     resolution: {integrity: sha512-gUmyzBl3SPMa6hrqFUth9sVfcLBlYsbMzBx5PlexMroZStgzGqlZ26pYG89rBb45Mnia+oil6YAIFeEWGWhoZA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [win32]
+
+  '@rolldown/binding-win32-arm64-msvc@1.0.3':
+    resolution: {integrity: sha512-gEdFFEN70A/jxb2svrWsN3aDL7OUtmvlOy+6fa2jxG8K0wQ1ZbdeLGnidov6Yu5/733dI5ySfzFlQ/cb0bSz1g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
@@ -10813,6 +11133,12 @@ packages:
 
   '@rolldown/binding-win32-x64-msvc@1.0.0-rc.17':
     resolution: {integrity: sha512-3hkiolcUAvPB9FLb3UZdfjVVNWherN1f/skkGWJP/fgSQhYUZpSIRr0/I8ZK9TkF3F7kxvJAk0+IcKvPHk9qQg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [win32]
+
+  '@rolldown/binding-win32-x64-msvc@1.0.3':
+    resolution: {integrity: sha512-eXB7CHuaQdqmJcc3koCNtNPmT/bj2gc999kUFgBxG8Ac0NdgXc4rkCHhqrgrhN3zddvvvrgzj1e90SuSfmyIXA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -13584,8 +13910,8 @@ packages:
     resolution: {integrity: sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g==}
     engines: {node: '>=18'}
 
-  chroma-js@3.2.0:
-    resolution: {integrity: sha512-os/OippSlX1RlWWr+QDPcGUZs0uoqr32urfxESG9U93lhUfbnlyckte84Q8P1UQY/qth983AS1JONKmLS4T0nw==}
+  chroma-js@3.3.0:
+    resolution: {integrity: sha512-afEEP0zHO4dxwrqTllKSFWs83+u+htEsmyvSe8IPjKjrfy3qmNk+vpWAdpbA2fJa14LTgkGyemC74J6v3HSUZA==}
 
   chrome-trace-event@1.0.4:
     resolution: {integrity: sha512-rNjApaLzuwaOTjCiT8lSDdGN1APCiqkChLMJxJPWLunPAt5fy8xgU9/jNOchV84wfIxrA0lRQB7oCT8jrn/wrQ==}
@@ -17235,6 +17561,9 @@ packages:
   lodash.difference@4.5.0:
     resolution: {integrity: sha512-dS2j+W26TQ7taQBGN8Lbbq04ssV3emRw4NY58WErlTO29pIqS0HmoT5aJ9+TUQ1N3G+JOZSji4eugsWwGp9yPA==}
 
+  lodash.escape@4.0.1:
+    resolution: {integrity: sha512-nXEOnb/jK9g0DYMr1/Xvq6l5xMD7GDG55+GSYIYmS0G4tBk/hURD4JR9WCavs04t33WmJx9kCyp9vJ+mr4BOUw==}
+
   lodash.escaperegexp@4.1.2:
     resolution: {integrity: sha512-TM9YBvyC84ZxE3rgfefxUWiQKLilstD6k7PTGt6wfbtXF8ixIJLOL3VYyV/z+ZiPLsVxAsKAFVwWlWeb2Y8Yyw==}
 
@@ -17307,6 +17636,9 @@ packages:
 
   lodash.truncate@4.4.2:
     resolution: {integrity: sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==}
+
+  lodash.unescape@4.0.1:
+    resolution: {integrity: sha512-DhhGRshNS1aX6s5YdBE3njCCouPgnG29ebyHvImlZzXZf2SHgt+J08DHgytTPnpywNbO1Y8mNUFyQuIDBq2JZg==}
 
   lodash.union@4.6.0:
     resolution: {integrity: sha512-c4pB2CdGrGdjMKYLA+XiRDO7Y0PRQbm/Gzg8qMj+QH+pFVAoTp5sBpO0odL3FjoPCGjK96p6qsP+yQoiLoOBcw==}
@@ -17468,6 +17800,9 @@ packages:
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
+  markdown-to-txt@2.0.1:
+    resolution: {integrity: sha512-Hsj7KTN8k1gutlLum3vosHwVZGnv8/cbYKWVkUyo/D1rzOYddbDesILebRfOsaVfjIBJank/AVOySBlHAYqfZw==}
+
   marked-terminal@5.2.0:
     resolution: {integrity: sha512-Piv6yNwAQXGFjZSaiNljyNFw7jKDdGrw70FSbtxEyldLsyeuV5ZHm/1wW++kWbrOF1VPnUgYOhB2oLL0ZpnekA==}
     engines: {node: '>=14.13.1 || >=16.0.0'}
@@ -17487,6 +17822,11 @@ packages:
   marked@18.0.12:
     resolution: {integrity: sha512-LEm4ga2YeI2T3GVHj9b0BaDPPk93LLTHMFeMyQbNIzPxc8vCI0y/scy0ZA6z6lXKyT9j9Nhl/OC6ZYKYGuFScA==}
     engines: {node: '>= 20'}
+    hasBin: true
+
+  marked@4.3.0:
+    resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
+    engines: {node: '>= 12'}
     hasBin: true
 
   marked@5.1.2:
@@ -17584,6 +17924,9 @@ packages:
     peerDependenciesMeta:
       '@types/mdast':
         optional: true
+
+  mdast-util-to-markdown@2.1.2:
+    resolution: {integrity: sha512-xj68wMTvGXVOKonmog6LwyJKrYXZPvlwabaryTjLh9LuvovB/KAH+kvi8Gjj+7rJjsFi23nkUxRQv1KqSroMqA==}
 
   mdast-util-to-markdown@2.2.0:
     resolution: {integrity: sha512-2Jn/ADrHFFyyniBMi0bncTbJqU78K3/TEYvzvwrWWzD9MYPUa/Gm4r3nOeKFQg/PDM5BsbDYdc8ackW4NTY6NA==}
@@ -18686,8 +19029,8 @@ packages:
   oxc-resolver@11.24.2:
     resolution: {integrity: sha512-FY91FiDBj7ls5MsFS9jN3tjz2o0/zsdSsymlakySaBwVJZorHhkWyICLZMKxlu1R9vYo+sd3z1jwb4J8x7bNDw==}
 
-  oxlint-plugin-react-doctor@0.9.22:
-    resolution: {integrity: sha512-kf9MwCpK3YlAWYUyX5Zx7XYrdIbA/4lQD2QREIqC8DvmNb2I+wP8zyjL4NeGl2FO2EC1sLuYvW8ir4Ooq1Xd2A==}
+  oxlint-plugin-react-doctor@0.9.23:
+    resolution: {integrity: sha512-AWC9/Jiki6s7e8b8xqTs0T/Hph8ISEDmoMUDwPkEzTrE0996ZWjwg7Ifaz5vPJQnefnOI9SDQQ/EvwvaZt4Tvg==}
     engines: {node: ^20.19.0 || >=22.13.0}
 
   oxlint@1.81.0:
@@ -19544,8 +19887,8 @@ packages:
   react-devtools-inline@4.4.0:
     resolution: {integrity: sha512-ES0GolSrKO8wsKbsEkVeiR/ZAaHQTY4zDh1UW8DImVmm8oaGLl3ijJDvSGe+qDRKPZdPRnDtWWnSvvrgxXdThQ==}
 
-  react-doctor@0.9.22:
-    resolution: {integrity: sha512-SyZOIl61VMCZ3sN7v7Vr2zCsPlyy7nNnBshtIrl0B/X+uY+rL9MGfyNhTmp/FLXfuDKEv61Y6xMguya7vn1Ulg==}
+  react-doctor@0.9.23:
+    resolution: {integrity: sha512-mKFbd0fYaiR8CS5PHyydJ//Bcs+TmdYhLVoiArdIvGNsUsG576GstUP69c7KFNMJheheZz7z2ww0byrmkizQLA==}
     engines: {node: ^20.19.0 || >=22.13.0}
     hasBin: true
 
@@ -20381,6 +20724,11 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
+  rolldown@1.0.3:
+    resolution: {integrity: sha512-i00lAJ2ks1BYr7rjNjKC7BcqAS7nVfiT3QX1SI5aY+AFHblCmaUf9OE9dbdzDvW6dJxbi2ZCZiy9v3CcwOiX3g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+
   rolldown@1.2.15:
     resolution: {integrity: sha512-6odND+fel5zVw3I4Yc2e69gvguDnX0CAAGiNDZSq4ik5WUcaLrkD2GLuog0XcODbor31hZ5ayEMgVDno+KPV5g==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -20804,6 +21152,9 @@ packages:
 
   standardwebhooks@1.0.0:
     resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
+
+  standardwebhooks@1.3.0:
+    resolution: {integrity: sha512-5W9skHjqAm2dlA9wWvglTP+oX47JX4lFXVk1aJV7+TG1snvTR4QXaVgPscEzvOw9GRreeavMwbqEeL+MGhZHCg==}
 
   static-browser-server@1.0.3:
     resolution: {integrity: sha512-ZUyfgGDdFRbZGGJQ1YhiM930Yczz5VlbJObrQLlk24+qNHVQx4OlLcYswEUo3bIyNAbQUIUR9Yr5/Hqjzqb4zA==}
@@ -21327,6 +21678,7 @@ packages:
 
   tldts-core@7.4.20:
     resolution: {integrity: sha512-C630TWXZCZmLq0F2bW4QqwnaaxCQ/svpAqvJwnC4JvgEM5ohhBnGsEzTLSOXcN+xjz+kEaHS5uoWIw2klnqd0A==}
+    deprecated: Partial release, see https://github.com/remusao/tldts/issues/2735. Use >=7.4.22.
 
   tldts@7.4.19:
     resolution: {integrity: sha512-48dH6aSpQnpbzDUc4vIQZ1VjB8tkK+e8c1yx05/SZK+rkssgjEOlxDd/yU8/a4vGYQ9vRgJr9dwMq9TJ0b3X2Q==}
@@ -22066,6 +22418,10 @@ packages:
     deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
+  uuid@11.1.1:
+    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
+    hasBin: true
+
   uuid@14.0.3:
     resolution: {integrity: sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==}
     hasBin: true
@@ -22215,6 +22571,49 @@ packages:
     resolution: {integrity: sha512-2cihq7zliibCCZ8P9cKJrQBkfgdvcFkOOc3Y02o3GWUDLgqjWsZudaoiuOwO/gzTzy17cS5F7ZPo4bsnS4DGkg==}
     peerDependencies:
       vite: '*'
+
+  vite@8.0.16:
+    resolution: {integrity: sha512-h9bXPmJichP5fLmVQo3PyaGSDE2n3aPuomeAlVRm0JLmt4rY6zmPKd59HYI4LNW8oTK7tlTsuC7l/m7awx9Jcw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^20.19.0 || >=22.12.0
+      '@vitejs/devtools': ^0.1.18
+      esbuild: ^0.27.0 || ^0.28.0
+      jiti: '>=1.21.0'
+      less: ^4.0.0
+      sass: ^1.70.0
+      sass-embedded: ^1.70.0
+      stylus: '>=0.54.8'
+      sugarss: ^5.0.0
+      terser: ^5.16.0
+      tsx: ^4.8.1
+      yaml: 2.8.3
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      '@vitejs/devtools':
+        optional: true
+      esbuild:
+        optional: true
+      jiti:
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+      tsx:
+        optional: true
+      yaml:
+        optional: true
 
   vite@8.3.5:
     resolution: {integrity: sha512-z1YpjieJ9g0ebTmQpLBv/oq9E3F9EIlOe+7LahW8SrE3LTiG3udBRUXQOlYXP9b+IC2q2phHeVxj9xGlw34OEQ==}
@@ -24946,6 +25345,8 @@ snapshots:
 
   '@braintree/sanitize-url@7.1.2': {}
 
+  '@breezystack/lamejs@1.2.7': {}
+
   '@cacheable/memory@2.2.0':
     dependencies:
       '@cacheable/utils': 2.5.0
@@ -25046,7 +25447,7 @@ snapshots:
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260908.1)
       miniflare: 5.20260908.0-alpha(@types/node@24.13.4)
       unenv: 2.0.0-rc.24
-      vite: 8.3.5(@types/node@24.13.4)(@vitejs/devtools@0.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.8.3)
+      vite: 8.3.5(@types/node@24.13.4)(@vitejs/devtools@0.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)
       workerd: 1.20260908.1
       wrangler: 4.130.0(@types/node@24.13.4)
       ws: 8.21.0
@@ -27243,11 +27644,11 @@ snapshots:
       - preact-render-to-string
       - supports-color
 
-  '@lobehub/charts@6.0.1(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@lobehub/charts@6.0.1(@lobehub/ui@6.16.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@lobehub/ui': 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@lobehub/ui': 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       ahooks: 3.10.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      chroma-js: 3.2.0
+      chroma-js: 3.3.0
       date-fns: 4.4.0
       dayjs: 1.11.23
       fast-deep-equal: 3.1.3
@@ -27281,7 +27682,7 @@ snapshots:
 
   '@lobehub/edge-contract@0.2.0': {}
 
-  '@lobehub/editor@7.2.1(@lobehub/ui@6.15.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)':
+  '@lobehub/editor@7.2.1(@lobehub/ui@6.16.2)(@types/mdast@4.0.4)(@types/react@19.2.13)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(unified@11.0.5)':
     dependencies:
       '@floating-ui/dom': 1.8.0
       '@floating-ui/react': 0.27.20(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -27297,8 +27698,8 @@ snapshots:
       '@lexical/table': 0.42.0
       '@lexical/utils': 0.42.0
       '@lexical/yjs': 0.42.0(yjs@13.6.33)
-      '@lobehub/charts': 6.0.1(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@lobehub/ui': 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@lobehub/charts': 6.0.1(@lobehub/ui@6.16.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@lobehub/ui': 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       '@pierre/highlights': 0.2.0
       '@xmldom/xmldom': 0.9.12
       ahooks: 3.10.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -27393,11 +27794,11 @@ snapshots:
       - ws
       - zod
 
-  '@lobehub/icons@6.7.0(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@lobehub/icons@6.18.0(@lobehub/ui@6.16.2)(lucide-react@1.61.0(@types/react@19.2.13)(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
-      '@lobehub/ui': 6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      '@lobehub/ui': 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
       es-toolkit: 1.52.0
-      lucide-react: 0.469.0(react@19.2.7)
+      lucide-react: 1.61.0(@types/react@19.2.13)(react@19.2.7)
       polished: 4.3.1
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
@@ -27412,10 +27813,6 @@ snapshots:
       zod: 4.6.6
     transitivePeerDependencies:
       - supports-color
-
-  '@lobehub/market-types@1.20.0':
-    dependencies:
-      zod: 3.25.76
 
   '@lobehub/market-types@1.22.0':
     dependencies:
@@ -27557,7 +27954,32 @@ snapshots:
     transitivePeerDependencies:
       - postcss
 
-  '@lobehub/ui@6.15.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.7.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))':
+  '@lobehub/tts@6.1.0(@aws-sdk/credential-provider-node@3.972.83)(@lobehub/ui@6.16.2)(@smithy/hash-node@4.5.2)(@smithy/signature-v4@5.7.3)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(ws@8.21.3)(zod@4.6.6)':
+    dependencies:
+      '@lobehub/ui': 6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))
+      es-toolkit: 1.52.0
+      lucide-react: 0.469.0(react@19.2.7)
+      markdown-to-txt: 2.0.1
+      openai: 6.49.0(@aws-sdk/credential-provider-node@3.972.83)(@smithy/hash-node@4.5.2)(@smithy/signature-v4@5.7.3)(ws@8.21.3)(zod@4.6.6)
+      query-string: 9.5.1
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+      remark-gfm: 4.0.1(supports-color@10.2.2)
+      remark-parse: 11.0.0(supports-color@10.2.2)
+      swr: 2.5.1(react@19.2.7)
+      unified: 11.0.5
+      unist-util-visit: 5.1.0
+      url-join: 5.0.0
+      uuid: 11.1.1
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-provider-node'
+      - '@smithy/hash-node'
+      - '@smithy/signature-v4'
+      - supports-color
+      - ws
+      - zod
+
+  '@lobehub/ui@6.16.2(@lobehub/fluent-emoji@5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@lobehub/icons@6.18.0)(@shikijs/themes@4.4.3)(@splinetool/runtime@1.12.98)(@types/mdast@4.0.4)(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(date-fns@4.4.0)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(motion@14.5.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       '@base-ui/react': 1.9.0(@types/react@19.2.13)(date-fns@4.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@dnd-kit/core': 6.3.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -27570,7 +27992,7 @@ snapshots:
       '@emotion/serialize': 1.3.3
       '@giscus/react': 3.1.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@lobehub/fluent-emoji': 5.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@lobehub/icons': 6.7.0(@lobehub/ui@6.15.2)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@lobehub/icons': 6.18.0(@lobehub/ui@6.16.2)(lucide-react@1.61.0(@types/react@19.2.13)(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@lobehub/streamdown': 1.4.4(@types/react@19.2.13)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(supports-color@10.2.2)
       '@mdx-js/mdx': 3.1.1(supports-color@10.2.2)
       '@pierre/diffs': 1.6.1(@shikijs/themes@4.4.3)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -27580,13 +28002,15 @@ snapshots:
       '@tanstack/react-table': 9.3.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tanstack/react-virtual': 3.14.21(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       boring-avatars: 2.0.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      chroma-js: 3.2.0
+      chroma-js: 3.3.0
       clsx: 2.1.1
       dayjs: 1.11.23
       emoji-mart: 5.6.0
       es-toolkit: 1.52.0
       hast-util-from-html-isomorphic: 2.0.0
+      hast-util-to-jsx-runtime: 2.3.6(supports-color@10.2.2)
       hast-util-to-text: 4.0.2
+      html-url-attributes: 3.0.1
       katex: 0.19.0
       leva: 0.10.1(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       lucide-react: 1.61.0(@types/react@19.2.13)(react@19.2.7)
@@ -27607,7 +28031,10 @@ snapshots:
       remark-cjk-friendly: 2.3.3(@types/mdast@4.0.4)(micromark-util-types@2.0.2)(micromark@4.0.3(patch_hash=c60385b8a8a0e37b5b4fe922f5b3548144cebbfb662875a6d28ab87dd6810f29)(supports-color@10.2.2))(unified@11.0.5)
       remark-gfm: 4.0.1(supports-color@10.2.2)
       remark-math: 6.0.0(supports-color@10.2.2)
+      remark-parse: 11.0.0(supports-color@10.2.2)
+      remark-rehype: 11.1.2
       unified: 11.0.5
+      unist-util-visit: 5.1.0
       unist-util-visit-parents: 6.0.2
       uqr: 0.1.3
       vfile: 6.0.3
@@ -27640,7 +28067,7 @@ snapshots:
       '@types/estree-jsx': 1.0.5
       '@types/hast': 3.0.5
       '@types/mdx': 2.0.14
-      acorn: 8.18.0
+      acorn: 8.19.0
       collapse-white-space: 2.1.0
       devlop: 1.1.0
       estree-util-is-identifier-name: 3.0.0
@@ -27649,7 +28076,7 @@ snapshots:
       hast-util-to-jsx-runtime: 2.3.6(supports-color@10.2.2)
       markdown-extensions: 2.0.0
       recma-build-jsx: 1.0.0
-      recma-jsx: 1.0.1(acorn@8.18.0)
+      recma-jsx: 1.0.1(acorn@8.19.0)
       recma-stringify: 1.0.0
       rehype-recma: 1.0.0(supports-color@10.2.2)
       remark-mdx: 3.1.1(supports-color@10.2.2)
@@ -29589,6 +30016,8 @@ snapshots:
 
   '@oxc-project/types@0.132.0': {}
 
+  '@oxc-project/types@0.133.0': {}
+
   '@oxc-project/types@0.142.0': {}
 
   '@oxc-project/types@0.148.0': {}
@@ -30566,10 +30995,16 @@ snapshots:
   '@rolldown/binding-android-arm64@1.0.0-rc.17':
     optional: true
 
+  '@rolldown/binding-android-arm64@1.0.3':
+    optional: true
+
   '@rolldown/binding-android-arm64@1.2.15':
     optional: true
 
   '@rolldown/binding-darwin-arm64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-darwin-arm64@1.0.3':
     optional: true
 
   '@rolldown/binding-darwin-arm64@1.2.15':
@@ -30578,10 +31013,16 @@ snapshots:
   '@rolldown/binding-darwin-x64@1.0.0-rc.17':
     optional: true
 
+  '@rolldown/binding-darwin-x64@1.0.3':
+    optional: true
+
   '@rolldown/binding-darwin-x64@1.2.15':
     optional: true
 
   '@rolldown/binding-freebsd-x64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-freebsd-x64@1.0.3':
     optional: true
 
   '@rolldown/binding-freebsd-x64@1.2.15':
@@ -30590,10 +31031,16 @@ snapshots:
   '@rolldown/binding-linux-arm-gnueabihf@1.0.0-rc.17':
     optional: true
 
+  '@rolldown/binding-linux-arm-gnueabihf@1.0.3':
+    optional: true
+
   '@rolldown/binding-linux-arm-gnueabihf@1.2.15':
     optional: true
 
   '@rolldown/binding-linux-arm64-gnu@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-arm64-gnu@1.0.3':
     optional: true
 
   '@rolldown/binding-linux-arm64-gnu@1.2.15':
@@ -30602,10 +31049,16 @@ snapshots:
   '@rolldown/binding-linux-arm64-musl@1.0.0-rc.17':
     optional: true
 
+  '@rolldown/binding-linux-arm64-musl@1.0.3':
+    optional: true
+
   '@rolldown/binding-linux-arm64-musl@1.2.15':
     optional: true
 
   '@rolldown/binding-linux-ppc64-gnu@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-ppc64-gnu@1.0.3':
     optional: true
 
   '@rolldown/binding-linux-ppc64-gnu@1.2.15':
@@ -30614,10 +31067,16 @@ snapshots:
   '@rolldown/binding-linux-s390x-gnu@1.0.0-rc.17':
     optional: true
 
+  '@rolldown/binding-linux-s390x-gnu@1.0.3':
+    optional: true
+
   '@rolldown/binding-linux-s390x-gnu@1.2.15':
     optional: true
 
   '@rolldown/binding-linux-x64-gnu@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-linux-x64-gnu@1.0.3':
     optional: true
 
   '@rolldown/binding-linux-x64-gnu@1.2.15':
@@ -30626,10 +31085,16 @@ snapshots:
   '@rolldown/binding-linux-x64-musl@1.0.0-rc.17':
     optional: true
 
+  '@rolldown/binding-linux-x64-musl@1.0.3':
+    optional: true
+
   '@rolldown/binding-linux-x64-musl@1.2.15':
     optional: true
 
   '@rolldown/binding-openharmony-arm64@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-openharmony-arm64@1.0.3':
     optional: true
 
   '@rolldown/binding-openharmony-arm64@1.2.15':
@@ -30642,13 +31107,26 @@ snapshots:
       '@napi-rs/wasm-runtime': 1.2.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
     optional: true
 
+  '@rolldown/binding-wasm32-wasi@1.0.3':
+    dependencies:
+      '@emnapi/core': 1.10.0
+      '@emnapi/runtime': 1.10.0
+      '@napi-rs/wasm-runtime': 1.2.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
+    optional: true
+
   '@rolldown/binding-win32-arm64-msvc@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-win32-arm64-msvc@1.0.3':
     optional: true
 
   '@rolldown/binding-win32-arm64-msvc@1.2.15':
     optional: true
 
   '@rolldown/binding-win32-x64-msvc@1.0.0-rc.17':
+    optional: true
+
+  '@rolldown/binding-win32-x64-msvc@1.0.3':
     optional: true
 
   '@rolldown/binding-win32-x64-msvc@1.2.15':
@@ -32562,6 +33040,11 @@ snapshots:
       - utf-8-validate
       - webpack
 
+  '@vitejs/plugin-react@6.1.1(vite@8.0.16)':
+    dependencies:
+      '@rolldown/pluginutils': 1.0.1
+      vite: 8.0.16(@types/node@24.13.4)(@vitejs/devtools@0.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.8.3)
+
   '@vitejs/plugin-react@6.1.1(vite@8.3.5)':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
@@ -32874,7 +33357,7 @@ snapshots:
 
   acorn-walk@8.3.5:
     dependencies:
-      acorn: 8.18.0
+      acorn: 8.19.0
 
   acorn@8.18.0: {}
 
@@ -33803,7 +34286,7 @@ snapshots:
 
   chownr@3.0.0: {}
 
-  chroma-js@3.2.0: {}
+  chroma-js@3.3.0: {}
 
   chrome-trace-event@1.0.4: {}
 
@@ -35204,7 +35687,7 @@ snapshots:
   esast-util-from-js@2.0.1:
     dependencies:
       '@types/estree-jsx': 1.0.5
-      acorn: 8.18.0
+      acorn: 8.19.0
       esast-util-from-estree: 2.0.0
       vfile-message: 4.0.3
 
@@ -37937,6 +38420,8 @@ snapshots:
 
   lodash.difference@4.5.0: {}
 
+  lodash.escape@4.0.1: {}
+
   lodash.escaperegexp@4.1.2: {}
 
   lodash.flatten@4.4.0: {}
@@ -37984,6 +38469,8 @@ snapshots:
   lodash.startcase@4.4.0: {}
 
   lodash.truncate@4.4.2: {}
+
+  lodash.unescape@4.0.1: {}
 
   lodash.union@4.6.0: {}
 
@@ -38141,6 +38628,12 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
+  markdown-to-txt@2.0.1:
+    dependencies:
+      lodash.escape: 4.0.1
+      lodash.unescape: 4.0.1
+      marked: 4.3.0
+
   marked-terminal@5.2.0(marked@5.1.2):
     dependencies:
       ansi-escapes: 6.2.1
@@ -38156,6 +38649,8 @@ snapshots:
   marked@17.0.6: {}
 
   marked@18.0.12: {}
+
+  marked@4.3.0: {}
 
   marked@5.1.2: {}
 
@@ -38204,7 +38699,7 @@ snapshots:
       ccount: 2.0.1
       devlop: 1.1.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
       parse-entities: 4.0.2
       stringify-entities: 4.0.4
       unist-util-visit-parents: 6.0.2
@@ -38241,7 +38736,7 @@ snapshots:
       devlop: 1.1.0
       escape-string-regexp: 5.0.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
       micromark-extension-frontmatter: 2.0.0
     transitivePeerDependencies:
       - supports-color
@@ -38259,7 +38754,7 @@ snapshots:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
       micromark-util-normalize-identifier: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -38268,7 +38763,7 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38278,7 +38773,7 @@ snapshots:
       devlop: 1.1.0
       markdown-table: 3.0.4
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38287,7 +38782,7 @@ snapshots:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38299,7 +38794,7 @@ snapshots:
       mdast-util-gfm-strikethrough: 2.0.0(supports-color@10.2.2)
       mdast-util-gfm-table: 2.0.0(supports-color@10.2.2)
       mdast-util-gfm-task-list-item: 2.0.0(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38314,7 +38809,7 @@ snapshots:
       devlop: 1.1.0
       longest-streak: 3.1.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
       unist-util-remove-position: 5.0.0
     transitivePeerDependencies:
       - supports-color
@@ -38326,7 +38821,7 @@ snapshots:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38339,7 +38834,7 @@ snapshots:
       ccount: 2.0.1
       devlop: 1.1.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
       parse-entities: 4.0.2
       stringify-entities: 4.0.4
       unist-util-stringify-position: 4.0.0
@@ -38353,7 +38848,7 @@ snapshots:
       mdast-util-mdx-expression: 2.0.1(supports-color@10.2.2)
       mdast-util-mdx-jsx: 3.2.0(supports-color@10.2.2)
       mdast-util-mdxjs-esm: 2.0.1(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38364,7 +38859,7 @@ snapshots:
       '@types/mdast': 4.0.4
       devlop: 1.1.0
       mdast-util-from-markdown: 2.0.3(supports-color@10.2.2)
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38401,6 +38896,18 @@ snapshots:
       '@types/mdast': 4.0.4
     transitivePeerDependencies:
       - micromark-util-types
+
+  mdast-util-to-markdown@2.1.2:
+    dependencies:
+      '@types/mdast': 4.0.4
+      '@types/unist': 3.0.3
+      longest-streak: 3.1.0
+      mdast-util-phrasing: 4.1.0
+      mdast-util-to-string: 4.0.0
+      micromark-util-classify-character: 2.0.1
+      micromark-util-decode-string: 2.0.1
+      unist-util-visit: 5.1.0
+      zwitch: 2.0.4
 
   mdast-util-to-markdown@2.2.0:
     dependencies:
@@ -38579,7 +39086,7 @@ snapshots:
       micromark-util-symbol: 2.0.1
       micromark-util-types: 2.0.2
 
-  micromark-extension-gfm-autolink-literal@2.1.0(patch_hash=0ce95bb04dcc7abdd5e2e209daf4935dbb8a8503dc762845b4faf33b24c9dcd8):
+  micromark-extension-gfm-autolink-literal@2.1.0(patch_hash=984c5f9972e64c8349817bf63184fe5d20e74fef8fc6731f9dc4971a3a057407):
     dependencies:
       micromark-util-character: 2.1.1
       micromark-util-sanitize-uri: 2.0.1
@@ -38628,7 +39135,7 @@ snapshots:
 
   micromark-extension-gfm@3.0.0:
     dependencies:
-      micromark-extension-gfm-autolink-literal: 2.1.0(patch_hash=0ce95bb04dcc7abdd5e2e209daf4935dbb8a8503dc762845b4faf33b24c9dcd8)
+      micromark-extension-gfm-autolink-literal: 2.1.0(patch_hash=984c5f9972e64c8349817bf63184fe5d20e74fef8fc6731f9dc4971a3a057407)
       micromark-extension-gfm-footnote: 2.1.0
       micromark-extension-gfm-strikethrough: 2.1.0
       micromark-extension-gfm-table: 2.1.1
@@ -39698,7 +40205,7 @@ snapshots:
       '@oxc-resolver/binding-win32-arm64-msvc': 11.24.2
       '@oxc-resolver/binding-win32-x64-msvc': 11.24.2
 
-  oxlint-plugin-react-doctor@0.9.22:
+  oxlint-plugin-react-doctor@0.9.23:
     dependencies:
       '@shaderfrog/glsl-parser': 7.0.1
       '@typescript-eslint/types': 8.70.0
@@ -40151,6 +40658,15 @@ snapshots:
     dependencies:
       postcss: 8.5.23
 
+  postcss-load-config@6.0.1(jiti@2.7.0)(postcss@8.5.23)(tsx@4.23.13)(yaml@2.8.3):
+    dependencies:
+      lilconfig: 3.1.3
+    optionalDependencies:
+      jiti: 2.7.0
+      postcss: 8.5.23
+      tsx: 4.23.13
+      yaml: 2.8.3
+
   postcss-load-config@6.0.1(jiti@2.7.0)(postcss@8.5.23)(tsx@4.23.13)(yaml@2.9.1):
     dependencies:
       lilconfig: 3.1.3
@@ -40513,7 +41029,7 @@ snapshots:
     dependencies:
       es6-symbol: 3.1.4
 
-  react-doctor@0.9.22(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2):
+  react-doctor@0.9.23(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2):
     dependencies:
       '@astrojs/compiler': 4.0.0
       '@sentry/node': 10.74.0(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(supports-color@10.2.2)
@@ -40528,7 +41044,7 @@ snapshots:
       oxc-parser: 0.148.0
       oxc-resolver: 11.24.2
       oxlint: 1.81.0
-      oxlint-plugin-react-doctor: 0.9.22
+      oxlint-plugin-react-doctor: 0.9.23
       playwright-core: 1.63.0
       prompts: 2.4.2
       typescript: 6.0.3
@@ -40707,7 +41223,7 @@ snapshots:
       preact: 10.29.8(preact-render-to-string@6.6.5)
       prompts: 2.4.2
       react: 19.2.7
-      react-doctor: 0.9.22(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2)
+      react-doctor: 0.9.23(@opentelemetry/core@2.12.0(@opentelemetry/api@1.9.1))(@opentelemetry/exporter-trace-otlp-http@0.218.0(@opentelemetry/api@1.9.1))(eslint@10.0.2(jiti@2.7.0)(supports-color@10.2.2))(react@19.2.7)(supports-color@10.2.2)
       react-dom: 19.2.7(react@19.2.7)
       react-grab: 0.2.0(react@19.2.7)
     optionalDependencies:
@@ -40885,10 +41401,10 @@ snapshots:
       estree-util-build-jsx: 3.0.1
       vfile: 6.0.3
 
-  recma-jsx@1.0.1(acorn@8.18.0):
+  recma-jsx@1.0.1(acorn@8.19.0):
     dependencies:
-      acorn: 8.18.0
-      acorn-jsx: 5.3.2(acorn@8.18.0)
+      acorn: 8.19.0
+      acorn-jsx: 5.3.2(acorn@8.19.0)
       estree-util-to-js: 2.0.0
       recma-parse: 1.0.0
       recma-stringify: 1.0.0
@@ -41805,7 +42321,7 @@ snapshots:
   remark-stringify@11.0.0:
     dependencies:
       '@types/mdast': 4.0.4
-      mdast-util-to-markdown: 2.2.0
+      mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
 
   remark-supersub@1.0.0:
@@ -42004,6 +42520,27 @@ snapshots:
       '@rolldown/binding-wasm32-wasi': 1.0.0-rc.17
       '@rolldown/binding-win32-arm64-msvc': 1.0.0-rc.17
       '@rolldown/binding-win32-x64-msvc': 1.0.0-rc.17
+
+  rolldown@1.0.3:
+    dependencies:
+      '@oxc-project/types': 0.133.0
+      '@rolldown/pluginutils': 1.0.1
+    optionalDependencies:
+      '@rolldown/binding-android-arm64': 1.0.3
+      '@rolldown/binding-darwin-arm64': 1.0.3
+      '@rolldown/binding-darwin-x64': 1.0.3
+      '@rolldown/binding-freebsd-x64': 1.0.3
+      '@rolldown/binding-linux-arm-gnueabihf': 1.0.3
+      '@rolldown/binding-linux-arm64-gnu': 1.0.3
+      '@rolldown/binding-linux-arm64-musl': 1.0.3
+      '@rolldown/binding-linux-ppc64-gnu': 1.0.3
+      '@rolldown/binding-linux-s390x-gnu': 1.0.3
+      '@rolldown/binding-linux-x64-gnu': 1.0.3
+      '@rolldown/binding-linux-x64-musl': 1.0.3
+      '@rolldown/binding-openharmony-arm64': 1.0.3
+      '@rolldown/binding-wasm32-wasi': 1.0.3
+      '@rolldown/binding-win32-arm64-msvc': 1.0.3
+      '@rolldown/binding-win32-x64-msvc': 1.0.3
 
   rolldown@1.2.15:
     dependencies:
@@ -42603,6 +43140,11 @@ snapshots:
   standard-as-callback@2.1.0: {}
 
   standardwebhooks@1.0.0:
+    dependencies:
+      '@stablelib/base64': 1.0.1
+      fast-sha256: 1.3.0
+
+  standardwebhooks@1.3.0:
     dependencies:
       '@stablelib/base64': 1.0.1
       fast-sha256: 1.3.0
@@ -43343,6 +43885,34 @@ snapshots:
 
   tsscmp@1.0.6: {}
 
+  tsup@8.5.1(jiti@2.7.0)(postcss@8.5.23)(supports-color@10.2.2)(tsx@4.23.13)(typescript@6.0.3)(yaml@2.8.3):
+    dependencies:
+      bundle-require: 5.1.0(esbuild@0.27.7)
+      cac: 6.7.14
+      chokidar: 4.0.3
+      consola: 3.4.2
+      debug: 4.4.3(supports-color@10.2.2)
+      esbuild: 0.27.7
+      fix-dts-default-cjs-exports: 1.0.1
+      joycon: 3.1.1
+      picocolors: 1.1.1
+      postcss-load-config: 6.0.1(jiti@2.7.0)(postcss@8.5.23)(tsx@4.23.13)(yaml@2.8.3)
+      resolve-from: 5.0.0
+      rollup: 4.63.1
+      source-map: 0.7.6
+      sucrase: 3.35.1
+      tinyexec: 0.3.2
+      tinyglobby: 0.2.17
+      tree-kill: 1.2.2
+    optionalDependencies:
+      postcss: 8.5.23
+      typescript: 6.0.3
+    transitivePeerDependencies:
+      - jiti
+      - supports-color
+      - tsx
+      - yaml
+
   tsup@8.5.1(jiti@2.7.0)(postcss@8.5.23)(supports-color@10.2.2)(tsx@4.23.13)(typescript@6.0.3)(yaml@2.9.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.27.7)
@@ -43940,6 +44510,8 @@ snapshots:
 
   uuid@10.0.0: {}
 
+  uuid@11.1.1: {}
+
   uuid@14.0.3: {}
 
   uuid@3.4.0: {}
@@ -44094,6 +44666,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
+
+  vite@8.0.16(@types/node@24.13.4)(@vitejs/devtools@0.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.8.3):
+    dependencies:
+      lightningcss: 1.33.0
+      picomatch: 4.0.7
+      postcss: 8.5.23
+      rolldown: 1.0.3
+      tinyglobby: 0.2.17
+    optionalDependencies:
+      '@types/node': 24.13.4
+      '@vitejs/devtools': 0.2.0(@azure/identity@4.13.2(supports-color@10.2.2))(@azure/storage-blob@12.26.0(supports-color@10.2.2))(@modelcontextprotocol/sdk@1.32.1(@cfworker/json-schema@4.1.1)(supports-color@10.2.2)(zod@4.6.6))(@pnpm/logger@1001.0.1)(@vercel/functions@3.9.7(@aws-sdk/credential-provider-web-identity@3.972.77)(ws@8.21.3))(esbuild@0.28.2)(ioredis@5.11.1(supports-color@10.2.2))(rolldown@1.2.15)(rollup@4.63.1)(typescript@6.0.3)(vite@8.3.5)(webpack@5.110.3(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.23)(sharp@0.35.5(@types/node@24.13.4))(uglify-js@3.19.3))
+      esbuild: 0.28.2
+      fsevents: 2.3.3
+      jiti: 2.7.0
+      terser: 5.51.2
+      tsx: 4.23.13
+      yaml: 2.8.3
 
   vite@8.3.5(@types/node@24.13.4)(@vitejs/devtools@0.2.0)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.8.3):
     dependencies:
